@@ -1,0 +1,15 @@
+const Map<String, String> ar = {
+  'login': 'تسجيل الدخول',
+  'user name': 'إسم المستخدم ',
+  'password': 'الرقم السري',
+  'enter': 'الدخول',
+  'preparation screen': 'شاشة التحضير',
+  'to do list': 'قائمة المهام',
+  'projects list': 'قائمة المشاريع',
+  'report screen': 'عرض البلاغات',
+  'Coding screen': 'شاشة التكويد ',
+  'work plans': 'خطط العمل',
+  'mission details': 'تفاصيل المهمة ',
+  'project details': 'تفاصيل المشروع ',
+  'report details': 'تفاصيل البلاغ ',
+};

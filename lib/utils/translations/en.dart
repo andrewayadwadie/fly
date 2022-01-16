@@ -1,0 +1,15 @@
+const Map<String, String> en = {
+  'login': 'login',
+  'user name': 'user name',
+  'password': 'password',
+  'enter': 'enter',
+  'preparation screen': 'preparation screen',
+  'to do list': 'to do list',
+  'projects list': 'projects list',
+  'report screen': 'report screen',
+  'Coding screen': 'Coding screen',
+  'work plans': 'work plans',
+  'mission details': 'mission details',
+  'project details': 'project details',
+  'report details': 'report details',
+};
