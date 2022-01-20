@@ -12,4 +12,9 @@ const Map<String, String> ar = {
   'mission details': 'تفاصيل المهمة ',
   'project details': 'تفاصيل المشروع ',
   'report details': 'تفاصيل البلاغ ',
+  'Reports':'البلاغات',
+  'Report insect area':'الإبلاغ عن منطقة حشرات',
+  'Report a stray or ferocious animal area':'الإبلاغ عن منطقة حيوانات ضالة او ضارية',
+  'Report a leaking area or water gathering':'الإبلاغ عن منطقة تسريب او تجمع مياه',
+  'Track of my reports':'تتبع بلاغاتى'
 };

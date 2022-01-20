@@ -12,4 +12,10 @@ const Map<String, String> en = {
   'mission details': 'mission details',
   'project details': 'project details',
   'report details': 'report details',
+  'Reports':'Reports',
+  'Report insect area':'Report insect area',
+  'Report a stray or ferocious animal area':'Report a stray or ferocious animal area',
+  'Report a leaking area or water gathering':'Report a leaking area or water gathering',
+  'Track of my reports':'Track of my reports'
+
 };

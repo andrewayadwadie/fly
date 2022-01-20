@@ -16,8 +16,7 @@ class PublicScreenBody extends StatelessWidget {
       backgroundColor: Colors.white,
       body: SafeArea(
         child: SingleChildScrollView(
-        
-        //  reverse: true,
+          reverse: true,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             
@@ -34,17 +33,18 @@ class PublicScreenBody extends StatelessWidget {
                 height: MediaQuery.of(context).size.height / 90,
               ),
               const LineDots(),
-              SizedBox(height: MediaQuery.of(context).size.height/50,),
+              SizedBox(height: MediaQuery.of(context).size.height/55,),
               SizedBox(
+              //  color: Colors.yellow.withOpacity(0.2),
                   width: MediaQuery.of(context).size.width / 1.1,
-                  height: MediaQuery.of(context).size.height / 1.4,
+                  height: MediaQuery.of(context).size.height / 1.59,
                   //  color: secondaryColor,
-                  child: ListView(
-                  shrinkWrap: true,
+                  child: SingleChildScrollView(
+                 // reverse: true,
                   physics: const BouncingScrollPhysics(),
-                  children:[
+                  child:
                        singleScreen
-                  ]
+                  
                   )),
               // const Footer()
             ],

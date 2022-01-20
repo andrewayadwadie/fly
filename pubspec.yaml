@@ -39,6 +39,7 @@ dependencies:
   location: ^4.3.0
   google_maps_flutter: ^2.1.1
   persistent_bottom_nav_bar: ^4.0.2
+  flutter_beautiful_popup: ^1.5.0
 
 dev_dependencies:
   flutter_test:

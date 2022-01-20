@@ -15,18 +15,15 @@ class HomeScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               /// header
-              const HeaderWidget(arrow: false, ),
-              // SizedBox(
-              //   height: MediaQuery.of(context).size.height / 25,
-              // ),
+              const HeaderWidget(
+                arrow: false,
+              ),
 
               /// Home Body
-              
+
               HomeBodyWidget(),
 
-
-              
-             /*
+              /*
               IconButton(
                   onPressed: () {
                     Navigator.push(context,
@@ -37,7 +34,6 @@ class HomeScreen extends StatelessWidget {
                   icon: const Icon(Icons.maps_ugc)),
 
                   */
-             
             ],
           ),
         ),

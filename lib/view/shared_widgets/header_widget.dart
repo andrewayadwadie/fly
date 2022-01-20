@@ -1,7 +1,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:fly/utils/style.dart';
-import 'package:get/get.dart';
 
 class HeaderWidget extends StatelessWidget {
   const HeaderWidget({Key? key,required this.arrow }) : super(key: key);
@@ -10,7 +9,8 @@ final bool arrow ;
   Widget build(BuildContext context) {
     return 
     Stack(
-      overflow: Overflow.visible,
+      clipBehavior: Clip.none,
+
       children:[
     
 
@@ -36,7 +36,7 @@ final bool arrow ;
     ),
 
     Positioned(
-      top:  MediaQuery.of(context).size.height / 15.4,
+      top:  MediaQuery.of(context).size.height / 16,
       right:  MediaQuery.of(context).size.width/ 2.55,
       child: Container(
            decoration: BoxDecoration(
