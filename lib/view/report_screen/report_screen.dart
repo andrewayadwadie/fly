@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fly/utils/style.dart';
 import 'package:fly/view/preparation_screen/preparation_screen.dart';
 import 'package:fly/view/reports_categories/bug_report/bug_report_screen.dart';
+import 'package:fly/view/shared_widgets/form/form_main.dart';
 import 'package:fly/view/shared_widgets/public_screen_body.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:get/get.dart';
@@ -24,11 +25,11 @@ class _ReportScreenState extends State<ReportScreen> {
   'Track of my reports'
     
   ];
-  final List<Widget> screens = const [
-    BugReportScreen(),
-    BugReportScreen(),
-    BugReportScreen(),
-    BugReportScreen(),
+  final List<Widget> screens =  [
+    FormHome(),
+   const BugReportScreen(),
+  const  BugReportScreen(),
+  const  BugReportScreen(),
   ];
 
 
@@ -56,60 +57,56 @@ class _ReportScreenState extends State<ReportScreen> {
           itemBuilder: (BuildContext ctx, index) {
             return InkWell(
               onTap: () {
+                
                 // Get.to(screens[index]);
                 pushNewScreen(context, screen: screens[index]);
               },
               child: Container(
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage(
+                      'assets/images/re$index.jpg'
+                    ),fit: BoxFit.cover
+                  ),
                   borderRadius: BorderRadius.circular(20),
                   border: Border.all(width: 1, color: lightPrimaryColor),
                   color: Colors.white,
                   boxShadow: <BoxShadow>[
                     BoxShadow(
+
+
                       color: Colors.black.withOpacity(0.6),
                       blurRadius: 6,
                       offset: const Offset(2, 4),
                     ),
                   ],
                 ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Container(
-                      margin: const EdgeInsets.symmetric(vertical: 7),
-                      width: MediaQuery.of(context).size.width / 3,
-                      height: MediaQuery.of(context).size.height / 9,
-                      padding: const EdgeInsets.all(3),
-                      child: Image.asset(
-                        "assets/images/r$index.png",
-                        fit: BoxFit.contain,
-                      ),
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Container(
+                    padding: const EdgeInsets.all(5),
+                    alignment: Alignment.center,
+                    width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.height / 17,
+                    decoration: const BoxDecoration(
+                        color: lightPrimaryColor,
+                        borderRadius: BorderRadius.only(
+                            topRight: Radius.circular(60),
+                            topLeft: Radius.circular(60),
+                            bottomRight: Radius.circular(35),
+                            bottomLeft: Radius.circular(35))),
+                    child: Text(
+                      titles[index].tr,
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
+                        height: 1.2,
+                          fontSize: 15,
+                          fontFamily: 'hanimation',
+                          // fontWeight: FontWeight.bold,
+                          color: Colors.white),
                     ),
-                    Container(
-                      padding: const EdgeInsets.all(5),
-                      alignment: Alignment.center,
-                      width: MediaQuery.of(context).size.width,
-                      height: MediaQuery.of(context).size.height / 17,
-                      decoration: const BoxDecoration(
-                          color: lightPrimaryColor,
-                          borderRadius: BorderRadius.only(
-                              topRight: Radius.circular(60),
-                              topLeft: Radius.circular(60),
-                              bottomRight: Radius.circular(35),
-                              bottomLeft: Radius.circular(35))),
-                      child: Text(
-                        titles[index].tr,
-                        textAlign: TextAlign.center,
-                        style: const TextStyle(
-                          height: 1.2,
-                            fontSize: 15,
-                            fontFamily: 'hanimation',
-                            // fontWeight: FontWeight.bold,
-                            color: Colors.white),
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
               ),
             );
