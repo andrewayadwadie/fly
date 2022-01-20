@@ -36,23 +36,24 @@ final bool arrow ;
     ),
 
     Positioned(
-      top:  MediaQuery.of(context).size.height / 14,
+      top:  MediaQuery.of(context).size.height / 15.4,
       right:  MediaQuery.of(context).size.width/ 2.55,
       child: Container(
            decoration: BoxDecoration(
                   border: Border.all(width: 2,color: primaryColor),
                   borderRadius: BorderRadius.circular(60),),
           child: Container(
+             width: MediaQuery.of(context).size.width / 4.9,
+              height: MediaQuery.of(context).size.height / 9.5,
              decoration: BoxDecoration(
                     border: Border.all(width: 2,color: Colors.white),
-                    borderRadius: BorderRadius.circular(60)
+                    borderRadius: BorderRadius.circular(60),
+                    image:const DecorationImage(
+                      image: AssetImage("assets/images/logo.png",),fit: BoxFit.contain,
+                    )
+                    
                   ),
-            child: Image.asset(
-              "assets/images/logo.png",
-              fit: BoxFit.contain,
-              width: MediaQuery.of(context).size.width / 5,
-              height: MediaQuery.of(context).size.height / 11.5,
-            ),
+           
           ),
         ),
     ),
@@ -61,7 +62,7 @@ final bool arrow ;
        top: 18,
        left: 18,
        child: InkWell(
-         onTap: ()=>Get.back(),
+         onTap: ()=>Navigator.of(context).pop(),
          child: SizedBox(
            width: MediaQuery.of(context).size.width/20,
            height: MediaQuery.of(context).size.height/30,

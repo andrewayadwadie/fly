@@ -16,9 +16,9 @@ class HomeScreen extends StatelessWidget {
             children: [
               /// header
               const HeaderWidget(arrow: false, ),
-              SizedBox(
-                height: MediaQuery.of(context).size.height / 25,
-              ),
+              // SizedBox(
+              //   height: MediaQuery.of(context).size.height / 25,
+              // ),
 
               /// Home Body
               

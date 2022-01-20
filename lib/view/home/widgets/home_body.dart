@@ -50,9 +50,9 @@ class HomeBodyWidget extends StatelessWidget {
     return Container(
 margin:  EdgeInsets.only(top: MediaQuery.of(context).size.height/17),
 
-      padding: const EdgeInsets.only(top: 18),
+      padding: const EdgeInsets.only(top: 5),
       width: MediaQuery.of(context).size.width / 1.1,
-    height: MediaQuery.of(context).size.height/1.5,
+    height: MediaQuery.of(context).size.height/1.4,
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(20)
