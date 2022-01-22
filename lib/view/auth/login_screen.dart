@@ -13,7 +13,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  // final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   String? userName = '';
 
@@ -46,14 +46,12 @@ class _LoginScreenState extends State<LoginScreen> {
               children: [
                 Container(
                   decoration: BoxDecoration(
-                    border: Border.all(width: 2,color: primaryColor),
-                    borderRadius: BorderRadius.circular(60)
-                  ),
+                      border: Border.all(width: 2, color: primaryColor),
+                      borderRadius: BorderRadius.circular(60)),
                   child: Container(
                     decoration: BoxDecoration(
-                      border: Border.all(width: 2,color: Colors.white),
-                      borderRadius: BorderRadius.circular(60)
-                    ),
+                        border: Border.all(width: 2, color: Colors.white),
+                        borderRadius: BorderRadius.circular(60)),
                     //margin: const EdgeInsets.only(top: 50),
                     child: Image.asset(
                       "assets/images/logo.png",

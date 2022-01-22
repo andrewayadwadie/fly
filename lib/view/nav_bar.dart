@@ -5,6 +5,8 @@ import 'package:flutter/services.dart';
 import 'package:fly/utils/style.dart';
 import 'package:fly/view/home/home_screen.dart';
 import 'package:fly/view/preparation_screen/preparation_screen.dart';
+import 'package:fly/view/settings/settings_screen.dart';
+import 'package:fly/view/test_map/test_map_screen.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
 class CustomNavBar extends StatefulWidget {
@@ -29,8 +31,8 @@ class _CustomNavBarState extends State<CustomNavBar> {
   List<Widget> _buildScreens() {
     return [
       const HomeScreen(),
-      const PreparationScreen(),
-      const PreparationScreen(),
+      const TestMapScreenView(),
+      const SettingsScreen(),
     ];
   }
 
@@ -41,27 +43,26 @@ class _CustomNavBarState extends State<CustomNavBar> {
           padding: const EdgeInsets.all(1.0),
           child: Image.asset(
             'assets/icons/home.png',
-           
             color: primaryColor,
           ),
         ),
         title: 'الرئيسية',
         textStyle: const TextStyle(
           fontWeight: FontWeight.bold,
-        //  fontSize: 9,
-         
+          //  fontSize: 9,
+
           color: primaryColor,
         ),
         inactiveIcon: Image.asset(
           'assets/icons/home.png',
-           color: primaryColor,
+          color: primaryColor,
         ),
         activeColorSecondary: primaryColor,
         activeColorPrimary: primaryColor,
         inactiveColorPrimary: primaryColor,
       ),
       PersistentBottomNavBarItem(
-     //   iconSize: 30,
+        //   iconSize: 30,
         icon: Image.asset(
           'assets/icons/map.png',
           fit: BoxFit.fill,
@@ -75,7 +76,7 @@ class _CustomNavBarState extends State<CustomNavBar> {
         title: "الخرائط",
         textStyle: const TextStyle(
           fontWeight: FontWeight.bold,
-        //  fontSize: 9,
+          //  fontSize: 9,
           color: primaryColor,
         ),
         activeColorSecondary: primaryColor,
@@ -83,7 +84,7 @@ class _CustomNavBarState extends State<CustomNavBar> {
         inactiveColorPrimary: primaryColor,
       ),
       PersistentBottomNavBarItem(
-   //     iconSize: 30,
+        //     iconSize: 30,
         icon: Padding(
           padding: const EdgeInsets.all(1.0),
           child: Image.asset(
@@ -100,7 +101,7 @@ class _CustomNavBarState extends State<CustomNavBar> {
         title: "الإعدادات",
         textStyle: const TextStyle(
           fontWeight: FontWeight.bold,
-    //      fontSize: 9,
+          //      fontSize: 9,
           color: primaryColor,
         ),
         activeColorSecondary: primaryColor,
@@ -144,34 +145,30 @@ class _CustomNavBarState extends State<CustomNavBar> {
         duration: Duration(milliseconds: 400),
       ),
 
-   
-      navBarStyle:
-          NavBarStyle.style1,
-               onWillPop: (context) async {
-
-         await  showModalBottomSheet(
-            context: context!,
-            builder: (context) => Container(
-              height: MediaQuery.of(context).size.height / 6,
-        color: lightPrimaryColor,
-              child: TextButton(
-               
-                child:const   Text(
-                  "Close",
-                  style:  TextStyle(color: Colors.white),
-                ),
-                onPressed: () {
-                  if (Platform.isAndroid) {
-                    SystemNavigator.pop();
-                  } else {
-                    exit(0);
-                  }
-                },
+      navBarStyle: NavBarStyle.style1,
+      onWillPop: (context) async {
+        await showModalBottomSheet(
+          context: context!,
+          builder: (context) => Container(
+            height: MediaQuery.of(context).size.height / 6,
+            color: lightPrimaryColor,
+            child: TextButton(
+              child: const Text(
+                "Close",
+                style: TextStyle(color: Colors.white),
               ),
+              onPressed: () {
+                if (Platform.isAndroid) {
+                  SystemNavigator.pop();
+                } else {
+                  exit(0);
+                }
+              },
             ),
-          );
-          return false;
-        }, // Choose the nav bar style with this property.
+          ),
+        );
+        return false;
+      }, // Choose the nav bar style with this property.
     );
   }
 }

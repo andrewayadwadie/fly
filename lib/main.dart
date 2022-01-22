@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 
 import 'utils/style.dart';
 import 'utils/translations/app_translations.dart';
+import 'view/intro/intro.dart';
 
 void main() {
   runApp(const MyApp());
@@ -21,7 +22,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: colorCustom,
       ),
-      home: const SplashScreen(),
+      home: const IntroPage(),
       translations: Translation(),
       locale: const Locale('ar'),
       fallbackLocale: const Locale('ar'),
