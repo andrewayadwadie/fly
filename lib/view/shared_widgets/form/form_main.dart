@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fly/utils/style.dart';
 import 'package:fly/view/shared_widgets/header_widget.dart';
+import 'package:hawk_fab_menu/hawk_fab_menu.dart';
 import 'package:image_picker/image_picker.dart';
 import './fake_data.dart';
 import './styles.dart';
@@ -16,145 +17,126 @@ import 'hero_dialog_route.dart';
 class FormHome extends StatefulWidget {
   const FormHome({Key? key}) : super(key: key);
 
-
   @override
   State<FormHome> createState() => _FormHomeState();
 }
 
 class _FormHomeState extends State<FormHome> {
-   File? image ;
+  File? image;
   // File? gallryImage ;
-Future pickImageFromCam()async{
-   try{
-     final imagefromCamera = ImagePicker().pickImage(source:ImageSource.camera );
-  
-    if(imagefromCamera == null)return;
+  Future pickImageFromCam() async {
+    try {
+      final imagefromCamera =
+          ImagePicker().pickImage(source: ImageSource.camera);
 
-    final  imageTemproray = File(image!.path);
-     setState(() {
-       image = imageTemproray;
-     }
-     
-     );
-   }on PlatformException catch (e){
-     log("failed pick image $e");
-   }
+      if (imagefromCamera == null) return;
 
-}
-Future pickImageFromGallrey()async{
-   try{
-     final imagefromGallery = ImagePicker().pickImage(source:ImageSource.gallery );
-  
-    if(imagefromGallery == null)return;
+      final imageTemproray = File(image!.path);
+      setState(() {
+        image = imageTemproray;
+      });
+    } on PlatformException catch (e) {
+      log("failed pick image $e");
+    }
+  }
 
-    final  imageTemproray = File(image!.path);
-     setState(() {
-       image = imageTemproray;
-     }
-     
-     );
-   }on PlatformException catch (e){
-     log("failed pick image $e");
-   }
+  Future pickImageFromGallrey() async {
+    try {
+      final imagefromGallery =
+          ImagePicker().pickImage(source: ImageSource.gallery);
 
-}
+      if (imagefromGallery == null) return;
+
+      final imageTemproray = File(image!.path);
+      setState(() {
+        image = imageTemproray;
+      });
+    } on PlatformException catch (e) {
+      log("failed pick image $e");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: SafeArea(
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const HeaderWidget(arrow: true),
-                Container(
-                  margin: EdgeInsets.only(
-                      top: MediaQuery.of(context).size.height / 8),
-                  height: MediaQuery.of(context).size.height / 3,
-                  decoration: BoxDecoration(
-                      border: Border.all(width: 1, color: primaryColor),
-                      borderRadius: BorderRadius.circular(10)),
-                  child: _TodoListContent(
-                    todos: fakeData,
-                  ),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const HeaderWidget(arrow: true),
+              Container(
+                margin: EdgeInsets.only(
+                    top: MediaQuery.of(context).size.height / 8),
+                height: MediaQuery.of(context).size.height / 3,
+                decoration: BoxDecoration(
+                    border: Border.all(width: 1, color: primaryColor),
+                    borderRadius: BorderRadius.circular(10)),
+                child: _TodoListContent(
+                  todos: fakeData,
                 ),
-             image!= null ? Image.file(
-               image!,
-               width: 150,
-               height: 150,
-             fit: BoxFit.cover,
-             ):Image.asset("assets/images/logo.png", width: 150,
-               height: 150,)
-              ],
-            ),
+              ),
+              image != null
+                  ? Image.file(
+                      image!,
+                      width: 150,
+                      height: 150,
+                      fit: BoxFit.cover,
+                    )
+                  : Image.asset(
+                      "assets/images/logo.png",
+                      width: 150,
+                      height: 150,
+                    )
+            ],
           ),
         ),
-        floatingActionButton: FabCircularMenu(
-            fabColor: Colors.yellow[700],
-            fabOpenIcon: const Icon(
-              Icons.add,
-              color: Colors.white,
-            ),
-            fabCloseIcon: const Icon(
-              Icons.close,
-              color: Colors.white,
-            ),
-            fabMargin: const EdgeInsets.only(right: 50, left: 50, bottom: 35),
-            ringColor: Colors.white.withOpacity(0.2),
-            ringWidth: 80,
-            ringDiameter: 300,
-            children: <Widget>[
-              InkWell(
-                onTap: ()async{
-                  await pickImageFromGallrey();
-                },
-                child: Container(
-                  width: 70,
-                  height: 70,
-                
-                  decoration: BoxDecoration(
-                      border: Border.all(width: 1, color: lightPrimaryColor),
-                      borderRadius: BorderRadius.circular(50),
-                      color: lightPrimaryColor.withOpacity(0.9),
-                      image: const DecorationImage(
-                          image: AssetImage('assets/icons/image1.png'),
-                          fit: BoxFit.contain)),
-                ),
-              ),
-              InkWell(
-                onTap: ()async{
-                await  pickImageFromCam();
-                },
-                child: Container(
-                  width: 70,
-                  height: 70,
-                
-                  decoration: BoxDecoration(
-                      border: Border.all(width: 1, color: lightPrimaryColor),
-                      borderRadius: BorderRadius.circular(50),
-                      color: lightPrimaryColor.withOpacity(0.9),
-                      image: const DecorationImage(
-                          image: AssetImage('assets/icons/image2.png'),
-                          fit: BoxFit.contain)),
-                ),
-              ),
-              InkWell(
-                onTap: (){},
-                child: Container(
-                  width: 70,
-                  height: 70,
-                
-                  decoration: BoxDecoration(
-                      border: Border.all(width: 1, color: lightPrimaryColor),
-                      borderRadius: BorderRadius.circular(50),
-                      color: lightPrimaryColor.withOpacity(0.9),
-                      image: const DecorationImage(
-                          image: AssetImage('assets/icons/image3.png'),
-                          fit: BoxFit.contain)),
-                  // child: Image.asset("assets/icons/image3.png",color: Colors.white,fit: BoxFit.contain,),
-                ),
-              ),
-            ]));
+      ),
+      floatingActionButton: HawkFabMenu(
+        icon: AnimatedIcons.add_event,
+        fabColor: Colors.yellow,
+        iconColor: Colors.green,
+        items: [
+          HawkFabMenuItem(
+            label: 'Menu 1',
+            ontap: () {
+              ScaffoldMessenger.of(context).hideCurrentSnackBar();
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('Menu 1 selected')),
+              );
+            },
+            icon: const Icon(Icons.home),
+            color: Colors.red,
+            labelColor: Colors.blue,
+          ),
+          HawkFabMenuItem(
+            label: 'Menu 2',
+            ontap: () {
+              ScaffoldMessenger.of(context).hideCurrentSnackBar();
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('Menu 2 selected')),
+              );
+            },
+            icon: const Icon(Icons.comment),
+            labelColor: Colors.white,
+            labelBackgroundColor: Colors.blue,
+          ),
+          HawkFabMenuItem(
+            label: 'Menu 3 (default)',
+            ontap: () {
+              ScaffoldMessenger.of(context).hideCurrentSnackBar();
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('Menu 3 selected')),
+              );
+            },
+            icon: const Icon(Icons.add_a_photo),
+          ),
+        ],
+        body: const Center(
+          child: Text('Center of the screen'),
+        ),
+      ),
+    );
   }
 }
 

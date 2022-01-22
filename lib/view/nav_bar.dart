@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fly/utils/style.dart';
 import 'package:fly/view/home/home_screen.dart';
-import 'package:fly/view/preparation_screen/preparation_screen.dart';
 import 'package:fly/view/settings/settings_screen.dart';
 import 'package:fly/view/test_map/test_map_screen.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
