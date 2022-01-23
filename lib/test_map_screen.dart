@@ -10,7 +10,6 @@ import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 
-
 class TestMapScreen extends StatefulWidget {
   const TestMapScreen({Key? key}) : super(key: key);
 
@@ -19,7 +18,6 @@ class TestMapScreen extends StatefulWidget {
 }
 
 class _TestMapScreenState extends State<TestMapScreen> {
-
   static const CameraPosition initialCameraPosition = CameraPosition(
     target: LatLng(37.42796133580664, -122.085749655962),
     zoom: 14.4746,
@@ -33,7 +31,6 @@ class _TestMapScreenState extends State<TestMapScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-     
       body: SafeArea(
         child: Stack(
           alignment: Alignment.center,
@@ -54,60 +51,69 @@ class _TestMapScreenState extends State<TestMapScreen> {
                 });
               },
             ),
-             _origin == null?
-             InkWell(
-               onTap: ()=>_setMarker(currentLocation),
-               child:const  SizedBox(
-                width: 60,
-                height: 60,
-                child: Icon(Icons.location_on,color: redColor,)
-                       ),
-             ):const SizedBox(
-                width: 10,
-                height: 10,),
-      
-              _origin != null?
-              InkWell(
-                onTap: (){
-                  Navigator.pushReplacement(context,MaterialPageRoute(builder: (context){
-                    return BugReportScreen(lat: currentLocation.latitude,lng: currentLocation.longitude,) ;
-                  }) );
-                },
-                child: Align(
-                  alignment: Alignment.topRight,
-                  child: Container(
-                    width: 50,
-                    height: 50,
-                    decoration: BoxDecoration(
-                      color: lightPrimaryColor,
-                      borderRadius: BorderRadius.circular(10)
-                    ),
-                    child:const  Text("إختار",
-                    style: TextStyle(
-                      color: Colors.white
-                    ),
-                    ),
+            _origin == null
+                ? InkWell(
+                    onTap: () => _setMarker(currentLocation),
+                    child: const SizedBox(
+                        width: 60,
+                        height: 60,
+                        child: Icon(
+                          Icons.location_on,
+                          color: redColor,
+                        )),
+                  )
+                : const SizedBox(
+                    width: 10,
+                    height: 10,
                   ),
-                ),
-              ):const SizedBox(
-                width: 10,
-                height: 10,
-              )
+            _origin != null
+                ? GetX<BugLocationController>(builder: (control) {
+                    return InkWell(
+                      onTap: () {
+                        control.getSelectedLocation(currentLocation.latitude,
+                            currentLocation.longitude);
+                        Navigator.pop(context);
+                        // Navigator.pushReplacement(context,
+                        //     MaterialPageRoute(builder: (context) {
+                        //   return BugReportScreen(
+                        //     lat: currentLocation.latitude,
+                        //     lng: currentLocation.longitude,
+                        //   );
+                        // }));
+                      },
+                      child: Align(
+                        alignment: Alignment.topRight,
+                        child: Container(
+                          width: 80,
+                          height: 60,
+                          decoration: BoxDecoration(
+                              color: lightPrimaryColor,
+                              borderRadius: BorderRadius.circular(10)),
+                          child: const Text(
+                            "إختار",
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ),
+                      ),
+                    );
+                  })
+                : const SizedBox(
+                    width: 10,
+                    height: 10,
+                  )
           ],
         ),
       ),
-      floatingActionButton: GetBuilder<LocationController>(
-          init: LocationController(),
-          builder: (locatioController) {
-            return FloatingActionButton(
-              onPressed: () async {
-                LocationData _myLocation =
-                    await locatioController.getLocation();
-                _animateCamera(_myLocation);
-              },
-              child: const Icon(Icons.gps_fixed),
-            );
-          }),
+      floatingActionButton:
+          GetBuilder<BugLocationController>(builder: (locatioController) {
+        return FloatingActionButton(
+          onPressed: () async {
+            LocationData _myLocation = await locatioController.getBugLocation();
+            _animateCamera(_myLocation);
+          },
+          child: const Icon(Icons.gps_fixed),
+        );
+      }),
     );
   }
 
@@ -119,11 +125,11 @@ class _TestMapScreenState extends State<TestMapScreen> {
           _location.longitude!,
         ),
         zoom: 16.4746);
-        log("animated camera to lat : ${_location.altitude} and long : ${_location.longitude}");
+    log("animated camera to lat : ${_location.altitude} and long : ${_location.longitude}");
     controller.animateCamera(CameraUpdate.newCameraPosition(_cameraPostion));
   }
-   
-   void _setMarker(LatLng _location) {
+
+  void _setMarker(LatLng _location) {
     Marker newMarker = Marker(
       markerId: MarkerId(_location.toString()),
       icon: BitmapDescriptor.defaultMarker,
@@ -133,12 +139,9 @@ class _TestMapScreenState extends State<TestMapScreen> {
           title: "Info",
           snippet: "${currentLocation.latitude}, ${currentLocation.longitude}"),
     );
-   
+
     setState(() {
       _origin = newMarker;
     });
   }
-
-
-
 }

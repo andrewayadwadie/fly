@@ -34,7 +34,7 @@ class BugReportScreen extends StatelessWidget {
                 HawkFabMenuItem(
                     label: 'add location'.tr,
                     ontap: () {
-                      Get.off(()=>const TestMapScreen());
+                      Get.to(() => const TestMapScreen());
                     },
                     icon: const Icon(Icons.maps_ugc),
                     color: primaryColor,
@@ -133,61 +133,61 @@ class BugReportScreen extends StatelessWidget {
                         SizedBox(
                           height: MediaQuery.of(context).size.height / 20,
                         ),
-                 Column(
-                   children: [
-                     Text("lat: $lat"),
-                     Text("lng: $lng"),
-                   ],
-                 ),
+                        Column(
+                          children: [
+                            Text("lat: $lat"),
+                            Text("lng: $lng"),
+                          ],
+                        ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
                             controller.image != null
-                            ? ClipRRect(
+                                ? ClipRRect(
+                                    borderRadius: BorderRadius.circular(10),
+                                    child: Image.file(
+                                      controller.image!,
+                                      width: 100,
+                                      height: 100,
+                                      fit: BoxFit.cover,
+                                    ),
+                                  )
+                                : Container(
+                                    alignment: Alignment.center,
+                                    width: 120,
+                                    height: 60,
+                                    decoration: BoxDecoration(
+                                      color: redColor,
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    child: const Text(
+                                      'برجاء إرفاق صورة للبلاغ',
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 12,
+                                          fontFamily: 'hanimation',
+                                          fontWeight: FontWeight.w400),
+                                    ),
+                                  ),
+                            Container(
+                              alignment: Alignment.center,
+                              width: 120,
+                              height: 60,
+                              decoration: BoxDecoration(
+                                color: redColor,
                                 borderRadius: BorderRadius.circular(10),
-                                child: Image.file(
-                                  controller.image!,
-                                  width: 100,
-                                  height: 100,
-                                  fit: BoxFit.cover,
-                                ),
-                              )
-                            : Container(
-                                alignment: Alignment.center,
-                                width: 120,
-                                height: 60,
-                                decoration: BoxDecoration(
-                                  color: redColor,
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                child: const Text(
-                                  'برجاء إرفاق صورة للبلاغ',
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 12,
-                                      fontFamily: 'hanimation',
-                                      fontWeight: FontWeight.w400),
-                                ),
                               ),
-                              Container(
-                                alignment: Alignment.center,
-                                width: 120,
-                                height: 60,
-                                decoration: BoxDecoration(
-                                  color: redColor,
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                child: const Text(
-                                  'برجاء إرفاق مكان البلاغ ',
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 12,
-                                      fontFamily: 'hanimation',
-                                      fontWeight: FontWeight.w400),
-                                ),
+                              child: const Text(
+                                'برجاء إرفاق مكان البلاغ ',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 12,
+                                    fontFamily: 'hanimation',
+                                    fontWeight: FontWeight.w400),
                               ),
+                            ),
                           ],
                         ),
                         SizedBox(

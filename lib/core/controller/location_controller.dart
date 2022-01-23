@@ -1,12 +1,11 @@
-
-
 import 'package:get/get.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 
-class LocationController extends GetxController{
-  Future<LocationData> getLocation()async{
-      Location location = Location();
-      bool _serviceEnabled;
+class BugLocationController extends GetxController {
+  Future<LocationData> getBugLocation() async {
+    Location location = Location();
+    bool _serviceEnabled;
     PermissionStatus _permissionGranted;
     LocationData _locationData;
 
@@ -22,11 +21,17 @@ class LocationController extends GetxController{
     if (_permissionGranted == PermissionStatus.denied) {
       _permissionGranted = await location.requestPermission();
       if (_permissionGranted != PermissionStatus.granted) {
-        throw  Exception();
+        throw Exception();
       }
     }
 
     _locationData = await location.getLocation();
     return _locationData;
+  }
+
+  void getSelectedLocation(double latitute, double langtute) {
+    // lat = latitute;
+    // lng = langtute;
+    // update();
   }
 }
