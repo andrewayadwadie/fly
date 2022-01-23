@@ -16,5 +16,8 @@ const Map<String, String> ar = {
   'Report insect area':'الإبلاغ عن منطقة حشرات',
   'Report a stray or ferocious animal area':'الإبلاغ عن منطقة حيوانات ضالة او ضارية',
   'Report a leaking area or water gathering':'الإبلاغ عن منطقة تسريب او تجمع مياه',
-  'Track of my reports':'تتبع بلاغاتى'
+  'Track of my reports':'تتبع بلاغاتى',
+  'add location':'إضافة مكان',
+  'add picture':'إضافة صورة ',
+  'take picture':'إلتقط صورة '
 };

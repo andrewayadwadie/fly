@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fly/utils/style.dart';
 import 'package:fly/view/reports_categories/bug_report/bug_report_screen.dart';
-import 'package:fly/view/shared_widgets/form/form_main.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:get/get.dart';
 
@@ -24,7 +23,7 @@ class _ReportScreenState extends State<ReportScreen> {
     'Track of my reports'
   ];
   final List<Widget> screens = [
-    const FormHome(),
+    const BugReportScreen(),
     const BugReportScreen(),
     const BugReportScreen(),
     const BugReportScreen(),

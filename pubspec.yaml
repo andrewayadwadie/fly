@@ -41,7 +41,7 @@ dependencies:
   persistent_bottom_nav_bar: ^4.0.2
   flutter_beautiful_popup: ^1.5.0
   fab_circular_menu: ^1.0.2
-  image_picker: ^0.8.4+4
+  image_picker: ^0.8.1+4
   lottie: any
   google_fonts: any
   hawk_fab_menu: ^1.1.1

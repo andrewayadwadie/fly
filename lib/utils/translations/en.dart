@@ -16,6 +16,10 @@ const Map<String, String> en = {
   'Report insect area':'Report insect area',
   'Report a stray or ferocious animal area':'Report a stray or ferocious animal area',
   'Report a leaking area or water gathering':'Report a leaking area or water gathering',
-  'Track of my reports':'Track of my reports'
+  'Track of my reports':'Track of my reports',
+  'add location':'add location',
+  'add picture':'add picture',
+  'take picture':'take picture'
+
 
 };
