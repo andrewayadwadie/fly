@@ -46,6 +46,7 @@ dependencies:
   google_fonts: any
   hawk_fab_menu: ^1.1.1
   cool_alert: ^1.1.0
+  flutter_google_places: ^0.3.0
 
 dev_dependencies:
   flutter_test:

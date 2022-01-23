@@ -23,10 +23,10 @@ class _ReportScreenState extends State<ReportScreen> {
     'Track of my reports'
   ];
   final List<Widget> screens = [
-    const BugReportScreen(),
-    const BugReportScreen(),
-    const BugReportScreen(),
-    const BugReportScreen(),
+     BugReportScreen(),
+     BugReportScreen(),
+     BugReportScreen(),
+     BugReportScreen(),
   ];
 
   @override
