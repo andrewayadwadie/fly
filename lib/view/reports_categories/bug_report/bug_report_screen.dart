@@ -1,13 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:hawk_fab_menu/hawk_fab_menu.dart';
+
 import 'package:fly/core/controller/image_picker_controller.dart';
 import 'package:fly/test_map_screen.dart';
 import 'package:fly/utils/style.dart';
 import 'package:fly/view/shared_widgets/header_widget.dart';
-import 'package:get/get.dart';
-import 'package:hawk_fab_menu/hawk_fab_menu.dart';
 
 class BugReportScreen extends StatelessWidget {
-  BugReportScreen({Key? key}) : super(key: key);
+  BugReportScreen({
+    Key? key,
+    required this.lat,
+    required this.lng,
+  }) : super(key: key);
+  final double lat;
+  final double lng;
   final _formKey = GlobalKey<FormState>();
   String? phone;
   @override
@@ -125,7 +133,12 @@ class BugReportScreen extends StatelessWidget {
                         SizedBox(
                           height: MediaQuery.of(context).size.height / 20,
                         ),
-                 
+                 Column(
+                   children: [
+                     Text("lat: $lat"),
+                     Text("lng: $lng"),
+                   ],
+                 ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
