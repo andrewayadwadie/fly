@@ -21,14 +21,14 @@ class _IntroPageState extends State<IntroPage> with TickerProviderStateMixin {
   void initState() {
     _lottieAnimation = AnimationController(
       vsync: this,
-      duration: const Duration(seconds: 4),
+      duration: const Duration(seconds: 2),
     );
 
-    Future.delayed(const Duration(seconds: 4))
+    Future.delayed(const Duration(seconds: 2))
         .then((value) => setState(() => expanded = true))
-        .then((value) => const Duration(seconds: 4))
+        .then((value) => const Duration(seconds: 2))
         .then(
-          (value) => Future.delayed(const Duration(seconds: 4)).then(
+          (value) => Future.delayed(const Duration(seconds: 2)).then(
             (value) => _lottieAnimation.forward().then(
                   (value) => Navigator.of(context).pushAndRemoveUntil(
                       MaterialPageRoute(
