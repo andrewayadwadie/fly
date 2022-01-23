@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:fly/test_map_screen.dart';
+import 'package:fly/view/home/home_screen.dart';
+import 'package:fly/view/reports_categories/bug_report/bug_report_screen.dart';
 import 'package:get/get.dart';
 
 import 'utils/style.dart';
@@ -25,6 +28,7 @@ class MyApp extends StatelessWidget {
       translations: Translation(),
       locale: const Locale('ar'),
       fallbackLocale: const Locale('ar'),
+   
     );
   }
 }

@@ -34,65 +34,67 @@ class _TestMapScreenState extends State<TestMapScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
      
-      body: Stack(
-        alignment: Alignment.center,
-        children: [
-          GoogleMap(
-            initialCameraPosition: initialCameraPosition,
-            mapType: MapType.normal,
-            onTap: _setMarker,
-            markers: {
-              if (_origin != null) _origin!,
-            },
-            onMapCreated: (GoogleMapController controller) {
-              compeleteController.complete(controller);
-            },
-            onCameraMove: (CameraPosition newPos) {
-              setState(() {
-                currentLocation = newPos.target;
-              });
-            },
-          ),
-           _origin == null?
-           InkWell(
-             onTap: ()=>_setMarker(currentLocation),
-             child:const  SizedBox(
-              width: 60,
-              height: 60,
-              child: Icon(Icons.location_on,color: redColor,)
-                     ),
-           ):const SizedBox(
-              width: 10,
-              height: 10,),
-
-            _origin != null?
-            InkWell(
-              onTap: (){
-                Navigator.pushReplacement(context,MaterialPageRoute(builder: (context){
-                  return BugReportScreen(lat: currentLocation.latitude,lng: currentLocation.longitude,) ;
-                }) );
+      body: SafeArea(
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            GoogleMap(
+              initialCameraPosition: initialCameraPosition,
+              mapType: MapType.normal,
+              onTap: _setMarker,
+              markers: {
+                if (_origin != null) _origin!,
               },
-              child: Align(
-                alignment: Alignment.topRight,
-                child: Container(
-                  width: 50,
-                  height: 50,
-                  decoration: BoxDecoration(
-                    color: lightPrimaryColor,
-                    borderRadius: BorderRadius.circular(10)
-                  ),
-                  child:const  Text("إختار",
-                  style: TextStyle(
-                    color: Colors.white
-                  ),
+              onMapCreated: (GoogleMapController controller) {
+                compeleteController.complete(controller);
+              },
+              onCameraMove: (CameraPosition newPos) {
+                setState(() {
+                  currentLocation = newPos.target;
+                });
+              },
+            ),
+             _origin == null?
+             InkWell(
+               onTap: ()=>_setMarker(currentLocation),
+               child:const  SizedBox(
+                width: 60,
+                height: 60,
+                child: Icon(Icons.location_on,color: redColor,)
+                       ),
+             ):const SizedBox(
+                width: 10,
+                height: 10,),
+      
+              _origin != null?
+              InkWell(
+                onTap: (){
+                  Navigator.pushReplacement(context,MaterialPageRoute(builder: (context){
+                    return BugReportScreen(lat: currentLocation.latitude,lng: currentLocation.longitude,) ;
+                  }) );
+                },
+                child: Align(
+                  alignment: Alignment.topRight,
+                  child: Container(
+                    width: 50,
+                    height: 50,
+                    decoration: BoxDecoration(
+                      color: lightPrimaryColor,
+                      borderRadius: BorderRadius.circular(10)
+                    ),
+                    child:const  Text("إختار",
+                    style: TextStyle(
+                      color: Colors.white
+                    ),
+                    ),
                   ),
                 ),
-              ),
-            ):const SizedBox(
-              width: 10,
-              height: 10,
-            )
-        ],
+              ):const SizedBox(
+                width: 10,
+                height: 10,
+              )
+          ],
+        ),
       ),
       floatingActionButton: GetBuilder<LocationController>(
           init: LocationController(),

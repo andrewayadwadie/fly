@@ -34,7 +34,7 @@ class BugReportScreen extends StatelessWidget {
                 HawkFabMenuItem(
                     label: 'add location'.tr,
                     ontap: () {
-                      Get.to(()=>const TestMapScreen());
+                      Get.off(()=>const TestMapScreen());
                     },
                     icon: const Icon(Icons.maps_ugc),
                     color: primaryColor,
