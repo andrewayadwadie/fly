@@ -3,16 +3,12 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:fly/core/controller/location_controller.dart';
 import 'package:fly/core/service/report_service.dart';
-
 import 'package:get/get.dart';
-
 import 'package:hawk_fab_menu/hawk_fab_menu.dart';
-
 import 'package:fly/core/controller/image_picker_controller.dart';
 import 'package:fly/test_map_screen.dart';
 import 'package:fly/utils/style.dart';
 import 'package:fly/view/shared_widgets/header_widget.dart';
-
 
 // ignore: must_be_immutable
 class BugReportScreen extends StatelessWidget {
@@ -20,9 +16,7 @@ class BugReportScreen extends StatelessWidget {
     Key? key,
   }) : super(key: key);
 
-
- static  int noticeClassifyId =1;
-
+  static int noticeClassifyId = 1;
 
   final _formKey = GlobalKey<FormState>();
   String? phone;
@@ -83,6 +77,7 @@ class BugReportScreen extends StatelessWidget {
                           padding: const EdgeInsets.symmetric(
                               horizontal: 20, vertical: 20),
                           child: TextFormField(
+                            maxLength: 11,
                             keyboardType: TextInputType.phone,
                             decoration: const InputDecoration(
                               hintText: "رقم الهاتف ",
@@ -147,11 +142,13 @@ class BugReportScreen extends StatelessWidget {
                           init: BugLocationController(),
                           builder: (bugController) => Container(
                             alignment: Alignment.center,
-                            width: 250,
-                            height: 60,
+                            width: MediaQuery.of(context).size.width/2,
+                            height: MediaQuery.of(context).size.height/18,
                             decoration: BoxDecoration(
                               color: bugController.locationLat == 0.0 &&
-                                    bugController.locationLng == 0.0 ? redColor : lightPrimaryColor,
+                                      bugController.locationLng == 0.0
+                                  ? redColor
+                                  : lightPrimaryColor,
                               borderRadius: BorderRadius.circular(10),
                             ),
                             child: bugController.locationLat == 0.0 &&
@@ -167,8 +164,16 @@ class BugReportScreen extends StatelessWidget {
                                   )
                                 : Column(
                                     children: [
-                                      Text("${bugController.locationLat}",style:const TextStyle(color: Colors.white),),
-                                      Text("${bugController.locationLng}",style:const TextStyle(color: Colors.white),),
+                                      Text(
+                                        "${bugController.locationLat}",
+                                        style: const TextStyle(
+                                            color: Colors.white),
+                                      ),
+                                      Text(
+                                        "${bugController.locationLng}",
+                                        style: const TextStyle(
+                                            color: Colors.white),
+                                      ),
                                     ],
                                   ),
                           ),
@@ -179,14 +184,13 @@ class BugReportScreen extends StatelessWidget {
                         // report Images
                         imagecontroller.image != null
                             ? Container(
-                                width: MediaQuery.of(context).size.width/1.3,
-                                height: MediaQuery.of(context).size.height/5,
+                                width: MediaQuery.of(context).size.width / 1.3,
+                                height: MediaQuery.of(context).size.height / 5,
                                 padding: const EdgeInsets.all(5),
                                 decoration: BoxDecoration(
                                     border: Border.all(
                                         width: 2, color: lightPrimaryColor),
-                                        borderRadius: BorderRadius.circular(10)
-                                        ),
+                                    borderRadius: BorderRadius.circular(10)),
                                 child: Image.file(
                                   imagecontroller.image!,
                                   width: 120,
@@ -196,8 +200,8 @@ class BugReportScreen extends StatelessWidget {
                               )
                             : Container(
                                 alignment: Alignment.center,
-                                width: 120,
-                                height: 60,
+                                width: MediaQuery.of(context).size.width/2,
+                            height: MediaQuery.of(context).size.height/18,
                                 decoration: BoxDecoration(
                                   color: redColor,
                                   borderRadius: BorderRadius.circular(10),
@@ -217,41 +221,50 @@ class BugReportScreen extends StatelessWidget {
                           height: MediaQuery.of(context).size.height / 40,
                         ),
                         // Send Report button
-                         GetBuilder<BugLocationController>(
-                          builder: (bugControl) {
-                            return InkWell(
-                              onTap: () async{
-                                // Validate returns true if the form is valid, or false otherwise.
-                                if (_formKey.currentState!.validate()) {
-                                  _formKey.currentState!.save();
-                              
-                                await ReportServices().sendFormData(
-                                  noticeClassifyId: "$noticeClassifyId",
-                                  text: text,
-                                   phone: phone,
-                                    imge: imagecontroller.image!, 
-                                    lat: " ${bugControl.locationLat}",
-                                     long: "${bugControl.locationLng}").then(
-                                       (value) => log("result is $value"));
+                        GetBuilder<BugLocationController>(
+                            builder: (bugControl) {
+                          return InkWell(
+                            onTap: () async {
+                              // Validate returns true if the form is valid, or false otherwise.
+                              if (_formKey.currentState!.validate()) {
+                                _formKey.currentState!.save();
 
-                                }
-                              },
-                              child: Container(
-                                alignment: Alignment.center,
-                                height: 50,
-                                width: 100,
-                                decoration: BoxDecoration(
-                                    color: primaryColor,
-                                    borderRadius: BorderRadius.circular(5)),
-                                child: const Text(
-                                  "send",
-                                  style: TextStyle(color: Colors.white),
-                                  textAlign: TextAlign.center,
-                                ),
+                                await ReportServices()
+                                    .sendFormData(
+                                        noticeClassifyId: "$noticeClassifyId",
+                                        text: text,
+                                        phone: phone,
+                                        imge: imagecontroller.image!,
+                                        lat: " ${bugControl.locationLat}",
+                                        long: "${bugControl.locationLng}")
+                                    .then((value) => log("result is $value"));
+                              }
+                            },
+                            child: Container(
+                              alignment: Alignment.center,
+                              height: MediaQuery.of(context).size.height / 17,
+                              width: MediaQuery.of(context).size.width / 2,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(40),
+                                gradient: const LinearGradient(
+                                    colors: [
+                                      lightPrimaryColor,
+                                      primaryColor,
+                                    ],
+                                    begin: FractionalOffset(0.0, 0.0),
+                                    end: FractionalOffset(1.0, 0.0),
+                                    stops: [0.0, 1.0],
+                                    tileMode: TileMode.clamp),
                               ),
-                            );
-                          }
-                        ),
+                              child: const Text(
+                                "إرسال بلاغ ",
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 18),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                          );
+                        }),
                       ],
                     ),
                   ),
