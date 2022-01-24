@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:flutter/material.dart';
 import 'package:fly/view/shared_widgets/header_widget.dart';
 
@@ -16,7 +18,7 @@ class SettingsScreen extends StatelessWidget {
               height: 300,
             ),
             Center(
-              child: RaisedButton(onPressed: () {}, child: Text("Test Map")),
+              child: RaisedButton(onPressed: () {}, child: const Text("Test Map")),
             ),
           ],
         ),

@@ -48,6 +48,8 @@ dependencies:
   cool_alert: ^1.1.0
   flutter_google_places: any
   flutter_polyline_points: ^1.0.0
+  multi_image_picker2: ^5.0.2
+  google_geocoding: ^0.2.0
 
 dev_dependencies:
   flutter_test:

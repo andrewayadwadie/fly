@@ -3,9 +3,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:fly/core/controller/location_controller.dart';
-import 'package:fly/model/directions_model.dart';
 import 'package:fly/utils/style.dart';
-import 'package:fly/view/reports_categories/bug_report/bug_report_screen.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
@@ -24,7 +22,7 @@ class _TestMapScreenState extends State<TestMapScreen> {
   );
   Completer<GoogleMapController> compeleteController = Completer();
   LatLng currentLocation = initialCameraPosition.target;
-  BitmapDescriptor? _locationIcon;
+  //BitmapDescriptor? _locationIcon;
 
   Marker? _origin;
 
@@ -51,6 +49,7 @@ class _TestMapScreenState extends State<TestMapScreen> {
                 });
               },
             ),
+            /// set mark
             _origin == null
                 ? InkWell(
                     onTap: () => _setMarker(currentLocation),
@@ -66,24 +65,22 @@ class _TestMapScreenState extends State<TestMapScreen> {
                     width: 10,
                     height: 10,
                   ),
+          
+          ///choose mark and pop 
             _origin != null
-                ? GetX<BugLocationController>(builder: (control) {
+                ? GetBuilder<BugLocationController>(builder: (control) {
                     return InkWell(
                       onTap: () {
                         control.getSelectedLocation(currentLocation.latitude,
                             currentLocation.longitude);
                         Navigator.pop(context);
-                        // Navigator.pushReplacement(context,
-                        //     MaterialPageRoute(builder: (context) {
-                        //   return BugReportScreen(
-                        //     lat: currentLocation.latitude,
-                        //     lng: currentLocation.longitude,
-                        //   );
-                        // }));
+              
                       },
-                      child: Align(
-                        alignment: Alignment.topRight,
+                      child: Positioned(
+                        top: 10,
+                        right: 10,
                         child: Container(
+                          alignment: Alignment.center,
                           width: 80,
                           height: 60,
                           decoration: BoxDecoration(
@@ -92,6 +89,7 @@ class _TestMapScreenState extends State<TestMapScreen> {
                           child: const Text(
                             "إختار",
                             style: TextStyle(color: Colors.white),
+                            textAlign: TextAlign.center,
                           ),
                         ),
                       ),
@@ -104,6 +102,7 @@ class _TestMapScreenState extends State<TestMapScreen> {
           ],
         ),
       ),
+      /// get my location 
       floatingActionButton:
           GetBuilder<BugLocationController>(builder: (locatioController) {
         return FloatingActionButton(
@@ -144,4 +143,6 @@ class _TestMapScreenState extends State<TestMapScreen> {
       _origin = newMarker;
     });
   }
+
+
 }

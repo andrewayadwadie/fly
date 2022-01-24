@@ -23,10 +23,10 @@ class _ReportScreenState extends State<ReportScreen> {
     'Track of my reports'
   ];
   final List<Widget> screens = [
-     BugReportScreen(lat:0.0 ,lng: 0.0,),
-     BugReportScreen(lat:0.0 ,lng: 0.0,),
-     BugReportScreen(lat:0.0 ,lng: 0.0,),
-     BugReportScreen(lat:0.0 ,lng: 0.0,),
+     BugReportScreen(),
+     BugReportScreen(),
+     BugReportScreen(),
+     BugReportScreen(),
   ];
 
   @override

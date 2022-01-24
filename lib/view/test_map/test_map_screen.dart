@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:flutter/material.dart';
 import 'package:fly/view/shared_widgets/header_widget.dart';
 import 'package:get/get.dart';

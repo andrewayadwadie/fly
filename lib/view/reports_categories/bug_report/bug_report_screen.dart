@@ -1,6 +1,11 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:fly/core/controller/location_controller.dart';
+import 'package:fly/core/service/report_service.dart';
+
 import 'package:get/get.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+
 import 'package:hawk_fab_menu/hawk_fab_menu.dart';
 
 import 'package:fly/core/controller/image_picker_controller.dart';
@@ -8,22 +13,26 @@ import 'package:fly/test_map_screen.dart';
 import 'package:fly/utils/style.dart';
 import 'package:fly/view/shared_widgets/header_widget.dart';
 
+
+// ignore: must_be_immutable
 class BugReportScreen extends StatelessWidget {
   BugReportScreen({
     Key? key,
-    required this.lat,
-    required this.lng,
   }) : super(key: key);
-  final double lat;
-  final double lng;
+
+
+ static  int noticeClassifyId =1;
+
+
   final _formKey = GlobalKey<FormState>();
   String? phone;
+  String? text;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: GetBuilder<ImagePickerController>(
           init: ImagePickerController(),
-          builder: (controller) {
+          builder: (imagecontroller) {
             return HawkFabMenu(
               openIcon: Icons.add,
               blur: 0.5,
@@ -43,7 +52,7 @@ class BugReportScreen extends StatelessWidget {
                 HawkFabMenuItem(
                     label: 'add picture'.tr,
                     ontap: () {
-                      controller.pickImageFromGallrey();
+                      imagecontroller.pickImageFromGallrey();
                     },
                     icon: const Icon(Icons.image),
                     color: primaryColor,
@@ -52,7 +61,7 @@ class BugReportScreen extends StatelessWidget {
                 HawkFabMenuItem(
                     label: 'take picture'.tr,
                     ontap: () {
-                      controller.pickImageFromCam();
+                      imagecontroller.pickImageFromCam();
                     },
                     icon: const Icon(Icons.add_a_photo),
                     color: primaryColor,
@@ -96,7 +105,7 @@ class BugReportScreen extends StatelessWidget {
                             },
                           ),
                         ),
-                        //
+                        // description
                         Padding(
                           padding: const EdgeInsets.symmetric(
                               horizontal: 20, vertical: 15),
@@ -125,100 +134,123 @@ class BugReportScreen extends StatelessWidget {
                               return null;
                             },
                             onSaved: (value) {
-                              phone = value;
+                              text = value;
                             },
                           ),
                         ),
 
                         SizedBox(
-                          height: MediaQuery.of(context).size.height / 20,
+                          height: MediaQuery.of(context).size.height / 80,
                         ),
-                        Column(
-                          children: [
-                            Text("lat: $lat"),
-                            Text("lng: $lng"),
-                          ],
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            controller.image != null
-                                ? ClipRRect(
-                                    borderRadius: BorderRadius.circular(10),
-                                    child: Image.file(
-                                      controller.image!,
-                                      width: 100,
-                                      height: 100,
-                                      fit: BoxFit.cover,
-                                    ),
-                                  )
-                                : Container(
-                                    alignment: Alignment.center,
-                                    width: 120,
-                                    height: 60,
-                                    decoration: BoxDecoration(
-                                      color: redColor,
-                                      borderRadius: BorderRadius.circular(10),
-                                    ),
-                                    child: const Text(
-                                      'برجاء إرفاق صورة للبلاغ',
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 12,
-                                          fontFamily: 'hanimation',
-                                          fontWeight: FontWeight.w400),
-                                    ),
-                                  ),
-                            Container(
-                              alignment: Alignment.center,
-                              width: 120,
-                              height: 60,
-                              decoration: BoxDecoration(
-                                color: redColor,
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              child: const Text(
-                                'برجاء إرفاق مكان البلاغ ',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 12,
-                                    fontFamily: 'hanimation',
-                                    fontWeight: FontWeight.w400),
-                              ),
+                        //Address
+                        GetBuilder<BugLocationController>(
+                          init: BugLocationController(),
+                          builder: (bugController) => Container(
+                            alignment: Alignment.center,
+                            width: 250,
+                            height: 60,
+                            decoration: BoxDecoration(
+                              color: bugController.locationLat == 0.0 &&
+                                    bugController.locationLng == 0.0 ? redColor : lightPrimaryColor,
+                              borderRadius: BorderRadius.circular(10),
                             ),
-                          ],
+                            child: bugController.locationLat == 0.0 &&
+                                    bugController.locationLng == 0.0
+                                ? const Text(
+                                    'برجاء إرفاق مكان البلاغ ',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 12,
+                                        fontFamily: 'hanimation',
+                                        fontWeight: FontWeight.w400),
+                                  )
+                                : Column(
+                                    children: [
+                                      Text("${bugController.locationLat}",style:const TextStyle(color: Colors.white),),
+                                      Text("${bugController.locationLng}",style:const TextStyle(color: Colors.white),),
+                                    ],
+                                  ),
+                          ),
                         ),
                         SizedBox(
-                          height: MediaQuery.of(context).size.height / 20,
+                          height: MediaQuery.of(context).size.height / 80,
                         ),
-                        InkWell(
-                          onTap: () {
-                            // Validate returns true if the form is valid, or false otherwise.
-                            if (_formKey.currentState!.validate()) {
-                              _formKey.currentState!.save();
-                              // If the form is valid, display a snackbar. In the real world,
-                              // you'd often call a server or save the information in a database.
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                    content: Text('Processing Data')),
-                              );
-                            }
-                          },
-                          child: Container(
-                            alignment: Alignment.center,
-                            height: 50,
-                            width: 100,
-                            decoration: BoxDecoration(
-                                color: primaryColor,
-                                borderRadius: BorderRadius.circular(5)),
-                            child: const Text(
-                              "send",
-                              style: TextStyle(color: Colors.white),
-                              textAlign: TextAlign.center,
-                            ),
-                          ),
+                        // report Images
+                        imagecontroller.image != null
+                            ? Container(
+                                width: MediaQuery.of(context).size.width/1.3,
+                                height: MediaQuery.of(context).size.height/5,
+                                padding: const EdgeInsets.all(5),
+                                decoration: BoxDecoration(
+                                    border: Border.all(
+                                        width: 2, color: lightPrimaryColor),
+                                        borderRadius: BorderRadius.circular(10)
+                                        ),
+                                child: Image.file(
+                                  imagecontroller.image!,
+                                  width: 120,
+                                  height: 100,
+                                  fit: BoxFit.contain,
+                                ),
+                              )
+                            : Container(
+                                alignment: Alignment.center,
+                                width: 120,
+                                height: 60,
+                                decoration: BoxDecoration(
+                                  color: redColor,
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: const Text(
+                                  'برجاء إرفاق صورة للبلاغ',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 12,
+                                      fontFamily: 'hanimation',
+                                      fontWeight: FontWeight.w400),
+                                ),
+                              ),
+
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height / 40,
+                        ),
+                        // Send Report button
+                         GetBuilder<BugLocationController>(
+                          builder: (bugControl) {
+                            return InkWell(
+                              onTap: () async{
+                                // Validate returns true if the form is valid, or false otherwise.
+                                if (_formKey.currentState!.validate()) {
+                                  _formKey.currentState!.save();
+                              
+                                await ReportServices().sendFormData(
+                                  noticeClassifyId: "$noticeClassifyId",
+                                  text: text,
+                                   phone: phone,
+                                    imge: imagecontroller.image!, 
+                                    lat: " ${bugControl.locationLat}",
+                                     long: "${bugControl.locationLng}").then(
+                                       (value) => log("result is $value"));
+
+                                }
+                              },
+                              child: Container(
+                                alignment: Alignment.center,
+                                height: 50,
+                                width: 100,
+                                decoration: BoxDecoration(
+                                    color: primaryColor,
+                                    borderRadius: BorderRadius.circular(5)),
+                                child: const Text(
+                                  "send",
+                                  style: TextStyle(color: Colors.white),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                            );
+                          }
                         ),
                       ],
                     ),
