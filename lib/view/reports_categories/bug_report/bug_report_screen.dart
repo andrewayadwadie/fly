@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:awesome_dropdown/awesome_dropdown.dart';
 import 'package:flutter/material.dart';
 import 'package:fly/core/controller/location_controller.dart';
 import 'package:fly/core/service/report_service.dart';
@@ -73,7 +74,27 @@ class BugReportScreen extends StatelessWidget {
                         SizedBox(
                           height: MediaQuery.of(context).size.height / 20,
                         ),
-
+                        //type
+                        AwesomeDropDown(
+                          
+                          dropDownListTextStyle: const TextStyle(color: lightPrimaryColor, fontSize: 16),
+                  isPanDown: true,
+                  padding: 5,
+                  isBackPressedOrTouchedOutSide: true,
+                  dropDownList: const[
+                    "الإبلاغ عن منطقة حشرات",
+                    "الإبلاغ عن منطقة حيوانات ضالة ",
+                   "الإبلاغ عن منطقة تسريب أو تجمع مياه"],
+                  dropDownIcon:const Icon(Icons.arrow_drop_down, color: Colors.grey, size: 30,),
+                  selectedItem: 'إختار نوع البلاغ ',
+                  onDropDownItemClick: (selectedItem) {
+                   
+                  },
+                  dropStateChanged: (isOpened) {
+                    
+                   
+                  },
+                ),  
                         // name
                         Padding(
                           padding: const EdgeInsets.symmetric(
@@ -165,82 +186,115 @@ class BugReportScreen extends StatelessWidget {
                           height: MediaQuery.of(context).size.height / 80,
                         ),
                         //Address
-                        GetBuilder<BugLocationController>(
-                          init: BugLocationController(),
-                          builder: (bugController) => Container(
-                            alignment: Alignment.center,
-                            width: MediaQuery.of(context).size.width / 2,
-                            height: MediaQuery.of(context).size.height / 18,
-                            decoration: BoxDecoration(
-                              color: bugController.locationLat == 0.0 &&
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            GetBuilder<BugLocationController>(
+                              init: BugLocationController(),
+                              builder: (bugController) => bugController
+                                              .locationLat ==
+                                          0.0 &&
                                       bugController.locationLng == 0.0
-                                  ? redColor
-                                  : lightPrimaryColor,
-                              borderRadius: BorderRadius.circular(10),
+                                  ? Container(
+                                      alignment: Alignment.center,
+                                      width: MediaQuery.of(context).size.width /
+                                          3,
+                                      height:
+                                          MediaQuery.of(context).size.height /
+                                              10,
+                                      decoration: BoxDecoration(
+                                        color: bugController.locationLat ==
+                                                    0.0 &&
+                                                bugController.locationLng == 0.0
+                                            ? redColor
+                                            : lightPrimaryColor,
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                      child: Column(
+                                        children: [
+                                           Image.asset('assets/icons/question-mark.png',width: 45,height: 45,),
+                                          const Text(
+                                            'برجاء إرفاق مكان البلاغ ',
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 12,
+                                                fontFamily: 'hanimation',
+                                                fontWeight: FontWeight.w400),
+                                          ),
+                                        ],
+                                      ))
+                                  : Container(
+                                      width: MediaQuery.of(context).size.width /
+                                          4.5,
+                                      height:
+                                          MediaQuery.of(context).size.height /
+                                              10,
+                                      decoration: BoxDecoration(
+                                          border: Border.all(
+                                              width: 1, color: redColor),
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          image: const DecorationImage(
+                                              image: AssetImage(
+                                                  "assets/images/map2.jpg"))),
+                                    ),
                             ),
-                            child: bugController.locationLat == 0.0 &&
-                                    bugController.locationLng == 0.0
-                                ? const Text(
-                                    'برجاء إرفاق مكان البلاغ ',
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 12,
-                                        fontFamily: 'hanimation',
-                                        fontWeight: FontWeight.w400),
+                            SizedBox(
+                              height: MediaQuery.of(context).size.height / 80,
+                            ),
+                            // report Images
+                            imagecontroller.image != null
+                                ? Container(
+                                    width:
+                                        MediaQuery.of(context).size.width / 3,
+                                    height:
+                                        MediaQuery.of(context).size.height / 10,
+                                    padding: const EdgeInsets.all(5),
+                                    decoration: BoxDecoration(
+                                        border: Border.all(
+                                            width: 2, color: lightPrimaryColor),
+                                        borderRadius:
+                                            BorderRadius.circular(10)),
+                                    child: Image.file(
+                                      imagecontroller.image!,
+                                      width: 120,
+                                      height: 100,
+                                      fit: BoxFit.contain,
+                                    ),
                                   )
-                                : ClipRRect(
-                                  
-                                  borderRadius: BorderRadius.circular(10),
-                                  child: Image.asset("assets/images/map2.jpg",
-                                  width: 100,
-                                  height: 100,
+                                : Container(
+                                    alignment: Alignment.center,
+                                    width:
+                                        MediaQuery.of(context).size.width /3,
+                                    height:
+                                        MediaQuery.of(context).size.height / 10,
+                                    decoration: BoxDecoration(
+                                      color: redColor,
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    child: Column(
+                                      children: [
+                                        Image.asset('assets/icons/question-mark.png',width: 45,height: 45,),
+                                          const Text(
+                                          'برجاء إرفاق صورة للبلاغ',
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 12,
+                                              fontFamily: 'hanimation',
+                                              fontWeight: FontWeight.w400),
+                                        ),
+                                      ],
+                                    ),
                                   ),
-                                ),
-                          ),
+                          ],
                         ),
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height / 80,
-                        ),
-                        // report Images
-                        imagecontroller.image != null
-                            ? Container(
-                                width: MediaQuery.of(context).size.width / 1.3,
-                                height: MediaQuery.of(context).size.height / 5,
-                                padding: const EdgeInsets.all(5),
-                                decoration: BoxDecoration(
-                                    border: Border.all(
-                                        width: 2, color: lightPrimaryColor),
-                                    borderRadius: BorderRadius.circular(10)),
-                                child: Image.file(
-                                  imagecontroller.image!,
-                                  width: 120,
-                                  height: 100,
-                                  fit: BoxFit.contain,
-                                ),
-                              )
-                            : Container(
-                                alignment: Alignment.center,
-                                width: MediaQuery.of(context).size.width / 2,
-                                height: MediaQuery.of(context).size.height / 18,
-                                decoration: BoxDecoration(
-                                  color: redColor,
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                child: const Text(
-                                  'برجاء إرفاق صورة للبلاغ',
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 12,
-                                      fontFamily: 'hanimation',
-                                      fontWeight: FontWeight.w400),
-                                ),
-                              ),
 
                         SizedBox(
-                          height: MediaQuery.of(context).size.height / 40,
+                          height: MediaQuery.of(context).size.height / 20,
                         ),
+
                         // Send Report button
                         GetBuilder<BugLocationController>(
                             builder: (bugControl) {

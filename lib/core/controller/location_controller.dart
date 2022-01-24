@@ -1,6 +1,5 @@
 import 'package:fly/utils/constants.dart';
 import 'package:get/get.dart';
-import 'package:google_geocoding/google_geocoding.dart'as geocode;
 import 'package:location/location.dart';
 
 class BugLocationController extends GetxController {
@@ -57,13 +56,13 @@ class BugLocationController extends GetxController {
   }
  
  
-  Future<List<geocode.GeocodingResult>?> getAddress()async{
-    var googleGeocoding =geocode. GoogleGeocoding(apiKey);
-     var response = await googleGeocoding.geocoding.getReverse(
-      geocode.LatLon(_lat,_lng), );
+  // Future<List<geocode.GeocodingResult>?> getAddress()async{
+  //   var googleGeocoding =geocode. GoogleGeocoding(apiKey);
+  //    var response = await googleGeocoding.geocoding.getReverse(
+  //     geocode.LatLon(_lat,_lng), );
   
-      List<geocode.GeocodingResult>? result =response!.results;
-       return result;
+  //     List<geocode.GeocodingResult>? result =response!.results;
+  //      return result;
      
-  }
+  // }
 }

@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "544336309960",
+    "project_id": "flyapp-6d4eb",
+    "storage_bucket": "flyapp-6d4eb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:544336309960:android:e0d829aedfe521f708fffd",
+        "android_client_info": {
+          "package_name": "com.example.fly"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "544336309960-kp87chqrf7nirlr4k0oihmlv7d656tt6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.fly",
+            "certificate_hash": "dc588b252bfc26a643adfa2dc37d791182c2c161"
+          }
+        },
+        {
+          "client_id": "544336309960-som9brgthth2vlkje9hm7e874qd6djvr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAZ_7_pQ6C0NpfmEbbhpurJlWoZgbtuc60"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "544336309960-som9brgthth2vlkje9hm7e874qd6djvr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

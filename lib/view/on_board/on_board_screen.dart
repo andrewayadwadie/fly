@@ -96,7 +96,7 @@ class OnBoardScreen extends StatelessWidget {
                     ),
                     InkWell(
                       onTap: () {
-                        Get.to(()=>const TrackOrderScreen());
+                        Get.to(()=> TrackOrderScreen());
                       },
                       child: Container(
                         alignment: Alignment.center,
@@ -125,6 +125,7 @@ class OnBoardScreen extends StatelessWidget {
                         ),
                       ),
                     )
+                 
                   ],
                 ),
               ),
