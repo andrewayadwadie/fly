@@ -1,10 +1,10 @@
-import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
 import 'package:fly/utils/style.dart';
 import 'package:fly/view/shared_widgets/header_widget.dart';
 import 'package:fly/view/track_order/otp_screen.dart';
 import 'package:get/get_utils/src/extensions/string_extensions.dart';
 
+// ignore: must_be_immutable
 class TrackOrderScreen extends StatelessWidget {
   TrackOrderScreen({Key? key}) : super(key: key);
   final _formKey = GlobalKey<FormState>();
@@ -110,8 +110,15 @@ class TrackOrderScreen extends StatelessWidget {
                                               if (_formKey.currentState!
                                                   .validate()) {
                                                 _formKey.currentState!.save();
-                                              Navigator.pop(ctx);
-                                              Navigator.push(context, MaterialPageRoute(builder: (context)=> OtpScreen()));
+                                                Navigator.pop(ctx);
+                                                Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            OtpScreen(
+                                                              phoneNumber:
+                                                                  phone!,
+                                                            )));
                                               }
                                             },
                                             child: Container(

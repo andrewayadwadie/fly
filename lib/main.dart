@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -6,7 +7,9 @@ import 'utils/style.dart';
 import 'utils/translations/app_translations.dart';
 import 'view/intro/intro.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(const MyApp());
 }
 
@@ -26,7 +29,6 @@ class MyApp extends StatelessWidget {
       translations: Translation(),
       locale: const Locale('ar'),
       fallbackLocale: const Locale('ar'),
-   
     );
   }
 }
