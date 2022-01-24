@@ -21,6 +21,7 @@ class BugReportScreen extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
   String? phone;
   String? text;
+  String? name;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -72,6 +73,31 @@ class BugReportScreen extends StatelessWidget {
                         SizedBox(
                           height: MediaQuery.of(context).size.height / 20,
                         ),
+
+                        // name
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 20, vertical: 20),
+                          child: TextFormField(
+                            keyboardType: TextInputType.phone,
+                            decoration: const InputDecoration(
+                              hintText: "الإسم : ",
+
+                              //enabledBorder: InputBorder.none
+                            ),
+                            // The validator receives the text that the user has entered.
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'برجاء إدخال الاسم ثلاثي ';
+                              }
+                              return null;
+                            },
+                            onSaved: (value) {
+                              name = value;
+                            },
+                          ),
+                        ),
+
                         //phone number
                         Padding(
                           padding: const EdgeInsets.symmetric(
@@ -87,11 +113,11 @@ class BugReportScreen extends StatelessWidget {
                             // The validator receives the text that the user has entered.
                             validator: (value) {
                               if (value == null || value.isEmpty) {
-                                return 'Please enter your phone';
+                                return 'برجاء إدخال رقم الهاتف ';
                               } else if (value.length < 11) {
-                                return 'Please enter 11 number ';
+                                return 'برجاء إدخال 11 رقم ';
                               } else if (!value.isPhoneNumber) {
-                                return 'Please enter correct phone number';
+                                return 'برجاء إدخال رفم هاتف صحيح ';
                               }
                               return null;
                             },
@@ -100,6 +126,7 @@ class BugReportScreen extends StatelessWidget {
                             },
                           ),
                         ),
+
                         // description
                         Padding(
                           padding: const EdgeInsets.symmetric(
@@ -124,7 +151,7 @@ class BugReportScreen extends StatelessWidget {
                             // The validator receives the text that the user has entered.
                             validator: (value) {
                               if (value == null || value.isEmpty) {
-                                return 'Please enter Report Description';
+                                return 'برجاء إدخال وصف للبلاغ ';
                               }
                               return null;
                             },
@@ -142,8 +169,8 @@ class BugReportScreen extends StatelessWidget {
                           init: BugLocationController(),
                           builder: (bugController) => Container(
                             alignment: Alignment.center,
-                            width: MediaQuery.of(context).size.width/2,
-                            height: MediaQuery.of(context).size.height/18,
+                            width: MediaQuery.of(context).size.width / 2,
+                            height: MediaQuery.of(context).size.height / 18,
                             decoration: BoxDecoration(
                               color: bugController.locationLat == 0.0 &&
                                       bugController.locationLng == 0.0
@@ -162,20 +189,14 @@ class BugReportScreen extends StatelessWidget {
                                         fontFamily: 'hanimation',
                                         fontWeight: FontWeight.w400),
                                   )
-                                : Column(
-                                    children: [
-                                      Text(
-                                        "${bugController.locationLat}",
-                                        style: const TextStyle(
-                                            color: Colors.white),
-                                      ),
-                                      Text(
-                                        "${bugController.locationLng}",
-                                        style: const TextStyle(
-                                            color: Colors.white),
-                                      ),
-                                    ],
+                                : ClipRRect(
+                                  
+                                  borderRadius: BorderRadius.circular(10),
+                                  child: Image.asset("assets/images/map2.jpg",
+                                  width: 100,
+                                  height: 100,
                                   ),
+                                ),
                           ),
                         ),
                         SizedBox(
@@ -200,8 +221,8 @@ class BugReportScreen extends StatelessWidget {
                               )
                             : Container(
                                 alignment: Alignment.center,
-                                width: MediaQuery.of(context).size.width/2,
-                            height: MediaQuery.of(context).size.height/18,
+                                width: MediaQuery.of(context).size.width / 2,
+                                height: MediaQuery.of(context).size.height / 18,
                                 decoration: BoxDecoration(
                                   color: redColor,
                                   borderRadius: BorderRadius.circular(10),

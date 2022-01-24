@@ -1,8 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:fly/utils/style.dart';
+import 'package:fly/view/on_board/on_board_screen.dart';
 
-import '../nav_bar.dart';
 
 class IntroPage extends StatefulWidget {
   const IntroPage({Key? key}) : super(key: key);
@@ -32,7 +32,7 @@ class _IntroPageState extends State<IntroPage> with TickerProviderStateMixin {
             (value) => _lottieAnimation.forward().then(
                   (value) => Navigator.of(context).pushAndRemoveUntil(
                       MaterialPageRoute(
-                          builder: (context) => const CustomNavBar()),
+                          builder: (context) => const OnBoardScreen()),
                       (route) => false),
                 ),
           ),
