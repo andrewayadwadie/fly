@@ -25,4 +25,26 @@ class OrdersServices {
     }
     return [];
   }
+
+  static Future<dynamic> getOrdersByCode(String code) async {
+    String url = "${apiUrl}Notices/GetUserNotice/$code";
+
+    http.Response res = await http.get(
+      Uri.parse(url),
+    );
+    log("code is : $code");
+    log("request res ${res.body}");
+    if (res.statusCode == 200) {
+      var jsonData = jsonDecode(res.body);
+      log("message$jsonData");
+      dynamic order = SingleUserNoticesModel.fromJson(jsonData);
+
+      return order;
+    } else if (res.statusCode == 400 || res.statusCode == 401) {
+      var jsonData = jsonDecode(res.body)["errors"][0][0];
+      log("message$jsonData");
+      return jsonData;
+    }
+    return [];
+  }
 }

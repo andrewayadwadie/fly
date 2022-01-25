@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:fly/utils/style.dart';
 import 'package:fly/view/shared_widgets/header_widget.dart';
 import 'package:fly/view/track_order/otp_screen.dart';
@@ -10,6 +11,8 @@ import 'order_with_code_screen.dart';
 class TrackOrderScreen extends StatelessWidget {
   TrackOrderScreen({Key? key}) : super(key: key);
   final _formKey = GlobalKey<FormState>();
+  var phoneController = TextEditingController();
+  var codeController = TextEditingController();
   int phone = 0;
   String code = "";
   @override
@@ -46,25 +49,26 @@ class TrackOrderScreen extends StatelessWidget {
                       children: [
                         Padding(
                           padding: const EdgeInsets.symmetric(
-                            horizontal: 20,
+                            horizontal: 40,
                           ),
                           child: TextFormField(
+                            controller: phoneController,
                             maxLength: 11,
                             keyboardType: TextInputType.phone,
                             decoration: InputDecoration(
-                              enabledBorder: OutlineInputBorder(
-                                borderSide: const BorderSide(
-                                    width: 3, color: primaryColor),
-                                borderRadius: BorderRadius.circular(15),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: const BorderSide(
-                                    width: 3, color: primaryColor),
-                                borderRadius: BorderRadius.circular(15),
-                              ),
-                              hintText: "رقم الهاتف",
-                              //enabledBorder: InputBorder.none
-                            ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: const BorderSide(
+                                      width: 3, color: primaryColor),
+                                  borderRadius: BorderRadius.circular(15),
+                                ),
+                                labelText: "رقم الهاتف",
+                                hintText: "رقم الهاتف",
+                                labelStyle: const TextStyle(
+                                    color: blackColor,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold)
+                                //enabledBorder: InputBorder.none
+                                ),
                             onChanged: (value) {
                               phone = int.parse(value);
                             },
@@ -75,26 +79,32 @@ class TrackOrderScreen extends StatelessWidget {
                         ),
                         Padding(
                           padding: const EdgeInsets.symmetric(
-                            horizontal: 20,
+                            horizontal: 40,
                           ),
                           child: TextFormField(
-                            keyboardType: TextInputType.phone,
+                            controller: codeController,
+                            keyboardType: TextInputType.text,
                             decoration: InputDecoration(
-                              enabledBorder: OutlineInputBorder(
-                                borderSide: const BorderSide(
-                                    width: 3, color: primaryColor),
-                                borderRadius: BorderRadius.circular(15),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: const BorderSide(
-                                    width: 3, color: primaryColor),
-                                borderRadius: BorderRadius.circular(15),
-                              ),
-                              hintText: "رقم البلاغ",
-                              //enabledBorder: InputBorder.none
-                            ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: const BorderSide(
+                                      width: 3, color: primaryColor),
+                                  borderRadius: BorderRadius.circular(15),
+                                ),
+                                labelText: "رقم البلاغ",
+                                hintText: "رقم البلاغ",
+                                labelStyle: const TextStyle(
+                                    color: blackColor,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold)
+                                //enabledBorder: InputBorder.none
+
+                                //enabledBorder: InputBorder.none
+                                ),
                             onSaved: (value) {
                               code = value!;
+                            },
+                            onChanged: (val) {
+                              phoneController.clear();
                             },
                           ),
                         ),
@@ -105,6 +115,8 @@ class TrackOrderScreen extends StatelessWidget {
                           onTap: () async {
                             if (_formKey.currentState!.validate()) {
                               _formKey.currentState!.save();
+                              phoneController.clear();
+                              codeController.clear();
                               if (phone > 0 && code.isEmpty) {
                                 Navigator.push(
                                     context,
@@ -112,11 +124,35 @@ class TrackOrderScreen extends StatelessWidget {
                                         builder: (context) => OtpScreen(
                                               phoneNumber: phone,
                                             )));
-                              }else if(phone==0&& code.isNotEmpty){
-                                
+                              } else if (phone == 0 && code.isNotEmpty) {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            OrderWithCodeScreen(
+                                              phone: phone,
+                                              code: code,
+                                            )));
+                              } else if (phone > 0 && code.isNotEmpty) {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            OrderWithCodeScreen(
+                                              phone: phone,
+                                              code: code,
+                                            )));
+                              } else if (phone == 0 && code.isEmpty) {
+                                Fluttertoast.showToast(
+                                    msg:
+                                        "برجاء إدخال رقم الهاتف او كود البلاغ ",
+                                    timeInSecForIosWeb: 3,
+                                    gravity: ToastGravity.CENTER,
+                                    toastLength: Toast.LENGTH_LONG,
+                                    fontSize: 20,
+                                    textColor: Colors.white,
+                                    backgroundColor: redColor);
                               }
-                              else if(phone > 0&&code.isNotEmpty){}
-                              else if(phone==0 &&code.isEmpty){}
                             }
                           },
                           child: Container(

@@ -66,6 +66,7 @@ class BugReportScreen extends StatelessWidget {
               ],
               body: SafeArea(
                 child: SingleChildScrollView(
+                  reverse: true,
                   child: Form(
                     key: _formKey,
                     child: Column(
@@ -76,36 +77,45 @@ class BugReportScreen extends StatelessWidget {
                         ),
                         //type
                         AwesomeDropDown(
-                          
-                          dropDownListTextStyle: const TextStyle(color: lightPrimaryColor, fontSize: 16),
-                  isPanDown: true,
-                  padding: 5,
-                  isBackPressedOrTouchedOutSide: true,
-                  dropDownList: const[
-                    "الإبلاغ عن منطقة حشرات",
-                    "الإبلاغ عن منطقة حيوانات ضالة ",
-                   "الإبلاغ عن منطقة تسريب أو تجمع مياه"],
-                  dropDownIcon:const Icon(Icons.arrow_drop_down, color: Colors.grey, size: 30,),
-                  selectedItem: 'إختار نوع البلاغ ',
-                  onDropDownItemClick: (selectedItem) {
-                   
-                  },
-                  dropStateChanged: (isOpened) {
-                    
-                   
-                  },
-                ),  
+                          dropDownListTextStyle: const TextStyle(
+                              color: lightPrimaryColor, fontSize: 16),
+                          isPanDown: true,
+                          padding: 5,
+                          isBackPressedOrTouchedOutSide: true,
+                          dropDownList: const [
+                            "الإبلاغ عن منطقة حشرات",
+                            "الإبلاغ عن منطقة حيوانات ضالة ",
+                            "الإبلاغ عن منطقة تسريب أو تجمع مياه"
+                          ],
+                          dropDownIcon: const Icon(
+                            Icons.arrow_drop_down,
+                            color: Colors.grey,
+                            size: 30,
+                          ),
+                          selectedItem: 'إختار نوع البلاغ ',
+                          onDropDownItemClick: (selectedItem) {},
+                          dropStateChanged: (isOpened) {},
+                        ),
                         // name
                         Padding(
                           padding: const EdgeInsets.symmetric(
-                              horizontal: 20, vertical: 20),
+                              horizontal: 30, vertical: 20),
                           child: TextFormField(
                             keyboardType: TextInputType.phone,
-                            decoration: const InputDecoration(
-                              hintText: "الإسم : ",
-
-                              //enabledBorder: InputBorder.none
-                            ),
+                            decoration: InputDecoration(
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: const BorderSide(
+                                      width: 3, color: primaryColor),
+                                  borderRadius: BorderRadius.circular(15),
+                                ),
+                                labelText: "الإسم ",
+                                hintText: "الإسم : ",
+                                labelStyle: const TextStyle(
+                                    color: blackColor,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold)
+                                //enabledBorder: InputBorder.none
+                                ),
                             // The validator receives the text that the user has entered.
                             validator: (value) {
                               if (value == null || value.isEmpty) {
@@ -122,15 +132,25 @@ class BugReportScreen extends StatelessWidget {
                         //phone number
                         Padding(
                           padding: const EdgeInsets.symmetric(
-                              horizontal: 20, vertical: 20),
+                              horizontal: 30, vertical: 20),
                           child: TextFormField(
                             maxLength: 11,
                             keyboardType: TextInputType.phone,
-                            decoration: const InputDecoration(
-                              hintText: "رقم الهاتف ",
+                            decoration: InputDecoration(
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: const BorderSide(
+                                      width: 3, color: primaryColor),
+                                  borderRadius: BorderRadius.circular(15),
+                                ),
+                                labelText: "رقم الهاتف",
+                                hintText: "رقم الهاتف : ",
+                                labelStyle: const TextStyle(
+                                    color: blackColor,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold)
 
-                              //enabledBorder: InputBorder.none
-                            ),
+                                //enabledBorder: InputBorder.none
+                                ),
                             // The validator receives the text that the user has entered.
                             validator: (value) {
                               if (value == null || value.isEmpty) {
@@ -151,24 +171,24 @@ class BugReportScreen extends StatelessWidget {
                         // description
                         Padding(
                           padding: const EdgeInsets.symmetric(
-                              horizontal: 20, vertical: 15),
+                              horizontal: 30, vertical: 15),
                           child: TextFormField(
                             keyboardType: TextInputType.text,
                             maxLines: 6,
                             decoration: InputDecoration(
-                              enabledBorder: OutlineInputBorder(
-                                borderSide: const BorderSide(
-                                    width: 3, color: primaryColor),
-                                borderRadius: BorderRadius.circular(15),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: const BorderSide(
-                                    width: 3, color: primaryColor),
-                                borderRadius: BorderRadius.circular(15),
-                              ),
-                              hintText: "وصف البلاغ ",
-                              //enabledBorder: InputBorder.none
-                            ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: const BorderSide(
+                                      width: 3, color: primaryColor),
+                                  borderRadius: BorderRadius.circular(15),
+                                ),
+                                labelText: "وصف البلاغ",
+                                hintText: "وصف البلاغ : ",
+                                labelStyle: const TextStyle(
+                                    color: blackColor,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold)
+                                //enabledBorder: InputBorder.none
+                                ),
                             // The validator receives the text that the user has entered.
                             validator: (value) {
                               if (value == null || value.isEmpty) {
@@ -197,8 +217,8 @@ class BugReportScreen extends StatelessWidget {
                                       bugController.locationLng == 0.0
                                   ? Container(
                                       alignment: Alignment.center,
-                                      width: MediaQuery.of(context).size.width /
-                                          3,
+                                      width:
+                                          MediaQuery.of(context).size.width / 3,
                                       height:
                                           MediaQuery.of(context).size.height /
                                               10,
@@ -212,7 +232,11 @@ class BugReportScreen extends StatelessWidget {
                                       ),
                                       child: Column(
                                         children: [
-                                           Image.asset('assets/icons/question-mark.png',width: 45,height: 45,),
+                                          Image.asset(
+                                            'assets/icons/question-mark.png',
+                                            width: 45,
+                                            height: 45,
+                                          ),
                                           const Text(
                                             'برجاء إرفاق مكان البلاغ ',
                                             textAlign: TextAlign.center,
@@ -266,7 +290,7 @@ class BugReportScreen extends StatelessWidget {
                                 : Container(
                                     alignment: Alignment.center,
                                     width:
-                                        MediaQuery.of(context).size.width /3,
+                                        MediaQuery.of(context).size.width / 3,
                                     height:
                                         MediaQuery.of(context).size.height / 10,
                                     decoration: BoxDecoration(
@@ -275,8 +299,12 @@ class BugReportScreen extends StatelessWidget {
                                     ),
                                     child: Column(
                                       children: [
-                                        Image.asset('assets/icons/question-mark.png',width: 45,height: 45,),
-                                          const Text(
+                                        Image.asset(
+                                          'assets/icons/question-mark.png',
+                                          width: 45,
+                                          height: 45,
+                                        ),
+                                        const Text(
                                           'برجاء إرفاق صورة للبلاغ',
                                           textAlign: TextAlign.center,
                                           style: TextStyle(

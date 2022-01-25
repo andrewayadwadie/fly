@@ -38,23 +38,36 @@ class OrderPageScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    OrdersController controller = Get.put(OrdersController(phone));
-    for (dynamic item in controller.oredersByPhone) {
-      if (item.id == id) {
-        noticeClassifyId = item.noticeClassifyId;
-        text = item.text;
-        date = item.date;
-        lat = item.lat;
-        long = item.long;
-        noticeClassifyType = item.noticeClassifyType;
-        code = item.code;
-        status = item.status;
-        photos = item.photos;
-      }
-    }
-   
+    //  OrdersController controller = Get.put(OrdersController(phone));
+    // for (dynamic item in controller.oredersByPhone) {
+    //   if (item.id == id) {
+    //     noticeClassifyId = item.noticeClassifyId;
+    //     text = item.text;
+    //     date = item.date;
+    //     lat = item.lat;
+    //     long = item.long;
+    //     noticeClassifyType = item.noticeClassifyType;
+    //     code = item.code;
+    //     status = item.status;
+    //     photos = item.photos;
+    //   }
+    // }
+
     return Scaffold(
-      body: SafeArea(child: GetBuilder<OrdersController>(builder: (control) {
+      body: SafeArea(child: GetBuilder<OrdersController>(builder: (controller) {
+        for (dynamic item in controller.oredersByPhone) {
+          if (item.id == id) {
+            noticeClassifyId = item.noticeClassifyId;
+            text = item.text;
+            date = item.date;
+            lat = item.lat;
+            long = item.long;
+            noticeClassifyType = item.noticeClassifyType;
+            code = item.code;
+            status = item.status;
+            photos = item.photos;
+          }
+        }
         return SingleChildScrollView(
           child: Column(
             children: [
