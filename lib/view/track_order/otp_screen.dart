@@ -2,17 +2,20 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:fly/view/track_order/track_order_screen.dart';
+import 'package:get/get.dart';
 import 'package:pinput/pin_put/pin_put.dart';
 
 import 'package:fly/utils/style.dart';
 import 'package:fly/view/shared_widgets/header_widget.dart';
+
+import 'order_with_phone_screen.dart';
 
 class OtpScreen extends StatefulWidget {
   const OtpScreen({
     Key? key,
     required this.phoneNumber,
   }) : super(key: key);
-  final String phoneNumber;
+  final int phoneNumber;
   @override
   State<OtpScreen> createState() => _OtpScreenState();
 }
@@ -38,7 +41,7 @@ class _OtpScreenState extends State<OtpScreen> {
   @override
   void initState() {
     super.initState();
-    _onVerifyCode();
+  //  _onVerifyCode();
   }
 
   @override
@@ -46,11 +49,12 @@ class _OtpScreenState extends State<OtpScreen> {
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
+          reverse: true,
           child: Column(
             children: [
               const HeaderWidget(arrow: true),
               SizedBox(
-                height: MediaQuery.of(context).size.height / 7,
+                height: MediaQuery.of(context).size.height / 8,
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -71,28 +75,68 @@ class _OtpScreenState extends State<OtpScreen> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      PinPut(
-                        fieldsCount: 6,
-                        onSubmit: (String pin) async {
-                          if (pin.length == 6) {
-                            _onFormSubmitted();
-                          } else {
-                            showToast("Invalid OTP", Colors.red);
-                          }
-                        },
-                        focusNode: _pinPutFocusNode,
-                        controller: _pinPutController,
-                        submittedFieldDecoration: _pinPutDecoration.copyWith(
-                          borderRadius: BorderRadius.circular(20.0),
-                        ),
-                        selectedFieldDecoration: _pinPutDecoration,
-                        followingFieldDecoration: _pinPutDecoration.copyWith(
-                          borderRadius: BorderRadius.circular(5.0),
-                          border: Border.all(
-                            color: primaryColor,
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 15),
+                        child: Directionality(
+                          textDirection: TextDirection.ltr,
+                          child: PinPut(
+                            fieldsCount: 6,
+                            onSubmit: (String pin) async {
+                              // if (pin.length == 6) {
+                              //   _onFormSubmitted();
+                              // } else {
+                              //   showToast("Invalid OTP", Colors.red);
+                              // }
+                            },
+                            focusNode: _pinPutFocusNode,
+                            controller: _pinPutController,
+                            submittedFieldDecoration:
+                                _pinPutDecoration.copyWith(
+                              borderRadius: BorderRadius.circular(20.0),
+                            ),
+                            selectedFieldDecoration: _pinPutDecoration,
+                            followingFieldDecoration:
+                                _pinPutDecoration.copyWith(
+                              borderRadius: BorderRadius.circular(5.0),
+                              border: Border.all(
+                                color: primaryColor,
+                              ),
+                            ),
                           ),
                         ),
                       ),
+                      InkWell(
+                        onTap: () {
+                          // _onFormSubmitted();
+                        Get.to(()=>  OrderWithPhoneScreen(phone: widget.phoneNumber));
+
+                        },
+                        child: Container(
+                          alignment: Alignment.center,
+                          width: MediaQuery.of(context).size.width / 2.5,
+                          height: MediaQuery.of(context).size.height / 17,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(40),
+                            gradient: const LinearGradient(
+                                colors: [
+                                  lightPrimaryColor,
+                                  primaryColor,
+                                ],
+                                begin: FractionalOffset(0.0, 0.0),
+                                end: FractionalOffset(1.0, 0.0),
+                                stops: [0.0, 1.0],
+                                tileMode: TileMode.clamp),
+                          ),
+                          child: const Text(
+                            'تأكيد',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w400,
+                                color: Colors.white),
+                          ),
+                        ),
+                      )
                     ],
                   ),
                 ),
@@ -117,6 +161,7 @@ class _OtpScreenState extends State<OtpScreen> {
         fontSize: 16.0);
   }
 
+  // ignore: unused_element
   void _onVerifyCode() async {
     setState(() {
       isCodeSent = true;
@@ -176,6 +221,7 @@ class _OtpScreenState extends State<OtpScreen> {
         codeAutoRetrievalTimeout: codeAutoRetrievalTimeout);
   }
 
+  // ignore: unused_element
   void _onFormSubmitted() async {
     AuthCredential _authCredential = PhoneAuthProvider.credential(
         verificationId: _verificationId, smsCode: _pinPutController.text);
