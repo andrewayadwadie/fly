@@ -2,11 +2,12 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:fly/model/user_notices_model.dart';
+import 'package:fly/utils/constants.dart';
 import 'package:http/http.dart' as http;
 
 class OrdersServices {
   static Future<List<dynamic>> getOrdersByPhone(int phone) async {
-    String url = "https://qualityapi.afaqci.com/api/Notices/GetUserNotices/0$phone";
+    String url = "${apiUrl}Notices/GetUserNotices/0$phone";
 
     http.Response res = await http.get(
       Uri.parse(url),

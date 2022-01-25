@@ -11,6 +11,7 @@ import 'package:get/get.dart';
 
 // ignore: must_be_immutable
 class OrderWithPhoneScreen extends StatelessWidget {
+  // ignore: prefer_const_constructors_in_immutables
   OrderWithPhoneScreen({Key? key, required this.phone}) : super(key: key);
   final int phone;
 
@@ -60,7 +61,7 @@ class OrderWithPhoneScreen extends StatelessWidget {
                           // NoData Widget
                           const NoDataWidget():
                           // List of Reports
-                          
+
                           Container(
                             margin: const EdgeInsets.symmetric(horizontal: 10),
                             // width: MediaQuery.of(context).size.width / 1.3,
@@ -82,6 +83,8 @@ class OrderWithPhoneScreen extends StatelessWidget {
                                       verticalOffset: 50.0,
                                       child: FadeInAnimation(
                                         child: SingleReportItemWidget(
+                                          phone:phone,
+                                          id:controller.oredersByPhone[index].id ,
                                           noticeClassifyType: controller.oredersByPhone[index].noticeClassifyType,
                                           status: controller.oredersByPhone[index].status ,
                                           date:  controller.oredersByPhone[index].date,

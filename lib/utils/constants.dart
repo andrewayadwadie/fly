@@ -1,6 +1,11 @@
 //Utils
-const String apiUrl = "https://qualityapi.afaqci.com/api/";
-const String imageUrl = "https://qualityapi.afaqci.com/Files/Photos/";
+
+const String baseUrl ='https://qualityapi.afaqci.com';
+
+const String apiUrl = "$baseUrl/api/";
+const String imageUrl = "$baseUrl/Files/Photos/Notices/";
 const String appTitle = "quality";
 const String fontFamily = "hanimation";
 const String apiKey = 'AIzaSyDZ-SZIKecRx9PAFOwW2c-KgRfcdS475Wo';
+
+

@@ -10,8 +10,8 @@ import 'order_with_code_screen.dart';
 class TrackOrderScreen extends StatelessWidget {
   TrackOrderScreen({Key? key}) : super(key: key);
   final _formKey = GlobalKey<FormState>();
-  late int phone;
-  late int code ;
+  int phone = 0;
+  String code = "";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,10 +39,133 @@ class TrackOrderScreen extends StatelessWidget {
                       border: Border.all(width: 2, color: lightPrimaryColor)),
                   width: MediaQuery.of(context).size.width,
                   height: MediaQuery.of(context).size.height / 2.4,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      InkWell(
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 20,
+                          ),
+                          child: TextFormField(
+                            maxLength: 11,
+                            keyboardType: TextInputType.phone,
+                            decoration: InputDecoration(
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(
+                                    width: 3, color: primaryColor),
+                                borderRadius: BorderRadius.circular(15),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(
+                                    width: 3, color: primaryColor),
+                                borderRadius: BorderRadius.circular(15),
+                              ),
+                              hintText: "رقم الهاتف",
+                              //enabledBorder: InputBorder.none
+                            ),
+                            onChanged: (value) {
+                              phone = int.parse(value);
+                            },
+                          ),
+                        ),
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height / 80,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 20,
+                          ),
+                          child: TextFormField(
+                            keyboardType: TextInputType.phone,
+                            decoration: InputDecoration(
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(
+                                    width: 3, color: primaryColor),
+                                borderRadius: BorderRadius.circular(15),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(
+                                    width: 3, color: primaryColor),
+                                borderRadius: BorderRadius.circular(15),
+                              ),
+                              hintText: "رقم البلاغ",
+                              //enabledBorder: InputBorder.none
+                            ),
+                            onSaved: (value) {
+                              code = value!;
+                            },
+                          ),
+                        ),
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height / 80,
+                        ),
+                        InkWell(
+                          onTap: () async {
+                            if (_formKey.currentState!.validate()) {
+                              _formKey.currentState!.save();
+                              if (phone > 0 && code.isEmpty) {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => OtpScreen(
+                                              phoneNumber: phone,
+                                            )));
+                              }else if(phone==0&& code.isNotEmpty){
+                                
+                              }
+                              else if(phone > 0&&code.isNotEmpty){}
+                              else if(phone==0 &&code.isEmpty){}
+                            }
+                          },
+                          child: Container(
+                            alignment: Alignment.center,
+                            width: MediaQuery.of(context).size.width / 1.6,
+                            height: MediaQuery.of(context).size.height / 14,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(40),
+                              gradient: const LinearGradient(
+                                  colors: [
+                                    lightPrimaryColor,
+                                    primaryColor,
+                                  ],
+                                  begin: FractionalOffset(0.0, 0.0),
+                                  end: FractionalOffset(1.0, 0.0),
+                                  stops: [0.0, 1.0],
+                                  tileMode: TileMode.clamp),
+                            ),
+                            child: const Text(
+                              'تتبع البلاغات ',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w400,
+                                  color: Colors.white),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: MediaQuery.of(context).size.height / 20,
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+
+
+/**
+ 
+  InkWell(
                         onTap: () async {
                           showDialog(
                               context: context,
@@ -191,7 +314,11 @@ class TrackOrderScreen extends StatelessWidget {
                           ),
                         ),
                       ),
-                      InkWell(
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+                       InkWell(
                         onTap: () {
                             showDialog(
                               context: context,
@@ -338,17 +465,5 @@ class TrackOrderScreen extends StatelessWidget {
                         ),
                       )
 
-                    ],
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: MediaQuery.of(context).size.height / 20,
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
+
+ */

@@ -1,12 +1,13 @@
 import 'dart:convert' as convert;
 import 'dart:developer';
 import 'dart:io';
+import 'package:fly/utils/constants.dart';
 import 'package:http/http.dart' as http;
 // ignore: implementation_imports
 import 'package:async/src/delegate/stream.dart';
 import 'package:path/path.dart';
 
-String baseUrl = "https://qualityapi.afaqci.com/api/Notices/";
+String baseUrl = "${apiUrl}Notices/";
 
 class ReportServices {
   final Uri regUrl = Uri.parse('${baseUrl}AddNotice');
