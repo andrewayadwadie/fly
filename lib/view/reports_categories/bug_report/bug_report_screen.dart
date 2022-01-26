@@ -1,8 +1,10 @@
 import 'dart:developer';
 
-import 'package:awesome_dropdown/awesome_dropdown.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:fly/core/controller/location_controller.dart';
+import 'package:fly/core/controller/report_type_controller.dart';
 import 'package:fly/core/service/report_service.dart';
 import 'package:get/get.dart';
 import 'package:hawk_fab_menu/hawk_fab_menu.dart';
@@ -23,6 +25,9 @@ class BugReportScreen extends StatelessWidget {
   String? phone;
   String? text;
   String? name;
+
+  String typeText = "إختر نوع البلاغ";
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -75,38 +80,24 @@ class BugReportScreen extends StatelessWidget {
                         SizedBox(
                           height: MediaQuery.of(context).size.height / 20,
                         ),
-                        //type
-                        AwesomeDropDown(
-                          dropDownListTextStyle: const TextStyle(
-                              color: lightPrimaryColor, fontSize: 16),
-                          isPanDown: true,
-                          padding: 5,
-                          isBackPressedOrTouchedOutSide: true,
-                          dropDownList: const [
-                            "الإبلاغ عن منطقة حشرات",
-                            "الإبلاغ عن منطقة حيوانات ضالة ",
-                            "الإبلاغ عن منطقة تسريب أو تجمع مياه"
-                          ],
-                          dropDownIcon: const Icon(
-                            Icons.arrow_drop_down,
-                            color: Colors.grey,
-                            size: 30,
-                          ),
-                          selectedItem: 'إختار نوع البلاغ ',
-                          onDropDownItemClick: (selectedItem) {},
-                          dropStateChanged: (isOpened) {},
-                        ),
+
                         // name
                         Padding(
                           padding: const EdgeInsets.symmetric(
                               horizontal: 30, vertical: 20),
                           child: TextFormField(
-                            keyboardType: TextInputType.phone,
+                            keyboardType: TextInputType.text,
                             decoration: InputDecoration(
+                              border:OutlineInputBorder(
+                                 borderSide: const BorderSide(
+                                      width: 2, color: Colors.grey),
+                                  borderRadius: BorderRadius.circular(10),
+                              ) ,
                                 focusedBorder: OutlineInputBorder(
+
                                   borderSide: const BorderSide(
-                                      width: 3, color: primaryColor),
-                                  borderRadius: BorderRadius.circular(15),
+                                      width: 2, color: primaryColor),
+                                  borderRadius: BorderRadius.circular(10),
                                 ),
                                 labelText: "الإسم ",
                                 hintText: "الإسم : ",
@@ -137,10 +128,15 @@ class BugReportScreen extends StatelessWidget {
                             maxLength: 11,
                             keyboardType: TextInputType.phone,
                             decoration: InputDecoration(
+                               border:OutlineInputBorder(
+                                 borderSide: const BorderSide(
+                                      width: 2, color: Colors.grey),
+                                  borderRadius: BorderRadius.circular(10),
+                              ) ,
                                 focusedBorder: OutlineInputBorder(
                                   borderSide: const BorderSide(
-                                      width: 3, color: primaryColor),
-                                  borderRadius: BorderRadius.circular(15),
+                                      width: 2, color: primaryColor),
+                                  borderRadius: BorderRadius.circular(10),
                                 ),
                                 labelText: "رقم الهاتف",
                                 hintText: "رقم الهاتف : ",
@@ -167,6 +163,95 @@ class BugReportScreen extends StatelessWidget {
                             },
                           ),
                         ),
+                        //type
+                        GetBuilder<ReportTypeController>(
+                            init: ReportTypeController(),
+                            builder: (controller) {
+                              return InkWell(
+                                  onTap: () {
+                                    showCupertinoModalPopup(
+                                        context: context,
+                                        builder: (ctx) {
+                                          return CupertinoActionSheet(
+                                            cancelButton:
+                                                CupertinoActionSheetAction(
+                                                    onPressed: () {
+                                                      Navigator.pop(ctx);
+                                                    },
+                                                    child: const Text(
+                                                      'إلغاء',
+                                                      style: TextStyle(
+                                                          color: Colors.red),
+                                                    )),
+                                            actions: [
+                                              CupertinoActionSheetAction(
+                                                  isDefaultAction: true,
+                                                  onPressed: () => controller
+                                                      .onTapSelected(ctx, 1),
+                                                  child: const Text(
+                                                    "الإبلاغ عن منطقة حشرات",
+                                                    style: TextStyle(
+                                                        color: primaryColor,
+                                                        fontSize: 13),
+                                                  )),
+                                              CupertinoActionSheetAction(
+                                                  isDefaultAction: true,
+                                                  onPressed: () => controller
+                                                      .onTapSelected(ctx, 2),
+                                                  child: const Text(
+                                                    "الإبلاغ عن منطقة حيوانات ضالة او ضارية",
+                                                    style: TextStyle(
+                                                        color: primaryColor,
+                                                        fontSize: 13),
+                                                  )),
+                                              CupertinoActionSheetAction(
+                                                  isDefaultAction: true,
+                                                  onPressed: () => controller
+                                                      .onTapSelected(ctx, 3),
+                                                  child: const Text(
+                                                    "الإبلاغ عن منطقة تسريب أو تجمع مياه",
+                                                    style: TextStyle(
+                                                        color: primaryColor,
+                                                        fontSize: 13),
+                                                  )),
+                                            ],
+                                          );
+                                        });
+                                  },
+                                  child: Container(
+                                    padding: EdgeInsets.only(right: 7),
+                                    margin:const EdgeInsets.symmetric(horizontal: 30),
+                                    alignment: Alignment.centerRight,
+                                    // width:
+                                    //     MediaQuery.of(context).size.width / 2,
+                                    height:
+                                        MediaQuery.of(context).size.height / 16,
+                                    decoration: BoxDecoration(
+                                        border: Border.all(
+                                            width: 1, color: Colors.grey),
+                                        borderRadius: BorderRadius.circular(5),
+                                       ),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                      children: [
+                                        
+                                        Text(
+                                          controller.typeText,
+                                          textAlign: TextAlign.center,
+                                          style: const TextStyle(
+                                              height: 1.1,
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.bold,
+                                              color: blackColor),
+                                        ),
+                                       const Spacer(),
+                                        const Icon(Icons.arrow_drop_down,color: blackColor,size: 30,),
+                                        
+                                        
+                                      ],
+                                    ),
+                                  ));
+                            }),
 
                         // description
                         Padding(
@@ -174,12 +259,17 @@ class BugReportScreen extends StatelessWidget {
                               horizontal: 30, vertical: 15),
                           child: TextFormField(
                             keyboardType: TextInputType.text,
-                            maxLines: 6,
+                            maxLines: 4,
                             decoration: InputDecoration(
+                               border:OutlineInputBorder(
+                                 borderSide: const BorderSide(
+                                      width: 2, color: Colors.grey),
+                                  borderRadius: BorderRadius.circular(10),
+                              ) ,
                                 focusedBorder: OutlineInputBorder(
                                   borderSide: const BorderSide(
-                                      width: 3, color: primaryColor),
-                                  borderRadius: BorderRadius.circular(15),
+                                      width: 2, color: primaryColor),
+                                  borderRadius: BorderRadius.circular(10),
                                 ),
                                 labelText: "وصف البلاغ",
                                 hintText: "وصف البلاغ : ",
@@ -205,10 +295,11 @@ class BugReportScreen extends StatelessWidget {
                         SizedBox(
                           height: MediaQuery.of(context).size.height / 80,
                         ),
-                        //Address
+                        //Address && Image
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
+                            //Adress ===========================
                             GetBuilder<BugLocationController>(
                               init: BugLocationController(),
                               builder: (bugController) => bugController
@@ -267,7 +358,7 @@ class BugReportScreen extends StatelessWidget {
                             SizedBox(
                               height: MediaQuery.of(context).size.height / 80,
                             ),
-                            // report Images
+                            // report Images ===================
                             imagecontroller.image != null
                                 ? Container(
                                     width:
@@ -326,47 +417,65 @@ class BugReportScreen extends StatelessWidget {
                         // Send Report button
                         GetBuilder<BugLocationController>(
                             builder: (bugControl) {
-                          return InkWell(
-                            onTap: () async {
-                              // Validate returns true if the form is valid, or false otherwise.
-                              if (_formKey.currentState!.validate()) {
-                                _formKey.currentState!.save();
-
-                                await ReportServices()
-                                    .sendFormData(
-                                        noticeClassifyId: "$noticeClassifyId",
-                                        text: text,
-                                        phone: phone,
-                                        imge: imagecontroller.image!,
-                                        lat: " ${bugControl.locationLat}",
-                                        long: "${bugControl.locationLng}")
-                                    .then((value) => log("result is $value"));
-                              }
-                            },
-                            child: Container(
-                              alignment: Alignment.center,
-                              height: MediaQuery.of(context).size.height / 17,
-                              width: MediaQuery.of(context).size.width / 2,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(40),
-                                gradient: const LinearGradient(
-                                    colors: [
-                                      lightPrimaryColor,
-                                      primaryColor,
-                                    ],
-                                    begin: FractionalOffset(0.0, 0.0),
-                                    end: FractionalOffset(1.0, 0.0),
-                                    stops: [0.0, 1.0],
-                                    tileMode: TileMode.clamp),
-                              ),
-                              child: const Text(
-                                "إرسال بلاغ ",
-                                style: TextStyle(
-                                    color: Colors.white, fontSize: 18),
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
-                          );
+                          return GetBuilder<ReportTypeController>(
+                              init: ReportTypeController(),
+                              builder: (reportTypeController) {
+                                return InkWell(
+                                  onTap: () async {
+                                    // Validate returns true if the form is valid, or false otherwise.
+                                    if (_formKey.currentState!.validate()) {
+                                      _formKey.currentState!.save();
+                                      if (reportTypeController
+                                              .noticeClassifyId !=
+                                          0) {
+                                        await ReportServices()
+                                            .sendFormData(
+                                                noticeClassifyId:
+                                                    "$noticeClassifyId",
+                                                text: text,
+                                                phone: phone,
+                                                imge: imagecontroller.image!,
+                                                lat:
+                                                    " ${bugControl.locationLat}",
+                                                long:
+                                                    "${bugControl.locationLng}")
+                                            .then((value) =>
+                                                log("result is $value"));
+                                      } else {
+                                        Fluttertoast.showToast(
+                                            msg: "برجاء اختيار نوع البلاغ ",
+                                            backgroundColor: redColor,
+                                            textColor: Colors.white);
+                                      }
+                                    }
+                                  },
+                                  child: Container(
+                                    alignment: Alignment.center,
+                                    height:
+                                        MediaQuery.of(context).size.height / 17,
+                                    width:
+                                        MediaQuery.of(context).size.width / 2,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(40),
+                                      gradient: const LinearGradient(
+                                          colors: [
+                                            lightPrimaryColor,
+                                            primaryColor,
+                                          ],
+                                          begin: FractionalOffset(0.0, 0.0),
+                                          end: FractionalOffset(1.0, 0.0),
+                                          stops: [0.0, 1.0],
+                                          tileMode: TileMode.clamp),
+                                    ),
+                                    child: const Text(
+                                      "إرسال البلاغ ",
+                                      style: TextStyle(
+                                          color: Colors.white, fontSize: 18),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ),
+                                );
+                              });
                         }),
                       ],
                     ),
@@ -378,185 +487,3 @@ class BugReportScreen extends StatelessWidget {
     );
   }
 }
-
-
-
-/*
-
-Form(
-        key: _formKey,
-        child: Column(
-          children: [
-            //------------------ start first fields-------------------------//
-            Container(
-              alignment: Alignment.center,
-              margin: const EdgeInsets.only(bottom: 15),
-              padding: const EdgeInsets.symmetric(horizontal: 12),
-              width: MediaQuery.of(context).size.width / 1.1,
-              height: MediaQuery.of(context).size.height / 15,
-              decoration: BoxDecoration(
-                  color: greyColor,
-                  borderRadius: BorderRadiusDirectional.circular(30)),
-              child: TextFormField(
-                onSaved: (value) {
-                  userName = value;
-                },
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return ' برجاء إدخال الحقل المطلوب';
-                  } else {
-                    return null;
-                  }
-                },
-                keyboardType: TextInputType.name,
-                cursorColor: lightPrimaryColor,
-                textAlignVertical: TextAlignVertical.center,
-                decoration: const InputDecoration(
-                  contentPadding: EdgeInsets.only(bottom: 15),
-                  floatingLabelBehavior: FloatingLabelBehavior.never,
-                  labelText: 'حقل إدخال ',
-                  border: InputBorder.none,
-                ),
-              ),
-            ),
-            Container(
-              margin: const EdgeInsets.only(bottom: 15),
-              padding: const EdgeInsets.symmetric(horizontal: 12),
-              width: MediaQuery.of(context).size.width / 1.1,
-              height: MediaQuery.of(context).size.height / 15,
-              decoration: BoxDecoration(
-                  color: greyColor,
-                  borderRadius: BorderRadiusDirectional.circular(30)),
-              child: TextFormField(
-                onSaved: (value) {
-                  userName = value;
-                },
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return ' برجاء إدخال الحقل المطلوب';
-                  } else {
-                    return null;
-                  }
-                },
-                keyboardType: TextInputType.name,
-                cursorColor: lightPrimaryColor,
-                textAlignVertical: TextAlignVertical.center,
-                decoration: const InputDecoration(
-                  contentPadding: EdgeInsets.only(bottom: 15),
-                  floatingLabelBehavior: FloatingLabelBehavior.never,
-                  labelText: 'حقل إدخال ',
-                  border: InputBorder.none,
-                ),
-              ),
-            ),
-            Container(
-              margin: const EdgeInsets.only(bottom: 15),
-              padding: const EdgeInsets.symmetric(horizontal: 12),
-              width: MediaQuery.of(context).size.width / 1.1,
-              height: MediaQuery.of(context).size.height / 15,
-              decoration: BoxDecoration(
-                  color: greyColor,
-                  borderRadius: BorderRadiusDirectional.circular(30)),
-              child: TextFormField(
-                onSaved: (value) {
-                  userName = value;
-                },
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return ' برجاء إدخال الحقل المطلوب';
-                  } else {
-                    return null;
-                  }
-                },
-                keyboardType: TextInputType.name,
-                cursorColor: lightPrimaryColor,
-                textAlignVertical: TextAlignVertical.center,
-                decoration: const InputDecoration(
-                  contentPadding: EdgeInsets.only(bottom: 15),
-                  floatingLabelBehavior: FloatingLabelBehavior.never,
-                  labelText: 'حقل إدخال ',
-                  border: InputBorder.none,
-                ),
-              ),
-            ),
-
-            //------------------ end first fields-------------------------//
-
-            Container(
-              margin: const EdgeInsets.only(bottom: 5),
-              padding: const EdgeInsets.symmetric(horizontal: 12),
-              width: MediaQuery.of(context).size.width / 1.2,
-              height: MediaQuery.of(context).size.height / 5,
-              decoration: BoxDecoration(
-                  color: greyColor,
-                  borderRadius: BorderRadiusDirectional.circular(5)),
-              child: TextFormField(
-                onSaved: (value) {
-                  userName = value;
-                },
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return ' برجاء إدخال الحقل المطلوب';
-                  } else {
-                    return null;
-                  }
-                },
-                keyboardType: TextInputType.name,
-                cursorColor: lightPrimaryColor,
-                textAlignVertical: TextAlignVertical.center,
-                decoration: const InputDecoration(
-                  contentPadding: EdgeInsets.only(bottom: 5),
-                  floatingLabelBehavior: FloatingLabelBehavior.never,
-                  labelText: 'حقل إدخال ',
-                  border: InputBorder.none,
-                ),
-              ),
-            ),
-
-            ///button
-            SizedBox(
-              height: MediaQuery.of(context).size.height / 35,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                InkWell(
-                  onTap: () {
-                    if (_formKey.currentState!.validate()) {
-                      _formKey.currentState!.save();
-                    }
-                  },
-                  child: Container(
-                    width: MediaQuery.of(context).size.width / 2,
-                    height: MediaQuery.of(context).size.height / 15,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(50),
-                      color: primaryColor,
-                    ),
-                    alignment: Alignment.center,
-                    child: Text(
-                      'enter'.tr,
-                      style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                ),
-                InkWell(
-                  onTap: () {},
-                  child: Image.asset(
-                    "assets/images/map3.png",
-                    fit: BoxFit.contain,
-                    width: 70,
-                    height: 60,
-                  ),
-                ),
-              ],
-            )
-          ],
-        ),
-      ),
-
-
- */

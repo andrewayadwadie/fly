@@ -40,13 +40,11 @@ dependencies:
   google_maps_flutter: ^2.1.1
   persistent_bottom_nav_bar: ^4.0.2
   flutter_beautiful_popup: ^1.5.0
-  awesome_dropdown: ^0.0.4
   image_picker: ^0.8.1+4
   lottie: any
   google_fonts: any
   hawk_fab_menu: ^1.1.1
   cool_alert: ^1.1.0
-  flutter_google_places: any
   flutter_polyline_points: ^1.0.0
   multi_image_picker2: ^5.0.2
   firebase_core: ^1.11.0

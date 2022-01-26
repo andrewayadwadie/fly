@@ -3,7 +3,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:fly/utils/style.dart';
 import 'package:fly/view/shared_widgets/header_widget.dart';
 import 'package:fly/view/track_order/otp_screen.dart';
-import 'package:get/get_utils/src/extensions/string_extensions.dart';
 
 import 'order_with_code_screen.dart';
 
@@ -56,10 +55,15 @@ class TrackOrderScreen extends StatelessWidget {
                             maxLength: 11,
                             keyboardType: TextInputType.phone,
                             decoration: InputDecoration(
+                               border:OutlineInputBorder(
+                                 borderSide: const BorderSide(
+                                      width: 2, color: Colors.grey),
+                                  borderRadius: BorderRadius.circular(10),
+                              ) ,
                                 focusedBorder: OutlineInputBorder(
                                   borderSide: const BorderSide(
-                                      width: 3, color: primaryColor),
-                                  borderRadius: BorderRadius.circular(15),
+                                      width: 2, color: primaryColor),
+                                  borderRadius: BorderRadius.circular(10),
                                 ),
                                 labelText: "رقم الهاتف",
                                 hintText: "رقم الهاتف",
@@ -85,10 +89,15 @@ class TrackOrderScreen extends StatelessWidget {
                             controller: codeController,
                             keyboardType: TextInputType.text,
                             decoration: InputDecoration(
+                               border:OutlineInputBorder(
+                                 borderSide: const BorderSide(
+                                      width: 2, color: Colors.grey),
+                                  borderRadius: BorderRadius.circular(10),
+                              ) ,
                                 focusedBorder: OutlineInputBorder(
                                   borderSide: const BorderSide(
-                                      width: 3, color: primaryColor),
-                                  borderRadius: BorderRadius.circular(15),
+                                      width: 2, color: primaryColor),
+                                  borderRadius: BorderRadius.circular(10),
                                 ),
                                 labelText: "رقم البلاغ",
                                 hintText: "رقم البلاغ",

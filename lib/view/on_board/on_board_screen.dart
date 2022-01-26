@@ -23,7 +23,7 @@ class OnBoardScreen extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 10),
                 child: SizedBox(
                   width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.height / 2.4,
+                  height: MediaQuery.of(context).size.height / 2.2,
                   child: ListView.builder(
                     itemExtent: 45,
                     itemCount: 8,
@@ -60,21 +60,20 @@ class OnBoardScreen extends StatelessWidget {
               SizedBox(
                 width: MediaQuery.of(context).size.width,
                 height: MediaQuery.of(context).size.height / 7,
-              
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     InkWell(
                       onTap: () {
-                        Get.to(()=>BugReportScreen());
+                        Get.to(() => BugReportScreen());
                       },
                       child: Container(
                         alignment: Alignment.center,
-                         width: MediaQuery.of(context).size.width/2.5,
+                        width: MediaQuery.of(context).size.width / 2.5,
                         height: MediaQuery.of(context).size.height / 17,
-                        decoration:  BoxDecoration(
+                        decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(40),
-                          gradient:const  LinearGradient(
+                          gradient: const LinearGradient(
                               colors: [
                                 lightPrimaryColor,
                                 primaryColor,
@@ -84,27 +83,27 @@ class OnBoardScreen extends StatelessWidget {
                               stops: [0.0, 1.0],
                               tileMode: TileMode.clamp),
                         ),
-                        child: const Text('إنشاء بلاغ ',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w400,
-                          color: Colors.white
-                        ),
+                        child: const Text(
+                          'إنشاء بلاغ ',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w400,
+                              color: Colors.white),
                         ),
                       ),
                     ),
                     InkWell(
                       onTap: () {
-                        Get.to(()=> TrackOrderScreen());
+                        Get.to(() => TrackOrderScreen());
                       },
                       child: Container(
                         alignment: Alignment.center,
-                         width: MediaQuery.of(context).size.width/2.5,
+                        width: MediaQuery.of(context).size.width / 2.5,
                         height: MediaQuery.of(context).size.height / 17,
-                        decoration:  BoxDecoration(
+                        decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(40),
-                          gradient:const  LinearGradient(
+                          gradient: const LinearGradient(
                               colors: [
                                 lightPrimaryColor,
                                 primaryColor,
@@ -116,16 +115,14 @@ class OnBoardScreen extends StatelessWidget {
                         ),
                         child: const Text(
                           'تتبع بلاغ',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w400,
-                          color: Colors.white
-                        ),
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w400,
+                              color: Colors.white),
                         ),
                       ),
                     )
-                 
                   ],
                 ),
               ),

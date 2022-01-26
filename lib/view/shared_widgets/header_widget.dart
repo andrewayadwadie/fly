@@ -54,7 +54,7 @@ class HeaderWidget extends StatelessWidget {
           top: 18,
           left: 18,
           child: InkWell(
-            onTap: () => Navigator.of(context).pop(),
+            onTap: () => Navigator.pop(context),
             child: SizedBox(
               width: MediaQuery.of(context).size.width / 20,
               height: MediaQuery.of(context).size.height / 30,

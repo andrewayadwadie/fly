@@ -69,20 +69,20 @@ class _TestMapScreenState extends State<TestMapScreen> {
           ///choose mark and pop 
             _origin != null
                 ? GetBuilder<BugLocationController>(builder: (control) {
-                    return InkWell(
-                      onTap: () {
-                        control.getSelectedLocation(currentLocation.latitude,
-                            currentLocation.longitude);
-                        Navigator.pop(context);
-              
-                      },
-                      child: Positioned(
-                        top: 10,
-                        right: 10,
+                    return Positioned(
+                      top:  MediaQuery.of(context).size.height/50,
+                      right: MediaQuery.of(context).size.width/5.3,
+                      child: InkWell(
+                        onTap: () {
+                          control.getSelectedLocation(currentLocation.latitude,
+                              currentLocation.longitude);
+                          Navigator.pop(context);
+                                  
+                        },
                         child: Container(
                           alignment: Alignment.center,
-                          width: 80,
-                          height: 60,
+                          width: MediaQuery.of(context).size.width/1.5,
+                          height:  MediaQuery.of(context).size.height/20,
                           decoration: BoxDecoration(
                               color: lightPrimaryColor,
                               borderRadius: BorderRadius.circular(10)),
