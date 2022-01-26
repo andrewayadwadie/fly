@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:fly/core/controller/internet_connectivity_controller.dart';
 import 'package:fly/utils/style.dart';
 import 'package:fly/view/shared_widgets/header_widget.dart';
 import 'package:fly/view/track_order/otp_screen.dart';
+import 'package:get/get.dart';
 
 import 'order_with_code_screen.dart';
 
@@ -55,11 +57,11 @@ class TrackOrderScreen extends StatelessWidget {
                             maxLength: 11,
                             keyboardType: TextInputType.phone,
                             decoration: InputDecoration(
-                               border:OutlineInputBorder(
-                                 borderSide: const BorderSide(
+                                border: OutlineInputBorder(
+                                  borderSide: const BorderSide(
                                       width: 2, color: Colors.grey),
                                   borderRadius: BorderRadius.circular(10),
-                              ) ,
+                                ),
                                 focusedBorder: OutlineInputBorder(
                                   borderSide: const BorderSide(
                                       width: 2, color: primaryColor),
@@ -89,11 +91,11 @@ class TrackOrderScreen extends StatelessWidget {
                             controller: codeController,
                             keyboardType: TextInputType.text,
                             decoration: InputDecoration(
-                               border:OutlineInputBorder(
-                                 borderSide: const BorderSide(
+                                border: OutlineInputBorder(
+                                  borderSide: const BorderSide(
                                       width: 2, color: Colors.grey),
                                   borderRadius: BorderRadius.circular(10),
-                              ) ,
+                                ),
                                 focusedBorder: OutlineInputBorder(
                                   borderSide: const BorderSide(
                                       width: 2, color: primaryColor),
@@ -120,76 +122,89 @@ class TrackOrderScreen extends StatelessWidget {
                         SizedBox(
                           height: MediaQuery.of(context).size.height / 80,
                         ),
-                        InkWell(
-                          onTap: () async {
-                            if (_formKey.currentState!.validate()) {
-                              _formKey.currentState!.save();
-                              phoneController.clear();
-                              codeController.clear();
-                              if (phone > 0 && code.isEmpty) {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => OtpScreen(
-                                              phoneNumber: phone,
-                                            )));
-                              } else if (phone == 0 && code.isNotEmpty) {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            OrderWithCodeScreen(
-                                              phone: phone,
-                                              code: code,
-                                            )));
-                              } else if (phone > 0 && code.isNotEmpty) {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            OrderWithCodeScreen(
-                                              phone: phone,
-                                              code: code,
-                                            )));
-                              } else if (phone == 0 && code.isEmpty) {
-                                Fluttertoast.showToast(
-                                    msg:
-                                        "برجاء إدخال رقم الهاتف او كود البلاغ ",
-                                    timeInSecForIosWeb: 3,
-                                    gravity: ToastGravity.CENTER,
-                                    toastLength: Toast.LENGTH_LONG,
-                                    fontSize: 20,
-                                    textColor: Colors.white,
-                                    backgroundColor: redColor);
-                              }
-                            }
-                          },
-                          child: Container(
-                            alignment: Alignment.center,
-                            width: MediaQuery.of(context).size.width / 1.6,
-                            height: MediaQuery.of(context).size.height / 14,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(40),
-                              gradient: const LinearGradient(
-                                  colors: [
-                                    lightPrimaryColor,
-                                    primaryColor,
-                                  ],
-                                  begin: FractionalOffset(0.0, 0.0),
-                                  end: FractionalOffset(1.0, 0.0),
-                                  stops: [0.0, 1.0],
-                                  tileMode: TileMode.clamp),
-                            ),
-                            child: const Text(
-                              'تتبع البلاغات ',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w400,
-                                  color: Colors.white),
-                            ),
-                          ),
-                        ),
+                        GetBuilder<InternetController>(
+                            init: InternetController(),
+                            builder: (internet) {
+                              return InkWell(
+                                onTap: () async {
+                                  if (_formKey.currentState!.validate()) {
+                                    _formKey.currentState!.save();
+                                    phoneController.clear();
+                                    codeController.clear();
+                                    internet.checkInternet().then((value) {
+                                      if (value == true) {
+                                        if (phone > 0 && code.isEmpty) {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      OtpScreen(
+                                                        phoneNumber: phone,
+                                                      )));
+                                        } else if (phone == 0 &&
+                                            code.isNotEmpty) {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      OrderWithCodeScreen(
+                                                        phone: phone,
+                                                        code: code,
+                                                      )));
+                                        } else if (phone > 0 &&
+                                            code.isNotEmpty) {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      OrderWithCodeScreen(
+                                                        phone: phone,
+                                                        code: code,
+                                                      )));
+                                        } else if (phone == 0 && code.isEmpty) {
+                                          Fluttertoast.showToast(
+                                              msg:
+                                                  "برجاء إدخال رقم الهاتف او كود البلاغ ",
+                                              timeInSecForIosWeb: 3,
+                                              gravity: ToastGravity.CENTER,
+                                              toastLength: Toast.LENGTH_LONG,
+                                              fontSize: 20,
+                                              textColor: Colors.white,
+                                              backgroundColor: redColor);
+                                        }
+                                      }
+                                    });
+                                  }
+                                },
+                                child: Container(
+                                  alignment: Alignment.center,
+                                  width:
+                                      MediaQuery.of(context).size.width / 1.6,
+                                  height:
+                                      MediaQuery.of(context).size.height / 14,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(40),
+                                    gradient: const LinearGradient(
+                                        colors: [
+                                          lightPrimaryColor,
+                                          primaryColor,
+                                        ],
+                                        begin: FractionalOffset(0.0, 0.0),
+                                        end: FractionalOffset(1.0, 0.0),
+                                        stops: [0.0, 1.0],
+                                        tileMode: TileMode.clamp),
+                                  ),
+                                  child: const Text(
+                                    'تتبع البلاغات ',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w400,
+                                        color: Colors.white),
+                                  ),
+                                ),
+                              );
+                            }),
                       ],
                     ),
                   ),
@@ -205,5 +220,3 @@ class TrackOrderScreen extends StatelessWidget {
     );
   }
 }
-
-
