@@ -1,12 +1,14 @@
 import 'dart:developer';
 
-import 'package:flutter/cupertino.dart';
+import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:fly/core/controller/internet_connectivity_controller.dart';
 import 'package:fly/core/controller/location_controller.dart';
 import 'package:fly/core/controller/report_type_controller.dart';
 import 'package:fly/core/service/report_service.dart';
+import 'package:fly/view/on_board/on_board_screen.dart';
+import 'package:fly/view/shared_widgets/custom_loader.dart';
 import 'package:get/get.dart';
 import 'package:hawk_fab_menu/hawk_fab_menu.dart';
 import 'package:fly/core/controller/image_picker_controller.dart';
@@ -174,106 +176,110 @@ class BugReportScreen extends StatelessWidget {
                               GetBuilder<ReportTypeController>(
                                   init: ReportTypeController(),
                                   builder: (controller) {
-                                    return InkWell(
-                                        onTap: () {
-                                          showCupertinoModalPopup(
-                                              context: context,
-                                              builder: (ctx) {
-                                                return CupertinoActionSheet(
-                                                  cancelButton:
-                                                      CupertinoActionSheetAction(
-                                                          onPressed: () {
-                                                            Navigator.pop(ctx);
-                                                          },
-                                                          child: const Text(
-                                                            'إلغاء',
-                                                            style: TextStyle(
-                                                                color:
-                                                                    Colors.red),
-                                                          )),
-                                                  actions: [
-                                                    CupertinoActionSheetAction(
-                                                        isDefaultAction: true,
-                                                        onPressed: () =>
-                                                            controller
-                                                                .onTapSelected(
-                                                                    ctx, 1),
-                                                        child: const Text(
-                                                          "الإبلاغ عن منطقة حشرات",
-                                                          style: TextStyle(
-                                                              color:
-                                                                  primaryColor,
-                                                              fontSize: 13),
-                                                        )),
-                                                    CupertinoActionSheetAction(
-                                                        isDefaultAction: true,
-                                                        onPressed: () =>
-                                                            controller
-                                                                .onTapSelected(
-                                                                    ctx, 2),
-                                                        child: const Text(
-                                                          "الإبلاغ عن منطقة حيوانات ضالة او ضارية",
-                                                          style: TextStyle(
-                                                              color:
-                                                                  primaryColor,
-                                                              fontSize: 13),
-                                                        )),
-                                                    CupertinoActionSheetAction(
-                                                        isDefaultAction: true,
-                                                        onPressed: () =>
-                                                            controller
-                                                                .onTapSelected(
-                                                                    ctx, 3),
-                                                        child: const Text(
-                                                          "الإبلاغ عن منطقة تسريب أو تجمع مياه",
-                                                          style: TextStyle(
-                                                              color:
-                                                                  primaryColor,
-                                                              fontSize: 13),
-                                                        )),
+                                    return GetBuilder<InternetController>(
+                                        init: InternetController(),
+                                        builder: (internet) {
+                                          return InkWell(
+                                              onTap: () {
+                                                internet
+                                                    .checkInternet()
+                                                    .then((value) {
+                                                  if (value) {
+                                                    showModalBottomSheet(
+                                                      context: context,
+                                                      builder: (ctx) => controller
+                                                                  .loading ==
+                                                              true
+                                                          ? const LoaderWidget()
+                                                          : SizedBox(
+                                                              height: MediaQuery.of(
+                                                                          context)
+                                                                      .size
+                                                                      .height /
+                                                                  2.5,
+                                                              child: ListView
+                                                                  .builder(
+                                                                      itemCount: controller
+                                                                          .orderType
+                                                                          .length,
+                                                                      itemBuilder:
+                                                                          (context,
+                                                                              index) {
+                                                                        return InkWell(
+                                                                          onTap:
+                                                                              () {
+                                                                            controller.onTapSelected(ctx,
+                                                                                controller.orderType[index].id);
+                                                                          },
+                                                                          child:
+                                                                              Padding(
+                                                                            padding:
+                                                                                const EdgeInsets.symmetric(horizontal: 60, vertical: 15),
+                                                                            child:
+                                                                                Container(
+                                                                              alignment: Alignment.center,
+                                                                              height: MediaQuery.of(context).size.height / 12,
+                                                                              decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), border: Border.all(width: 1, color: Colors.grey)),
+                                                                              child: Text(
+                                                                                controller.orderType[index].type,
+                                                                                style: const TextStyle(color: primaryColor, fontSize: 15),
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                        );
+                                                                      }),
+                                                            ),
+                                                    );
+                                                  }
+                                                });
+                                              },
+                                              child: Container(
+                                                padding: const EdgeInsets.only(
+                                                    right: 7),
+                                                margin:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 30),
+                                                alignment:
+                                                    Alignment.centerRight,
+                                                // width:
+                                                //     MediaQuery.of(context).size.width / 2,
+                                                height: MediaQuery.of(context)
+                                                        .size
+                                                        .height /
+                                                    16,
+                                                decoration: BoxDecoration(
+                                                  border: Border.all(
+                                                      width: 1,
+                                                      color: Colors.grey),
+                                                  borderRadius:
+                                                      BorderRadius.circular(5),
+                                                ),
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceAround,
+                                                  children: [
+                                                    Text(
+                                                      controller.typeText,
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                      style: const TextStyle(
+                                                          height: 1.1,
+                                                          fontSize: 15,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          color: blackColor),
+                                                    ),
+                                                    const Spacer(),
+                                                    const Icon(
+                                                      Icons.arrow_drop_down,
+                                                      color: blackColor,
+                                                      size: 30,
+                                                    ),
                                                   ],
-                                                );
-                                              });
-                                        },
-                                        child: Container(
-                                          padding: EdgeInsets.only(right: 7),
-                                          margin: const EdgeInsets.symmetric(
-                                              horizontal: 30),
-                                          alignment: Alignment.centerRight,
-                                          // width:
-                                          //     MediaQuery.of(context).size.width / 2,
-                                          height: MediaQuery.of(context)
-                                                  .size
-                                                  .height /
-                                              16,
-                                          decoration: BoxDecoration(
-                                            border: Border.all(
-                                                width: 1, color: Colors.grey),
-                                            borderRadius:
-                                                BorderRadius.circular(5),
-                                          ),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceAround,
-                                            children: [
-                                              Text(
-                                                controller.typeText,
-                                                textAlign: TextAlign.center,
-                                                style: const TextStyle(
-                                                    height: 1.1,
-                                                    fontSize: 15,
-                                                    fontWeight: FontWeight.bold,
-                                                    color: blackColor),
-                                              ),
-                                              const Spacer(),
-                                              const Icon(
-                                                Icons.arrow_drop_down,
-                                                color: blackColor,
-                                                size: 30,
-                                              ),
-                                            ],
-                                          ),
-                                        ));
+                                                ),
+                                              ));
+                                        });
                                   }),
 
                               // description
@@ -483,12 +489,12 @@ class BugReportScreen extends StatelessWidget {
                                                         .checkInternet()
                                                         .then((value) {
                                                       if (value == true) {
-                                                        ReportServices()
-                                                            .sendFormData(
+                                                        ReportServices.sendFormData(
                                                                 noticeClassifyId:
-                                                                    "$noticeClassifyId",
+                                                                    "${reportTypeController.noticeClassifyId}",
                                                                 text: text,
                                                                 phone: phone,
+                                                                name: name,
                                                                 imge:
                                                                     imagecontroller
                                                                         .image!,
@@ -496,8 +502,33 @@ class BugReportScreen extends StatelessWidget {
                                                                     " ${bugControl.locationLat}",
                                                                 long:
                                                                     "${bugControl.locationLng}")
-                                                            .then((value) => log(
-                                                                "result is $value"));
+                                                            .then((val) {
+                                                          log("result is ${val['code']}");
+
+                                                          CoolAlert.show(
+                                                            barrierDismissible: false,
+                                                            context: context, 
+                                                            type:CoolAlertType.custom,
+                                                            title: "تم تسجيل بلاغ بنجاح ",
+                                                            text: "رقم البلاغ المسجل : ",
+                                                          confirmBtnText: "حسناً",
+                                                          confirmBtnColor: primaryColor,
+                                                          backgroundColor: primaryColor,
+                                                          onConfirmBtnTap: (){
+                                                            Get.offAll(()=>const OnBoardScreen());
+                                                          },
+                                                            widget: Center(
+                                                              child: SelectableText(val['code'],
+                                                              style: const TextStyle(
+                                                                color: primaryColor,
+                                                                fontSize: 12,
+                                                                fontWeight: FontWeight.w600
+                                                              ),
+                                                              ),
+                                                            )
+                                                            );
+
+                                                        });
                                                       }
                                                     });
                                                   } else {
