@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fly/core/db/auth_shared_preferences.dart';
 
 import 'package:get/get.dart';
 import 'package:overlay_support/overlay_support.dart';
@@ -12,6 +13,11 @@ import 'view/intro/intro.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  await TokenPref.init();
+  await UserNamePref.init();
+  await ExpireDatePref.init();
+  await UserPhonePref.init();
+  await UserSSNPref.init();
   runApp(const MyApp());
 }
 

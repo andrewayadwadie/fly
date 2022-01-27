@@ -8,23 +8,13 @@ class ReminderServices {
     var url = "${apiUrl}NoticesReminders/AddNoticeReminder/$id";
 
     try {
-      
-
-      var res = await http.post(
-        Uri.parse(url),
-        headers :{
-  'Content-type': 'application/json',
-  'Accept': 'application/json',
-}
-      );
-  
+      var res = await http.post(Uri.parse(url), headers: {
+        'Content-type': 'application/json',
+        'Accept': 'application/json',
+      });
 
       if (res.statusCode == 200 || res.statusCode == 201) {
-      
-          return "ok";
-        
-
-       
+        return "ok";
       }
     } catch (e) {
       throw "exception is : $e";

@@ -1,6 +1,9 @@
+import 'package:cool_alert/cool_alert.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:fly/core/db/auth_shared_preferences.dart';
+import 'package:fly/core/service/auth_services.dart';
 import 'package:fly/view/on_board/on_board_screen.dart';
 import 'package:fly/view/track_order/track_order_screen.dart';
 import 'package:get/get.dart';
@@ -9,25 +12,19 @@ import 'package:pinput/pin_put/pin_put.dart';
 import 'package:fly/utils/style.dart';
 import 'package:fly/view/shared_widgets/header_widget.dart';
 
-
-
-class OtpAuthScreen extends StatefulWidget {
-  const OtpAuthScreen({
+class LoginOtpScreen extends StatelessWidget {
+  LoginOtpScreen({
     Key? key,
-    
+    required this.ssn,
+    required this.password,
   }) : super(key: key);
 
-  @override
-  State<OtpAuthScreen> createState() => _OtpAuthScreenState();
-}
+  final String ssn;
+  final String password;
 
-class _OtpAuthScreenState extends State<OtpAuthScreen> {
-  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   final TextEditingController _pinPutController = TextEditingController();
 
   final FocusNode _pinPutFocusNode = FocusNode();
-
-  //String code = '';
 
   BoxDecoration get _pinPutDecoration {
     return BoxDecoration(
@@ -38,12 +35,6 @@ class _OtpAuthScreenState extends State<OtpAuthScreen> {
 
   bool isCodeSent = false;
   String _verificationId = '';
-
-  @override
-  void initState() {
-    super.initState();
-  //  _onVerifyCode();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -82,13 +73,7 @@ class _OtpAuthScreenState extends State<OtpAuthScreen> {
                           textDirection: TextDirection.ltr,
                           child: PinPut(
                             fieldsCount: 6,
-                            onSubmit: (String pin) async {
-                              // if (pin.length == 6) {
-                              //   _onFormSubmitted();
-                              // } else {
-                              //   showToast("Invalid OTP", Colors.red);
-                              // }
-                            },
+                            onSubmit: (String pin) async {},
                             focusNode: _pinPutFocusNode,
                             controller: _pinPutController,
                             submittedFieldDecoration:
@@ -107,10 +92,33 @@ class _OtpAuthScreenState extends State<OtpAuthScreen> {
                         ),
                       ),
                       InkWell(
-                        onTap: () {
-                          // _onFormSubmitted();
-                        Get.to(()=>  const OnBoardScreen());
-
+                        onTap: () async {
+                          var res = await AuthServices.login(
+                              ssn: ssn, password: password);
+                          if (res.runtimeType == List) {
+                            TokenPref.setTokenValue(res[0].toString());
+                            ExpireDatePref.setExpireDateValue(
+                                res[1].toString());
+                            UserNamePref.setUserNameValue(res[2].toString());
+                            UserPhonePref.setUserPhoneValue(res[3].toString());
+                            UserSSNPref.setUserSsnValue(res[4].toString());
+                            Get.offAll(() => const OnBoardScreen());
+                          } else if (res.runtimeType == String) {
+                            CoolAlert.show(
+                              context: context,
+                              type: CoolAlertType.error,
+                              title: res.toString(),
+                              barrierDismissible: false,
+                              animType: CoolAlertAnimType.slideInUp,
+                              onConfirmBtnTap: () {
+                                Navigator.pop(context);
+                              },
+                              confirmBtnColor: redColor,
+                              confirmBtnText: "حسناً",
+                              confirmBtnTextStyle: const TextStyle(),
+                              backgroundColor: redColor,
+                            );
+                          }
                         },
                         child: Container(
                           alignment: Alignment.center,
@@ -150,100 +158,5 @@ class _OtpAuthScreenState extends State<OtpAuthScreen> {
         ),
       ),
     );
-  }
-
-  void showToast(message, Color color) {
-    Fluttertoast.showToast(
-        msg: message,
-        toastLength: Toast.LENGTH_LONG,
-        gravity: ToastGravity.CENTER,
-        backgroundColor: color,
-        textColor: Colors.white,
-        fontSize: 16.0);
-  }
-
-  // ignore: unused_element
-  void _onVerifyCode() async {
-    setState(() {
-      isCodeSent = true;
-    });
-    // ignore: prefer_function_declarations_over_variables
-    final PhoneVerificationCompleted verificationCompleted =
-        (AuthCredential phoneAuthCredential) {
-      _firebaseAuth
-          .signInWithCredential(phoneAuthCredential)
-          .then((UserCredential value) {
-        if (value.user != null) {
-          // Handle loogged in state
-
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => TrackOrderScreen(),
-              ));
-        } else {
-          showToast("Error validating OTP, try again", Colors.red);
-        }
-      }).catchError((error) {
-        showToast("Try again in sometime", Colors.red);
-      });
-    };
-    // ignore: prefer_function_declarations_over_variables
-    final PhoneVerificationFailed verificationFailed = (authException) {
-      showToast(authException.message, Colors.red);
-      setState(() {
-        isCodeSent = false;
-      });
-    };
-
-    // ignore: prefer_function_declarations_over_variables
-    final PhoneCodeSent codeSent =
-        (String verificationId, [int? forceResendingToken]) {
-      _verificationId = verificationId;
-      setState(() {
-        _verificationId = verificationId;
-      });
-    };
-    // ignore: prefer_function_declarations_over_variables
-    final PhoneCodeAutoRetrievalTimeout codeAutoRetrievalTimeout =
-        (String verificationId) {
-      _verificationId = verificationId;
-      setState(() {
-        _verificationId = verificationId;
-      });
-    };
-
-    await _firebaseAuth.verifyPhoneNumber(
-        phoneNumber: "+2${01281248732}",
-        timeout: const Duration(seconds: 60),
-        verificationCompleted: verificationCompleted,
-        verificationFailed: verificationFailed,
-        codeSent: codeSent,
-        codeAutoRetrievalTimeout: codeAutoRetrievalTimeout);
-  }
-
-  // ignore: unused_element
-  void _onFormSubmitted() async {
-    AuthCredential _authCredential = PhoneAuthProvider.credential(
-        verificationId: _verificationId, smsCode: _pinPutController.text);
-
-    _firebaseAuth
-        .signInWithCredential(_authCredential)
-        .then((UserCredential value) {
-      if (value.user != null) {
-        // Handle loogged in state
-
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => TrackOrderScreen(),
-          ),
-        );
-      } else {
-        showToast("Error validating OTP, try again", Colors.red);
-      }
-    }).catchError((error) {
-      showToast("Something went wrong", Colors.red);
-    });
   }
 }

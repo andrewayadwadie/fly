@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fly/utils/style.dart';
-import 'package:fly/view/auth/auth_otp_screen.dart';
+import 'package:fly/view/auth/signup_otp_screen.dart';
 import 'package:get/get.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -15,6 +15,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   String? name = '';
   String? password = '';
   String? confirmPassword = '';
+  String? ssn;
 
   bool vis = true;
   bool confirmVis = true;
@@ -150,6 +151,49 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           },
                         ),
                       ),
+                      // SSn =============
+                      Padding(
+                        padding:
+                            const EdgeInsets.only(left: 40, right: 40, top: 20),
+                        child: TextFormField(
+                          keyboardType: TextInputType.phone,
+                          cursorColor: primaryColor,
+                          decoration: InputDecoration(
+                              border: OutlineInputBorder(
+                                borderSide: const BorderSide(
+                                    width: 2, color: Colors.grey),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(
+                                    width: 2, color: primaryColor),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              icon: const Icon(
+                                Icons.card_membership,
+                                color: primaryColor,
+                                size: 25,
+                              ),
+                              labelText: "رقم الهوية ",
+                              hintText: "رقم الهوية ",
+                              labelStyle: const TextStyle(
+                                  fontSize: 16, fontWeight: FontWeight.bold)
+                              //enabledBorder: InputBorder.none
+                              ),
+                          onSaved: (val) {
+                            ssn = val;
+                          },
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'برجاء إدخال رقم الهوية  ';
+                            } else {
+                              return null;
+                            }
+                          },
+                        ),
+                      ),
+                     
+                     
                       // pssword ========
                       Padding(
                         padding:
@@ -281,7 +325,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         onTap: () {
                           if (_signupFormKey.currentState!.validate()) {
                             _signupFormKey.currentState!.save();
-                            Get.to(()=>const  OtpAuthScreen());
+                            Get.to(()=>  SignupOtpScreen(
+                              name: name!,
+                              phone: phone!,
+                              password: password!,
+                              ssn: ssn!,
+                            ));
                           }
                         },
                         child: Container(

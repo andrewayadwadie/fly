@@ -3,6 +3,7 @@
         "cupertino",
         "fluttertoast",
         "geolocator",
+        "hanimation",
         "pinput",
         "polyline"
     ]

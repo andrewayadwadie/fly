@@ -33,7 +33,7 @@ dependencies:
 
   cupertino_icons: ^1.0.2
   get: ^4.3.8
-  shared_preferences: ^2.0.6
+  shared_preferences: ^2.0.12
   get_storage: ^2.0.3
   http: ^0.13.4
   location: ^4.3.0

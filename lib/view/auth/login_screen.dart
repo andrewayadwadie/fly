@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fly/utils/style.dart';
-import 'package:fly/view/on_board/on_board_screen.dart';
+import 'package:fly/view/auth/login_otp_screen.dart';
 import 'package:get/get.dart';
 
 import 'signup_screen.dart';
@@ -15,7 +15,7 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
 
 
-  String? phone = '';
+  String? ssn = '';
 
   String? password = '';
 
@@ -98,21 +98,21 @@ class _LoginScreenState extends State<LoginScreen> {
                                     borderRadius: BorderRadius.circular(10),
                                   ),
                                   icon: const Icon(
-                                    Icons.phone_android,
+                                    Icons.card_membership,
                                     color: primaryColor,
                                   ),
-                                  labelText: "رقم الهاتف",
-                                  hintText: "رقم الهاتف",
+                                  labelText: "رقم الهوية ",
+                                  hintText: "رقم الهوية ",
                                   labelStyle: const TextStyle(
                                       fontSize: 16, fontWeight: FontWeight.bold)
                                   //enabledBorder: InputBorder.none
                                   ),
                               onSaved: (val) {
-                                phone = val;
+                                ssn = val;
                               },
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
-                                  return 'برجاء إدخال رقم الهاتف ';
+                                  return 'برجاء إدخال رقم الهوية  ';
                                 } else {
                                   return null;
                                 }
@@ -184,7 +184,10 @@ class _LoginScreenState extends State<LoginScreen> {
                             onTap: () {
                               if (_loginformKey.currentState!.validate()) {
                                 _loginformKey.currentState!.save();
-                                Get.offAll(() => const OnBoardScreen());
+                                Get.offAll(() =>  LoginOtpScreen(
+                                  ssn: ssn!,
+                                  password: password!,
+                                ));
                               }
                             },
                             child: Container(
