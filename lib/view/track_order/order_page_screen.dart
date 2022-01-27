@@ -20,21 +20,13 @@ class OrderPageScreen extends StatelessWidget {
   final int phone;
   final int id;
   int noticeClassifyId = 1;
-
   String text = '';
-
   String date = '';
-
   String lat = '';
-
   String long = '';
-
   String noticeClassifyType = '';
-
   String code = '';
-
   String status = '';
-
   List<dynamic> photos = [];
 
   @override

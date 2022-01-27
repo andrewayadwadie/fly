@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:fly/utils/style.dart';
-import 'package:fly/view/on_board/on_board_screen.dart';
+import 'package:fly/view/auth/login_screen.dart';
 
 
 class IntroPage extends StatefulWidget {
@@ -32,7 +32,7 @@ class _IntroPageState extends State<IntroPage> with TickerProviderStateMixin {
             (value) => _lottieAnimation.forward().then(
                   (value) => Navigator.of(context).pushAndRemoveUntil(
                       MaterialPageRoute(
-                          builder: (context) => const OnBoardScreen()),
+                          builder: (context) => const LoginScreen()),
                       (route) => false),
                 ),
           ),
