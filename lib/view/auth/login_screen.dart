@@ -184,7 +184,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             onTap: () {
                               if (_loginformKey.currentState!.validate()) {
                                 _loginformKey.currentState!.save();
-                                Get.offAll(() =>  LoginOtpScreen(
+                                Get.to(() =>  LoginOtpScreen(
                                   ssn: ssn!,
                                   password: password!,
                                 ));

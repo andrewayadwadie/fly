@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:fly/utils/constants.dart';
 import 'package:http/http.dart' as http;
@@ -19,7 +20,10 @@ class AuthServices {
             'Accept': 'application/json',
           },
           body: jsonEncode({
-            {"Name": name, "Phone": phone, "SSN": ssn, "Password": password}
+            "Name": name,
+            "Phone": phone,
+            "SSN": ssn,
+            "Password": password
           }));
 
       if (res.statusCode == 200 || res.statusCode == 201) {
@@ -34,8 +38,8 @@ class AuthServices {
         ];
       }
       if (res.statusCode == 400) {
-        var registerDataJson = jsonDecode(res.body)['data'];
-  
+        var registerDataJson = jsonDecode(res.body);
+
         return registerDataJson['errors'][0][0];
       }
     } catch (e) {
@@ -47,7 +51,7 @@ class AuthServices {
     required String ssn,
     required String password,
   }) async {
-    var url = "${apiUrl}Citizens/Register";
+    var url = "${apiUrl}Citizens/Login";
 
     try {
       var res = await http.post(Uri.parse(url),
@@ -55,13 +59,11 @@ class AuthServices {
             'Content-type': 'application/json',
             'Accept': 'application/json',
           },
-          body: jsonEncode({
-            {"SSN": ssn, "Password": password}
-          }));
-
+          body: jsonEncode({"SSN": ssn, "Password": password}));
+      log(" response status from login ${res.statusCode}");
       if (res.statusCode == 200 || res.statusCode == 201) {
         var registerDataJson = jsonDecode(res.body)['data'];
-
+        log(" response body from login ${res.body}");
         return [
           registerDataJson['token'], // 0 token
           registerDataJson['expiresOn'], // 1 expire date
@@ -71,7 +73,8 @@ class AuthServices {
         ];
       }
       if (res.statusCode == 400) {
-        var registerDataJson = jsonDecode(res.body)['data'];
+        log(" response body from login ${res.body}");
+        var registerDataJson = jsonDecode(res.body);
 
         return registerDataJson['errors'][0][0];
       }
