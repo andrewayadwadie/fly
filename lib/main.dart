@@ -12,7 +12,6 @@ import 'view/intro/intro.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Future.delayed(const Duration(seconds: 2));
 
   await Firebase.initializeApp();
 
@@ -22,7 +21,7 @@ Future<void> main() async {
   // }else{
   //   return;
   // }
-   await TokenPref.init();
+  await TokenPref.init();
   await UserNamePref.init();
   await ExpireDatePref.init();
   await UserPhonePref.init();
@@ -36,12 +35,11 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-
     SystemChrome.setPreferredOrientations([
-        DeviceOrientation.portraitUp,
-        DeviceOrientation.portraitDown,
-      ]);
-    return  OverlaySupport.global(
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
+    return OverlaySupport.global(
       child: GetMaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Fly',

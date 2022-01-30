@@ -1,8 +1,6 @@
-import 'dart:developer';
-
+ 
 import 'package:flutter/material.dart';
-import 'package:fly/core/db/auth_shared_preferences.dart';
-import 'package:fly/utils/style.dart';
+ import 'package:fly/utils/style.dart';
 import 'package:fly/view/reports_categories/bug_report/bug_report_screen.dart';
 import 'package:fly/view/shared_widgets/header_widget.dart';
 import 'package:fly/view/track_order/order_with_phone_screen.dart';
@@ -98,7 +96,7 @@ class OnBoardScreen extends StatelessWidget {
                     ),
                     InkWell(
                       onTap: () {
-                         log("${TokenPref.getTokenValue()}");
+                      
                         Get.to(() => OrderWithPhoneScreen( ));
                       },
                       child: Container(

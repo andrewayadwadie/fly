@@ -36,6 +36,7 @@ class _IntroPageState extends State<IntroPage> with TickerProviderStateMixin {
                     // ignore: unnecessary_null_comparison
 
                     return TokenPref.getTokenValue().isEmpty ||
+                            // ignore: unnecessary_null_comparison
                             TokenPref.getTokenValue() == null
                         ? const LoginScreen()
                         : const OnBoardScreen();
