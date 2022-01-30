@@ -7,7 +7,7 @@ class UserNoticesModel {
   final String long;
   final String noticeClassifyType;
   final String code;
-  final String phone;
+  //final String phone;
   final String status;
   final List<dynamic> photos;
 
@@ -18,7 +18,7 @@ class UserNoticesModel {
       required this.long,
       required this.noticeClassifyType,
       required this.code,
-      required this.phone,
+   //   required this.phone,
       required this.status,
       required this.photos,
       required this.id,
@@ -34,7 +34,7 @@ class UserNoticesModel {
       long: jsonData['long'],
       noticeClassifyId: jsonData['noticeClassifyId'],
       noticeClassifyType: jsonData['noticeClassifyType'],
-      phone: jsonData['phone'],
+    //  phone: jsonData['phone'],
       photos: jsonData['photos'],
       status: jsonData['status'],
     );
@@ -50,7 +50,7 @@ class SingleUserNoticesModel {
   final String long;
   final String noticeClassifyType;
   final String code;
-  final String phone;
+//  final String phone;
   final String status;
   final List<dynamic> photos;
 
@@ -61,7 +61,7 @@ class SingleUserNoticesModel {
       required this.long,
       required this.noticeClassifyType,
       required this.code,
-      required this.phone,
+ //     required this.phone,
       required this.status,
       required this.photos,
       required this.id,
@@ -77,7 +77,7 @@ class SingleUserNoticesModel {
       long: jsonData['long'],
       noticeClassifyId: jsonData['noticeClassifyId'],
       noticeClassifyType: jsonData['noticeClassifyType'],
-      phone: jsonData['phone'],
+    //  phone: jsonData['phone'],
       photos: jsonData['photos'],
       status: jsonData['status'],
     );

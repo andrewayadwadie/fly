@@ -108,7 +108,7 @@ class _OtpScreenState extends State<OtpScreen> {
                       InkWell(
                         onTap: () {
                           // _onFormSubmitted();
-                        Get.to(()=>  OrderWithPhoneScreen(phone: widget.phoneNumber));
+                        Get.to(()=>  OrderWithPhoneScreen());
 
                         },
                         child: Container(

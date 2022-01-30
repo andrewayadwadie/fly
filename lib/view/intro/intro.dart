@@ -1,8 +1,9 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:fly/core/db/auth_shared_preferences.dart';
 import 'package:fly/utils/style.dart';
 import 'package:fly/view/auth/login_screen.dart';
-
+import 'package:fly/view/on_board/on_board_screen.dart';
 
 class IntroPage extends StatefulWidget {
   const IntroPage({Key? key}) : super(key: key);
@@ -31,9 +32,14 @@ class _IntroPageState extends State<IntroPage> with TickerProviderStateMixin {
           (value) => Future.delayed(const Duration(seconds: 2)).then(
             (value) => _lottieAnimation.forward().then(
                   (value) => Navigator.of(context).pushAndRemoveUntil(
-                      MaterialPageRoute(
-                          builder: (context) => const LoginScreen()),
-                      (route) => false),
+                      MaterialPageRoute(builder: (context) {
+                    // ignore: unnecessary_null_comparison
+
+                    return TokenPref.getTokenValue().isEmpty ||
+                            TokenPref.getTokenValue() == null
+                        ? const LoginScreen()
+                        : const OnBoardScreen();
+                  }), (route) => false),
                 ),
           ),
         );
@@ -119,47 +125,4 @@ class _IntroPageState extends State<IntroPage> with TickerProviderStateMixin {
       ],
     );
   }
-  //
-  // Widget _logoAbbreviated() {
-  //   return Container(
-  //     // color: Colors.blue,
-  //     height: 150,
-  //     child: Row(
-  //       mainAxisSize: MainAxisSize.min,
-  //       children: [],
-  //     ),
-  //   );
-  // }
-  //
-  // Widget _logoExtended() {
-  //   return Container(
-  //     height: 150,
-  //     child: Row(
-  //       // mainAxisSize: MainAxisSize.min,
-  //       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-  //       children: [
-  //         Expanded(
-  //           child: Text(
-  //             "HOWTIME",
-  //             // textAlign: TextAlign.center,
-  //             maxLines: 1,
-  //             style: Theme.of(context).textTheme.headline3!.merge(GoogleFonts.montserrat()),
-  //           ),
-  //         ),
-  //         LottieBuilder.asset(
-  //           'assets/food.json',
-  //           onLoaded: (composition) {
-  //             _lottieAnimation..duration = composition.duration;
-  //           },
-  //           frameRate: FrameRate.max,
-  //           repeat: false,
-  //           animate: false,
-  //           height: 100,
-  //           width: 100,
-  //           controller: _lottieAnimation,
-  //         )
-  //       ],
-  //     ),
-  //   );
-  // }
 }

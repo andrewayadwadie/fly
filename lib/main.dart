@@ -10,10 +10,19 @@ import 'utils/style.dart';
 import 'utils/translations/app_translations.dart';
 import 'view/intro/intro.dart';
 
-void main() async {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Future.delayed(const Duration(seconds: 2));
+
   await Firebase.initializeApp();
-  await TokenPref.init();
+
+  // await IsLogin.init();
+  // if(IsLogin.getIsLoginValue() ==true){
+  //   await TokenPref.init();
+  // }else{
+  //   return;
+  // }
+   await TokenPref.init();
   await UserNamePref.init();
   await ExpireDatePref.init();
   await UserPhonePref.init();

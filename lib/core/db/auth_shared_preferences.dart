@@ -4,7 +4,7 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
 class TokenPref {
-  static SharedPreferences? _loginPreferences;
+  static SharedPreferences? _loginPreferences ;
   static const _token = 'usertoken';
 
   static Future init() async {
@@ -12,12 +12,12 @@ class TokenPref {
   }
 
 /*------------------------------- Token---------------------------- */
-  static Future setTokenValue(String value) async {
+  static Future setTokenValue(String value ) async {
     await _loginPreferences!.setString(_token, value);
   }
 
   static String getTokenValue() {
-    return _loginPreferences!.getString(_token)!;
+    return _loginPreferences!.getString(_token)??'';
   }
 
   static Future clearToken() async {
@@ -127,3 +127,23 @@ class UserSSNPref {
 /*---------------------------------------------------------------------- */
 
 }
+
+/*
+
+class IsLogin {
+  static SharedPreferences? _preferences;
+  static const _isLoginValue = 'isLoginValue';
+
+  static Future init() async {
+    _preferences = await SharedPreferences.getInstance();
+  }
+
+  static Future setIsLoginValue(bool value) async {
+    await _preferences!.setBool(_isLoginValue, value);
+  }
+
+  static bool getIsLoginValue() {
+    return _preferences!.getBool(_isLoginValue)!;
+  }
+}
+*/

@@ -8,14 +8,14 @@ import 'package:get/get.dart';
 class SingleReportItemWidget extends StatelessWidget {
   const SingleReportItemWidget({
     Key? key,
-    required this.phone,
+  //  required this.phone,
     required this.id,
     required this.noticeClassifyType,
     required this.status,
     required this.date,
   }) : super(key: key);
   final int id;
-  final int phone;
+ // final int phone;
   final String noticeClassifyType;
   final String status;
   final String date;
@@ -23,7 +23,10 @@ class SingleReportItemWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: (){
-        Get.to(()=>OrderPageScreen(phone: phone,id:id));
+        Get.to(()=>OrderPageScreen(
+          //phone: phone,
+          
+          id:id));
       },
       child: Container(
         margin: const EdgeInsets.only(top: 10, right: 10, left: 10),

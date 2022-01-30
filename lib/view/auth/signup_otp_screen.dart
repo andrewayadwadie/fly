@@ -1,17 +1,15 @@
 import 'package:cool_alert/cool_alert.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:fly/core/db/auth_shared_preferences.dart';
 import 'package:fly/core/service/auth_services.dart';
 import 'package:fly/view/on_board/on_board_screen.dart';
-import 'package:fly/view/track_order/track_order_screen.dart';
 import 'package:get/get.dart';
 import 'package:pinput/pin_put/pin_put.dart';
 
 import 'package:fly/utils/style.dart';
 import 'package:fly/view/shared_widgets/header_widget.dart';
 
+// ignore: must_be_immutable
 class SignupOtpScreen extends StatelessWidget {
   SignupOtpScreen({
     Key? key,
@@ -101,6 +99,7 @@ class SignupOtpScreen extends StatelessWidget {
                               password: password);
                           if (res.runtimeType == List) {
                             TokenPref.setTokenValue(res[0].toString());
+                         //    IsLogin.setIsLoginValue(true);
                             ExpireDatePref.setExpireDateValue(
                                 res[1].toString());
                             UserNamePref.setUserNameValue(res[2].toString());

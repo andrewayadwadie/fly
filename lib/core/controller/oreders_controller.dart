@@ -2,22 +2,20 @@ import 'package:fly/core/service/orders_services.dart';
 import 'package:get/get.dart';
 
 class OrdersController extends GetxController {
-  final int phone;
 
-  OrdersController(this.phone);
   List<dynamic> oredersByPhone = [].obs;
   final RxBool _loading = true.obs;
 
   @override
   void onInit() {
-    getOrdersData(phone);
+    getOrdersData();
     super.onInit();
   }
 
   bool get loading => _loading.value;
-  List<dynamic> getOrdersData(int phone) {
+  List<dynamic> getOrdersData( ) {
     if (_loading.value == true) {
-      OrdersServices.getOrdersByPhone(phone).then((value) {
+      OrdersServices.getOrdersByPhone().then((value) {
         oredersByPhone = value;
         _loading.value = false;
         update();

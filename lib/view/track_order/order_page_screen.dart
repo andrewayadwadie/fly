@@ -15,9 +15,12 @@ import 'package:get/get.dart';
 
 // ignore: must_be_immutable
 class OrderPageScreen extends StatelessWidget {
-  OrderPageScreen({Key? key, required this.phone, required this.id})
+  OrderPageScreen({Key? key,
+  // required this.phone,
+   
+    required this.id})
       : super(key: key);
-  final int phone;
+ // final int phone;
   final int id;
   int noticeClassifyId = 1;
   String text = '';
@@ -268,7 +271,13 @@ class OrderPageScreen extends StatelessWidget {
                               ],
                             ),
                           ),
+                    /* 
+                      // =================================================== 
+                      // ===========phone number not used now===============
+                      // ===================================================
                           // phone Number
+                     
+                     
                           Container(
                             height: MediaQuery.of(context).size.height / 18,
                             decoration: BoxDecoration(
@@ -322,6 +331,8 @@ class OrderPageScreen extends StatelessWidget {
                               ],
                             ),
                           ),
+                        
+                        */
                           // report code
                           Container(
                             height: MediaQuery.of(context).size.height / 18,

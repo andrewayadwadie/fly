@@ -12,16 +12,16 @@ import 'package:get/get.dart';
 // ignore: must_be_immutable
 class OrderWithPhoneScreen extends StatelessWidget {
   // ignore: prefer_const_constructors_in_immutables
-  OrderWithPhoneScreen({Key? key, required this.phone}) : super(key: key);
-  final int phone;
+  OrderWithPhoneScreen({Key? key}) : super(key: key);
+
 
   @override
   Widget build(BuildContext context) {
-    OrdersController controller = Get.put(OrdersController(phone));
+    OrdersController controller = Get.put(OrdersController());
     return Scaffold(
       body: SafeArea(
         child: GetBuilder<OrdersController>(
-            init: OrdersController(phone),
+            init: OrdersController(),
             builder: (control) {
               return controller.loading == true
                   ? const LoaderWidget()
@@ -83,7 +83,7 @@ class OrderWithPhoneScreen extends StatelessWidget {
                                       verticalOffset: 50.0,
                                       child: FadeInAnimation(
                                         child: SingleReportItemWidget(
-                                          phone:phone,
+                                        //  phone:controller.oredersByPhone[index].phone,
                                           id:controller.oredersByPhone[index].id ,
                                           noticeClassifyType: controller.oredersByPhone[index].noticeClassifyType,
                                           status: controller.oredersByPhone[index].status ,

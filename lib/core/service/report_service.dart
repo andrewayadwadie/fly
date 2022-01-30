@@ -2,6 +2,7 @@ import 'dart:convert' as convert;
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
+import 'package:fly/core/db/auth_shared_preferences.dart';
 import 'package:fly/model/report_type_model.dart';
 import 'package:fly/utils/constants.dart';
 import 'package:http/http.dart' as http;
@@ -26,13 +27,20 @@ class ReportServices {
     // ignore: deprecated_member_use
     var stream = http.ByteStream(DelegatingStream.typed(imge.openRead()));
     var length = await imge.length();
+    var headers =  <String, String>{
+          "Content-type": "application/json",
+          'Accept': 'application/json',
+          'Authorization': 'Bearer ${TokenPref.getTokenValue()}',
+        };
 
     var request = http.MultipartRequest("POST", regUrl);
+   request.headers.addAll(headers);
     var multipartFile = http.MultipartFile('Photos', stream, length,
         filename: basename(imge.path));
     //contentType: new MediaType('image', 'png'));
 
     request.files.add(multipartFile);
+  
     request.fields["Text"] = text;
     request.fields["NoticeClassifyId"] = noticeClassifyId;
     request.fields["Lat"] = lat;
@@ -67,6 +75,11 @@ class ReportServices {
 
     http.Response res = await http.get(
       Uri.parse(url),
+       headers: <String, String>{
+          "Content-type": "application/json",
+          'Accept': 'application/json',
+          'Authorization': 'Bearer ${TokenPref.getTokenValue()}',
+        },
     );
 
     log("request res ${res.body}");

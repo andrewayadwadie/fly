@@ -1,17 +1,15 @@
 import 'package:cool_alert/cool_alert.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:fly/core/db/auth_shared_preferences.dart';
 import 'package:fly/core/service/auth_services.dart';
 import 'package:fly/view/on_board/on_board_screen.dart';
-import 'package:fly/view/track_order/track_order_screen.dart';
 import 'package:get/get.dart';
 import 'package:pinput/pin_put/pin_put.dart';
 
 import 'package:fly/utils/style.dart';
 import 'package:fly/view/shared_widgets/header_widget.dart';
 
+// ignore: must_be_immutable
 class LoginOtpScreen extends StatelessWidget {
   LoginOtpScreen({
     Key? key,
@@ -34,6 +32,7 @@ class LoginOtpScreen extends StatelessWidget {
   }
 
   bool isCodeSent = false;
+  // ignore: prefer_final_fields, unused_field
   String _verificationId = '';
 
   @override
@@ -96,6 +95,7 @@ class LoginOtpScreen extends StatelessWidget {
                           var res = await AuthServices.login(
                               ssn: ssn, password: password);
                           if (res.runtimeType == List) {
+                        //    IsLogin.setIsLoginValue(true);
                             TokenPref.setTokenValue(res[0].toString());
                             ExpireDatePref.setExpireDateValue(
                                 res[1].toString());

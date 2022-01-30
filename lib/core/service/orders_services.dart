@@ -1,18 +1,25 @@
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:fly/core/db/auth_shared_preferences.dart';
 import 'package:fly/model/user_notices_model.dart';
 import 'package:fly/utils/constants.dart';
 import 'package:http/http.dart' as http;
 
 class OrdersServices {
-  static Future<List<dynamic>> getOrdersByPhone(int phone) async {
-    String url = "${apiUrl}Notices/GetUserNotices/0$phone";
+  static Future<List<dynamic>> getOrdersByPhone() async {
+    String url = "${apiUrl}Notices/GetUserNotices";
 
     http.Response res = await http.get(
       Uri.parse(url),
+      headers: <String, String>{
+          "Content-type": "application/json",
+          'Accept': 'application/json',
+          // 'Authorization': 'Bearer $token',
+          'Authorization': 'Bearer ${TokenPref.getTokenValue()}',
+        },
     );
-    log("phone is : $phone");
+
     log("request res ${res.body}");
     if (res.statusCode == 200) {
       var jsonData = jsonDecode(res.body);
@@ -25,12 +32,21 @@ class OrdersServices {
     }
     return [];
   }
+  
 
+  //============================================================================
+  //================== this function will not working now ======================
+  //============================================================================
   static Future<dynamic> getOrdersByCode(String code) async {
     String url = "${apiUrl}Notices/GetUserNotice/$code";
 
     http.Response res = await http.get(
       Uri.parse(url),
+       headers: <String, String>{
+          "Content-type": "application/json",
+          'Accept': 'application/json',
+          'Authorization': 'Bearer ${TokenPref.getTokenValue()}',
+        },
     );
     log("code is : $code");
     log("request res ${res.body}");
