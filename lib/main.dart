@@ -15,12 +15,7 @@ Future<void> main() async {
 
   await Firebase.initializeApp();
 
-  // await IsLogin.init();
-  // if(IsLogin.getIsLoginValue() ==true){
-  //   await TokenPref.init();
-  // }else{
-  //   return;
-  // }
+ 
   await TokenPref.init();
   await UserNamePref.init();
   await ExpireDatePref.init();

@@ -107,6 +107,7 @@ class LoginOtpScreen extends StatelessWidget {
                             CoolAlert.show(
                               context: context,
                               type: CoolAlertType.error,
+                              //==========response message =============
                               title: res.toString(),
                               barrierDismissible: false,
                               animType: CoolAlertAnimType.slideInUp,

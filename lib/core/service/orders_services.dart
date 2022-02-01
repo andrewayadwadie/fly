@@ -7,7 +7,7 @@ import 'package:fly/utils/constants.dart';
 import 'package:http/http.dart' as http;
 
 class OrdersServices {
-  static Future<List<dynamic>> getOrdersByPhone() async {
+  static Future getOrdersByPhone() async {
     String url = "${apiUrl}Notices/GetUserNotices";
 
     http.Response res = await http.get(
@@ -30,7 +30,15 @@ class OrdersServices {
 
       return oreders;
     }
-    return [];
+    else if(res.statusCode== 401){
+      return 401;
+    }else if (res.statusCode == 500 ||
+        res.statusCode == 501 ||
+        res.statusCode == 504 ||
+        res.statusCode == 502) {
+      return 500;
+    }
+    return 400;
   }
   
 
