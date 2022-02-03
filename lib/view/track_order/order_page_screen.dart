@@ -7,20 +7,23 @@ import 'package:fly/core/controller/oreders_controller.dart';
 import 'package:fly/core/service/reminder_services.dart';
 import 'package:fly/utils/constants.dart';
 import 'package:fly/utils/style.dart';
+import 'package:fly/view/auth/login_screen.dart';
 import 'package:fly/view/on_board/on_board_screen.dart';
 import 'package:fly/view/shared_widgets/custom_no_data.dart';
 import 'package:fly/view/shared_widgets/header_widget.dart';
 import 'package:fly/view/shared_widgets/line_dot.dart';
 import 'package:get/get.dart';
+import 'package:overlay_support/overlay_support.dart' as over;
 
 // ignore: must_be_immutable
 class OrderPageScreen extends StatelessWidget {
-  OrderPageScreen({Key? key,
-  // required this.phone,
-   
-    required this.id})
+  OrderPageScreen(
+      {Key? key,
+      // required this.phone,
+
+      required this.id})
       : super(key: key);
- // final int phone;
+  // final int phone;
   final int id;
   int noticeClassifyId = 1;
   String text = '';
@@ -271,7 +274,7 @@ class OrderPageScreen extends StatelessWidget {
                               ],
                             ),
                           ),
-                    /* 
+                          /* 
                       // =================================================== 
                       // ===========phone number not used now===============
                       // ===================================================
@@ -586,15 +589,26 @@ class OrderPageScreen extends StatelessWidget {
                                 confirmBtnColor: primaryColor,
                                 backgroundColor: lightPrimaryColor,
                                 onConfirmBtnTap: () {
-                                  Navigator.pop(context);
-                                  Fluttertoast.showToast(
-                                      msg: "شكراً لتواصلكم معنا ",
-                                      timeInSecForIosWeb: 3,
-                                      gravity: ToastGravity.CENTER,
-                                      toastLength: Toast.LENGTH_LONG,
-                                      fontSize: 20,
-                                      textColor: Colors.white,
-                                      backgroundColor: redColor);
+                                  ReminderServices.postReminderWithConfirm(
+                                          id: id)
+                                      .then((value) {
+                                    if (value == 200) {
+                                      Get.offAll(const OnBoardScreen());
+                                      Fluttertoast.showToast(
+                                          msg: "شكراً لتواصلكم معنا",
+                                          timeInSecForIosWeb: 3,
+                                          gravity: ToastGravity.CENTER,
+                                          toastLength: Toast.LENGTH_LONG,
+                                          fontSize: 16,
+                                          textColor: Colors.white,
+                                          backgroundColor: redColor);
+                                    } else if (value == 400) {
+                                      over.toast("يوجد مشكلة حالياً ",
+                                          duration: const Duration(seconds: 2));
+                                    } else if (value == 401) {
+                                      Get.offAll(const LoginScreen());
+                                    }
+                                  });
                                 },
                                 context: context,
                                 type: CoolAlertType.confirm,
