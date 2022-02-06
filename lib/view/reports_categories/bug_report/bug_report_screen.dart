@@ -7,6 +7,7 @@ import 'package:fly/core/controller/current_location_controller.dart';
 import 'package:fly/core/controller/internet_connectivity_controller.dart';
 import 'package:fly/core/controller/location_controller.dart';
 import 'package:fly/core/controller/report_type_controller.dart';
+import 'package:fly/core/db/auth_shared_preferences.dart';
 import 'package:fly/core/service/report_service.dart';
 import 'package:fly/view/on_board/on_board_screen.dart';
 import 'package:fly/view/shared_widgets/custom_loader.dart';
@@ -411,6 +412,7 @@ class BugReportScreen extends StatelessWidget {
                                               builder: (currentLocationController) {
                                                 return InkWell(
                                                   onTap: () async {
+                                                    log("request res ${TokenPref.getTokenValue()}'");
                                                     // Validate returns true if the form is valid, or false otherwise.
                                                     if (_reportFormKey.currentState!
                                                         .validate()) {
@@ -422,6 +424,7 @@ class BugReportScreen extends StatelessWidget {
                                                             .checkInternet()
                                                             .then((value) {
                                                           if (value == true) {
+                                                             
                                                             ReportServices.sendFormData(
                                                                     noticeClassifyId:
                                                                         "${reportTypeController.noticeClassifyId}",

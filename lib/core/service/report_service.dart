@@ -82,7 +82,7 @@ class ReportServices {
         },
     );
 
-    log("request res ${res.body}");
+    log("request res ${TokenPref.getTokenValue()}'");
     if (res.statusCode == 200) {
       var jsonData = jsonDecode(res.body);
       log("message$jsonData");
