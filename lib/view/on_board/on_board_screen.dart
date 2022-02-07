@@ -1,6 +1,5 @@
- 
 import 'package:flutter/material.dart';
- import 'package:fly/utils/style.dart';
+import 'package:fly/utils/style.dart';
 import 'package:fly/view/reports_categories/bug_report/bug_report_screen.dart';
 import 'package:fly/view/shared_widgets/header_widget.dart';
 import 'package:fly/view/test_screen.dart';
@@ -95,11 +94,9 @@ class OnBoardScreen extends StatelessWidget {
                         ),
                       ),
                     ),
-                    
                     InkWell(
                       onTap: () {
-                      
-                        Get.to(() => OrderWithPhoneScreen( ));
+                        Get.to(() => OrderWithPhoneScreen());
                       },
                       child: Container(
                         alignment: Alignment.center,
@@ -129,38 +126,37 @@ class OnBoardScreen extends StatelessWidget {
                     )
                   ],
                 ),
-              
               ),
-               InkWell(
-                      onTap: () {
-                        Get.to(() => const TestScreen());
-                      },
-                      child: Container(
-                        alignment: Alignment.center,
-                        width: MediaQuery.of(context).size.width / 2.5,
-                        height: MediaQuery.of(context).size.height / 17,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(40),
-                          gradient: const LinearGradient(
-                              colors: [
-                                lightPrimaryColor,
-                                primaryColor,
-                              ],
-                              begin: FractionalOffset(0.0, 0.0),
-                              end: FractionalOffset(1.0, 0.0),
-                              stops: [0.0, 1.0],
-                              tileMode: TileMode.clamp),
-                        ),
-                        child: const Text(
-                          'Test ',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.w400,
-                              color: Colors.white),
-                        ),
-                      ),
-                    ),
+              InkWell(
+                onTap: () {
+                  Get.to(() => const TestScreen());
+                },
+                child: Container(
+                  alignment: Alignment.center,
+                  width: MediaQuery.of(context).size.width / 2.5,
+                  height: MediaQuery.of(context).size.height / 17,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(40),
+                    gradient: const LinearGradient(
+                        colors: [
+                          lightPrimaryColor,
+                          primaryColor,
+                        ],
+                        begin: FractionalOffset(0.0, 0.0),
+                        end: FractionalOffset(1.0, 0.0),
+                        stops: [0.0, 1.0],
+                        tileMode: TileMode.clamp),
+                  ),
+                  child: const Text(
+                    'Test ',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w400,
+                        color: Colors.white),
+                  ),
+                ),
+              ),
             ],
           ),
         ),
