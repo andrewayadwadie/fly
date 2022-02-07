@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:fly/core/controller/click_controller.dart';
 import 'package:fly/core/controller/current_location_controller.dart';
 import 'package:fly/core/controller/internet_connectivity_controller.dart';
 import 'package:fly/core/controller/location_controller.dart';
@@ -34,8 +35,6 @@ class BugReportScreen extends StatelessWidget {
   String typeText = "إختر نوع البلاغ";
 
 ////////////////////////////////////////////
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -335,14 +334,11 @@ class BugReportScreen extends StatelessWidget {
                               //Address && Image
                               imagecontroller.image != null
                                   ? Container(
-                                      width: MediaQuery.of(context)
-                                              .size
-                                              .width /
-                                          3,
-                                      height: MediaQuery.of(context)
-                                              .size
-                                              .height /
-                                          10,
+                                      width:
+                                          MediaQuery.of(context).size.width / 3,
+                                      height:
+                                          MediaQuery.of(context).size.height /
+                                              10,
                                       padding: const EdgeInsets.all(5),
                                       decoration: BoxDecoration(
                                           border: Border.all(
@@ -359,18 +355,14 @@ class BugReportScreen extends StatelessWidget {
                                     )
                                   : Container(
                                       alignment: Alignment.center,
-                                      width: MediaQuery.of(context)
-                                              .size
-                                              .width /
-                                          3,
-                                      height: MediaQuery.of(context)
-                                              .size
-                                              .height /
-                                          10,
+                                      width:
+                                          MediaQuery.of(context).size.width / 3,
+                                      height:
+                                          MediaQuery.of(context).size.height /
+                                              10,
                                       decoration: BoxDecoration(
                                         color: redColor,
-                                        borderRadius:
-                                            BorderRadius.circular(10),
+                                        borderRadius: BorderRadius.circular(10),
                                       ),
                                       child: Column(
                                         children: [
@@ -386,8 +378,7 @@ class BugReportScreen extends StatelessWidget {
                                                 color: Colors.white,
                                                 fontSize: 12,
                                                 fontFamily: 'hanimation',
-                                                fontWeight:
-                                                    FontWeight.w400),
+                                                fontWeight: FontWeight.w400),
                                           ),
                                         ],
                                       ),
@@ -399,140 +390,143 @@ class BugReportScreen extends StatelessWidget {
 
                               // Send Report button
                               GetBuilder<BugLocationController>(
-                                  init:BugLocationController(),
+                                  init: BugLocationController(),
                                   builder: (bugControl) {
-                                return GetBuilder<ReportTypeController>(
-                                    init: ReportTypeController(),
-                                    builder: (reportTypeController) {
-                                      return GetBuilder<InternetController>(
-                                          init: InternetController(),
-                                          builder: (internet) {
-                                            return GetBuilder<CurrentLocationController>(
-                                              init: CurrentLocationController(),
-                                              builder: (currentLocationController) {
-                                                return InkWell(
-                                                  onTap: () async {
-                                                    log("request res ${TokenPref.getTokenValue()}'");
-                                                    // Validate returns true if the form is valid, or false otherwise.
-                                                    if (_reportFormKey.currentState!
-                                                        .validate()) {
-                                                      _reportFormKey.currentState!.save();
-                                                      if (reportTypeController
-                                                              .noticeClassifyId !=
-                                                          0) {
-                                                        internet
-                                                            .checkInternet()
-                                                            .then((value) {
-                                                          if (value == true) {
-                                                             
-                                                            ReportServices.sendFormData(
-                                                                    noticeClassifyId:
-                                                                        "${reportTypeController.noticeClassifyId}",
-                                                                    text: text,
-                                                                    phone: phone,
-                                                                    name: name,
-                                                                    imge:
-                                                                        imagecontroller
-                                                                            .image!,
-                                                                    lat:
-                                                                        "${currentLocationController.currentLat}",
-                                                                    long:
-                                                                        "${currentLocationController.currentLong}")
-                                                                .then((val) {
-                                                              log("result is ${val['code']}");
+                                    return GetBuilder<ReportTypeController>(
+                                        init: ReportTypeController(),
+                                        builder: (reportTypeController) {
+                                          return GetBuilder<InternetController>(
+                                              init: InternetController(),
+                                              builder: (internet) {
+                                                return GetBuilder<
+                                                        CurrentLocationController>(
+                                                    init:
+                                                        CurrentLocationController(),
+                                                    builder:
+                                                        (currentLocationController) {
+                                                      return GetBuilder<
+                                                              ClickController>(
+                                                          init:
+                                                              ClickController(),
+                                                          builder: (clk) {
+                                                            return InkWell(
+                                                              onTap: () async {
+                                                                log("request res ${TokenPref.getTokenValue()}'");
+                                                                // Validate returns true if the form is valid, or false otherwise.
+                                                                if (_reportFormKey
+                                                                    .currentState!
+                                                                    .validate()) {
+                                                                  _reportFormKey
+                                                                      .currentState!
+                                                                      .save();
+                                                                  if (clk.clicked ==
+                                                                      false) {
+                                                                    if (reportTypeController
+                                                                            .noticeClassifyId !=
+                                                                        0) {
+                                                                      internet
+                                                                          .checkInternet()
+                                                                          .then(
+                                                                              (value) {
+                                                                        if (value ==
+                                                                            true) {
+                                                                          ReportServices.sendFormData(noticeClassifyId: "${reportTypeController.noticeClassifyId}", text: text, phone: phone, name: name, imge: imagecontroller.image!, lat: "${currentLocationController.currentLat}", long: "${currentLocationController.currentLong}")
+                                                                              .then((val) {
+                                                                            log("result is ${val['code']}");
 
-                                                              CoolAlert.show(
-                                                                  barrierDismissible:
-                                                                      false,
-                                                                  context: context,
-                                                                  type:
-                                                                      CoolAlertType
-                                                                          .custom,
-                                                                  title:
-                                                                      "تم تسجيل بلاغ بنجاح ",
-                                                                  text:
-                                                                      "رقم البلاغ المسجل : ",
-                                                                  confirmBtnText:
-                                                                      "حسناً",
-                                                                  confirmBtnColor:
-                                                                      primaryColor,
-                                                                  backgroundColor:
-                                                                      primaryColor,
-                                                                  onConfirmBtnTap:
-                                                                      () {
-                                                                    Get.offAll(() =>
-                                                                        const OnBoardScreen());
-                                                                  },
-                                                                  widget: Center(
-                                                                    child:
-                                                                        SelectableText(
-                                                                      val['code'],
-                                                                      style: const TextStyle(
-                                                                          color:
-                                                                              primaryColor,
-                                                                          fontSize:
-                                                                              12,
-                                                                          fontWeight:
-                                                                              FontWeight
-                                                                                  .w600),
-                                                                    ),
-                                                                  ));
-                                                            });
-                                                          }
-                                                        });
-                                                      } else {
-                                                        Fluttertoast.showToast(
-                                                            msg:
-                                                                "برجاء اختيار نوع البلاغ ",
-                                                            backgroundColor:
-                                                                redColor,
-                                                            textColor:
-                                                                Colors.white);
-                                                      }
-                                                    }
-                                                  },
-                                                  child: Container(
-                                                    alignment: Alignment.center,
-                                                    height: MediaQuery.of(context)
-                                                            .size
-                                                            .height /
-                                                        17,
-                                                    width: MediaQuery.of(context)
-                                                            .size
-                                                            .width /
-                                                        2,
-                                                    decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(40),
-                                                      gradient:
-                                                          const LinearGradient(
-                                                              colors: [
-                                                                lightPrimaryColor,
-                                                                primaryColor,
-                                                              ],
-                                                              begin:
-                                                                  FractionalOffset(
-                                                                      0.0, 0.0),
-                                                              end: FractionalOffset(
-                                                                  1.0, 0.0),
-                                                              stops: [0.0, 1.0],
-                                                              tileMode:
-                                                                  TileMode.clamp),
-                                                    ),
-                                                    child: const Text(
-                                                      "إرسال البلاغ ",
-                                                      style: TextStyle(
-                                                          color: Colors.white,
-                                                          fontSize: 18),
-                                                      textAlign: TextAlign.center,
-                                                    ),
-                                                  ),
-                                                );
-                                              }
-                                            );
-                                          });
-                                    });
-                              }),
+                                                                            CoolAlert.show(
+                                                                                barrierDismissible: false,
+                                                                                context: context,
+                                                                                type: CoolAlertType.custom,
+                                                                                title: "تم تسجيل بلاغ بنجاح ",
+                                                                                text: "رقم البلاغ المسجل : ",
+                                                                                confirmBtnText: "حسناً",
+                                                                                confirmBtnColor: primaryColor,
+                                                                                backgroundColor: primaryColor,
+                                                                                onConfirmBtnTap: () {
+                                                                                  Get.offAll(() => const OnBoardScreen());
+                                                                                },
+                                                                                widget: Center(
+                                                                                  child: SelectableText(
+                                                                                    val['code'],
+                                                                                    style: const TextStyle(color: primaryColor, fontSize: 12, fontWeight: FontWeight.w600),
+                                                                                  ),
+                                                                                ));
+                                                                          });
+                                                                        }
+                                                                      });
+                                                                    } else {
+                                                                      Fluttertoast.showToast(
+                                                                          msg:
+                                                                              "برجاء اختيار نوع البلاغ ",
+                                                                          backgroundColor:
+                                                                              redColor,
+                                                                          textColor:
+                                                                              Colors.white);
+                                                                    }
+                                                                  }
+
+                                                                  clk.changeClick();
+                                                                }
+                                                              },
+                                                              child: Container(
+                                                                alignment:
+                                                                    Alignment
+                                                                        .center,
+                                                                height: MediaQuery.of(
+                                                                            context)
+                                                                        .size
+                                                                        .height /
+                                                                    17,
+                                                                width: MediaQuery.of(
+                                                                            context)
+                                                                        .size
+                                                                        .width /
+                                                                    2,
+                                                                decoration:
+                                                                    BoxDecoration(
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              40),
+                                                                  gradient:
+                                                                      const LinearGradient(
+                                                                          colors: [
+                                                                            lightPrimaryColor,
+                                                                            primaryColor,
+                                                                          ],
+                                                                          begin: FractionalOffset(
+                                                                              0.0,
+                                                                              0.0),
+                                                                          end: FractionalOffset(
+                                                                              1.0,
+                                                                              0.0),
+                                                                          stops: [
+                                                                            0.0,
+                                                                            1.0
+                                                                          ],
+                                                                          tileMode:
+                                                                              TileMode.clamp),
+                                                                ),
+                                                                child:
+                                                                    const Text(
+                                                                  "إرسال البلاغ ",
+                                                                  style: TextStyle(
+                                                                      color: Colors
+                                                                          .white,
+                                                                      fontSize:
+                                                                          18),
+                                                                  textAlign:
+                                                                      TextAlign
+                                                                          .center,
+                                                                ),
+                                                              ),
+                                                            );
+                                                          });
+                                                    });
+                                              });
+                                        });
+                                  }),
                             ],
                           ),
                         ),

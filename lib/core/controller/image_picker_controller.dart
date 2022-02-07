@@ -54,7 +54,7 @@ class ImagePickerController extends GetxController{
 
     try {
       resultList = await MultiImagePicker.pickImages(
-        maxImages: 300,
+        maxImages: 30,
         enableCamera: true,
         selectedAssets: images,
         cupertinoOptions: const CupertinoOptions(
