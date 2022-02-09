@@ -2,6 +2,7 @@ import 'dart:developer';
  
 import 'package:flutter/material.dart';
  import 'package:fly/core/controller/image_picker_controller.dart';
+import 'package:fly/core/db/auth_shared_preferences.dart';
 import 'package:fly/utils/style.dart';
 import 'package:fly/view/shared_widgets/header_widget.dart';
 import 'package:get/get.dart';
@@ -25,7 +26,7 @@ class TestScreen extends StatelessWidget {
               ),
               InkWell(
                 onTap: () async {
-                  log("message");
+                  log(TokenPref.getTokenValue());
                   imgCtrl.loadAssets();
                 },
                 child: Container(

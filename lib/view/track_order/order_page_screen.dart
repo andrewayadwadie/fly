@@ -2,6 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:fly/core/controller/click_controller.dart';
 import 'package:fly/core/controller/internet_connectivity_controller.dart';
 import 'package:fly/core/controller/oreders_controller.dart';
 import 'package:fly/core/service/reminder_services.dart';
@@ -479,193 +480,245 @@ class OrderPageScreen extends StatelessWidget {
                   ? GetBuilder<InternetController>(
                       init: InternetController(),
                       builder: (internet) {
-                        return InkWell(
-                          onTap: () {
-                            internet.checkInternet().then((value) {
-                              if (value) {
-                                ReminderServices.postReminder(id: id)
-                                    .then((value) {
-                                  if (value == 'ok') {
-                                    CoolAlert.show(
-                                      confirmBtnText: "حسناً",
-                                      confirmBtnColor: primaryColor,
-                                      backgroundColor: lightPrimaryColor,
-                                      onConfirmBtnTap: () {
-                                        Get.offAll(() => const OnBoardScreen());
-                                      },
-                                      context: context,
-                                      type: CoolAlertType.custom,
-                                      widget: Container(
-                                        alignment: Alignment.center,
-                                        height:
-                                            MediaQuery.of(context).size.height /
-                                                10,
-                                        child: const AutoSizeText(
-                                          "تم إرسال الطلب  وسيتم حل المشكلة فى اقرب وقت ممكن ",
-                                          maxLines: 2,
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                              color: primaryColor,
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                      ),
-                                    );
-                                  } else {
-                                    CoolAlert.show(
-                                      confirmBtnText: "حسناً",
-                                      confirmBtnColor: primaryColor,
-                                      backgroundColor: lightPrimaryColor,
-                                      onConfirmBtnTap: () {
-                                        Get.offAll(() => const OnBoardScreen());
-                                      },
-                                      context: context,
-                                      type: CoolAlertType.custom,
-                                      widget: Container(
-                                        alignment: Alignment.center,
-                                        height:
-                                            MediaQuery.of(context).size.height /
-                                                10,
-                                        child: const AutoSizeText(
-                                          "يوجد مشكلة فى طلب الاستعجال حالياً  برجاء المحاولة مرة اخري فى وقت لاحق",
-                                          maxLines: 2,
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                              color: primaryColor,
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                      ),
-                                    );
-                                  }
-                                });
-                              }
-                            });
-                          },
-                          child: Container(
-                            alignment: Alignment.center,
-                            margin: const EdgeInsets.only(top: 10),
-                            width: MediaQuery.of(context).size.width / 2,
-                            height: MediaQuery.of(context).size.height / 15,
-                            decoration: BoxDecoration(
-                                color: lightPrimaryColor,
-                                border:
-                                    Border.all(width: 2, color: primaryColor),
-                                borderRadius: BorderRadius.circular(10)),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                Container(
-                                  width: 40,
-                                  height: 40,
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      image: const DecorationImage(
-                                          image: AssetImage(
-                                              "assets/icons/warning.png"),
-                                          fit: BoxFit.cover)),
-                                ),
-                                const Text(
-                                  "إستعجال البلاغ ",
-                                  style: TextStyle(
-                                      color: Colors.white, fontSize: 15),
-                                )
-                              ],
-                            ),
-                          ),
-                        );
-                      })
-                  : GetBuilder<InternetController>(
-                      init: InternetController(),
-                      builder: (net) {
-                        return InkWell(
-                          onTap: () {
-                            CoolAlert.show(
-                                title: "هل تم حل المشكلة ؟ ",
-                                confirmBtnText: "نعم",
-                                cancelBtnText: "لا ",
-                                cancelBtnTextStyle: const TextStyle(
-                                    color: primaryColor, fontSize: 16),
-                                confirmBtnColor: primaryColor,
-                                backgroundColor: lightPrimaryColor,
-                                onConfirmBtnTap: () {
-                                  ReminderServices.postReminderWithConfirm(
-                                          id: id)
-                                      .then((value) {
-                                    if (value == 200) {
-                                      Get.offAll(const OnBoardScreen());
-                                      Fluttertoast.showToast(
-                                          msg: "شكراً لتواصلكم معنا",
-                                          timeInSecForIosWeb: 3,
-                                          gravity: ToastGravity.CENTER,
-                                          toastLength: Toast.LENGTH_LONG,
-                                          fontSize: 16,
-                                          textColor: Colors.white,
-                                          backgroundColor: redColor);
-                                    } else if (value == 400) {
-                                      over.toast("يوجد مشكلة حالياً ",
-                                          duration: const Duration(seconds: 2));
-                                    } else if (value == 401) {
-                                      Get.offAll(const LoginScreen());
-                                    }
-                                  });
-                                },
-                                context: context,
-                                type: CoolAlertType.confirm,
-                                onCancelBtnTap: () {
-                                  Navigator.pop(context);
-                                  net.checkInternet().then((value) {
+                        return GetBuilder<ClickController>(
+                            init: ClickController(),
+                            builder: (clk) {
+                              return InkWell(
+                                onTap: () {
+                                  internet.checkInternet().then((value) {
                                     if (value) {
                                       ReminderServices.postReminder(id: id)
-                                          .then((val) {
-                                        if (val == 'ok') {
-                                          Fluttertoast.showToast(
-                                              msg:
-                                                  "سيتم مراجعة البلاغ مرة اخري للتمكن من حل المشكلة ",
-                                              timeInSecForIosWeb: 3,
-                                              gravity: ToastGravity.CENTER,
-                                              toastLength: Toast.LENGTH_LONG,
-                                              fontSize: 16,
-                                              textColor: Colors.white,
-                                              backgroundColor: redColor);
+                                          .then((value) {
+                                        if (clk.clicked == false) {
+                                          if (value == 'ok') {
+                                            CoolAlert.show(
+                                              confirmBtnText: "حسناً",
+                                              confirmBtnColor: primaryColor,
+                                              backgroundColor:
+                                                  lightPrimaryColor,
+                                              onConfirmBtnTap: () {
+                                                Get.offAll(() =>
+                                                    const OnBoardScreen());
+                                              },
+                                              context: context,
+                                              type: CoolAlertType.custom,
+                                              widget: Container(
+                                                alignment: Alignment.center,
+                                                height: MediaQuery.of(context)
+                                                        .size
+                                                        .height /
+                                                    10,
+                                                child: const AutoSizeText(
+                                                  "تم إرسال الطلب  وسيتم حل المشكلة فى اقرب وقت ممكن ",
+                                                  maxLines: 2,
+                                                  textAlign: TextAlign.center,
+                                                  style: TextStyle(
+                                                      color: primaryColor,
+                                                      fontSize: 16,
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                ),
+                                              ),
+                                            );
+                                          } else {
+                                            CoolAlert.show(
+                                              confirmBtnText: "حسناً",
+                                              confirmBtnColor: primaryColor,
+                                              backgroundColor:
+                                                  lightPrimaryColor,
+                                              onConfirmBtnTap: () {
+                                                Get.offAll(() =>
+                                                    const OnBoardScreen());
+                                              },
+                                              context: context,
+                                              type: CoolAlertType.custom,
+                                              widget: Container(
+                                                alignment: Alignment.center,
+                                                height: MediaQuery.of(context)
+                                                        .size
+                                                        .height /
+                                                    10,
+                                                child: const AutoSizeText(
+                                                  "يوجد مشكلة فى طلب الاستعجال حالياً  برجاء المحاولة مرة اخري فى وقت لاحق",
+                                                  maxLines: 2,
+                                                  textAlign: TextAlign.center,
+                                                  style: TextStyle(
+                                                      color: primaryColor,
+                                                      fontSize: 16,
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                ),
+                                              ),
+                                            );
+                                          }
+                                          clk.changeClick();
                                         }
                                       });
                                     }
                                   });
-                                });
-                          },
-                          child: Container(
-                            alignment: Alignment.center,
-                            margin: const EdgeInsets.only(top: 10),
-                            width: MediaQuery.of(context).size.width / 2,
-                            height: MediaQuery.of(context).size.height / 15,
-                            decoration: BoxDecoration(
-                                color: lightPrimaryColor,
-                                border:
-                                    Border.all(width: 2, color: primaryColor),
-                                borderRadius: BorderRadius.circular(10)),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                Container(
-                                  width: 40,
-                                  height: 40,
+                                },
+                                child: Container(
+                                  alignment: Alignment.center,
+                                  margin: const EdgeInsets.only(top: 10),
+                                  width: MediaQuery.of(context).size.width / 2,
+                                  height:
+                                      MediaQuery.of(context).size.height / 15,
                                   decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      image: const DecorationImage(
-                                          image: AssetImage(
-                                              "assets/icons/warning.png"),
-                                          fit: BoxFit.cover)),
+                                      color: lightPrimaryColor,
+                                      border: Border.all(
+                                          width: 2, color: primaryColor),
+                                      borderRadius: BorderRadius.circular(10)),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      Container(
+                                        width: 40,
+                                        height: 40,
+                                        decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            image: const DecorationImage(
+                                                image: AssetImage(
+                                                    "assets/icons/warning.png"),
+                                                fit: BoxFit.cover)),
+                                      ),
+                                      clk.clicked == false
+                                          ? const Text(
+                                              "إستعجال البلاغ ",
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 15),
+                                            )
+                                          : const CircularProgressIndicator(
+                                              color: Colors.white,
+                                            )
+                                    ],
+                                  ),
                                 ),
-                                const Text(
-                                  "هل تم حل المشكلة؟",
-                                  style: TextStyle(
-                                      color: Colors.white, fontSize: 13),
-                                )
-                              ],
-                            ),
-                          ),
-                        );
+                              );
+                            });
+                      })
+                  : GetBuilder<InternetController>(
+                      init: InternetController(),
+                      builder: (net) {
+                        return GetBuilder<ClickController>(
+                            init: ClickController(),
+                            builder: (clk) {
+                              return InkWell(
+                                onTap: () {
+                                  CoolAlert.show(
+                                      title: "هل تم حل المشكلة ؟ ",
+                                      confirmBtnText: "نعم",
+                                      cancelBtnText: "لا ",
+                                      cancelBtnTextStyle: const TextStyle(
+                                          color: primaryColor, fontSize: 16),
+                                      confirmBtnColor: primaryColor,
+                                      backgroundColor: lightPrimaryColor,
+                                      onConfirmBtnTap: () {
+                                        net.checkInternet().then((value) {
+                                          if (value) {
+                                            if (clk.clicked == false) {
+                                              ReminderServices
+                                                      .postReminderWithConfirm(
+                                                          id: id)
+                                                  .then((value) {
+                                                if (value == 200) {
+                                                  Get.offAll(
+                                                      const OnBoardScreen());
+                                                  Fluttertoast.showToast(
+                                                      msg:
+                                                          "شكراً لتواصلكم معنا",
+                                                      timeInSecForIosWeb: 3,
+                                                      gravity:
+                                                          ToastGravity.CENTER,
+                                                      toastLength:
+                                                          Toast.LENGTH_LONG,
+                                                      fontSize: 16,
+                                                      textColor: Colors.white,
+                                                      backgroundColor:
+                                                          redColor);
+                                                } else if (value == 400) {
+                                                  over.toast(
+                                                      "يوجد مشكلة حالياً ",
+                                                      duration: const Duration(
+                                                          seconds: 2));
+                                                } else if (value == 401) {
+                                                  Get.offAll(
+                                                      const LoginScreen());
+                                                }
+                                              });
+                                              clk.changeClick();
+                                            }
+                                          }
+                                        });
+                                      },
+                                      context: context,
+                                      type: CoolAlertType.confirm,
+                                      onCancelBtnTap: () {
+                                        Navigator.pop(context);
+                                        net.checkInternet().then((value) {
+                                          if (value) {
+                                            if(clk.clicked==false ){
+                                                         ReminderServices.postReminder(
+                                                    id: id)
+                                                .then((val) {
+                                              if (val == 'ok') {
+                                                Fluttertoast.showToast(
+                                                    msg:
+                                                        "سيتم مراجعة البلاغ مرة اخري للتمكن من حل المشكلة ",
+                                                    timeInSecForIosWeb: 3,
+                                                    gravity:
+                                                        ToastGravity.CENTER,
+                                                    toastLength:
+                                                        Toast.LENGTH_LONG,
+                                                    fontSize: 16,
+                                                    textColor: Colors.white,
+                                                    backgroundColor: redColor);
+                                              }
+                                            });
+                                            clk.changeClick();
+                                            }
+                                          }
+                                        });
+                                      });
+                                },
+                                child: Container(
+                                  alignment: Alignment.center,
+                                  margin: const EdgeInsets.only(top: 10),
+                                  width: MediaQuery.of(context).size.width / 2,
+                                  height:
+                                      MediaQuery.of(context).size.height / 15,
+                                  decoration: BoxDecoration(
+                                      color: lightPrimaryColor,
+                                      border: Border.all(
+                                          width: 2, color: primaryColor),
+                                      borderRadius: BorderRadius.circular(10)),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      Container(
+                                        width: 40,
+                                        height: 40,
+                                        decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            image: const DecorationImage(
+                                                image: AssetImage(
+                                                    "assets/icons/warning.png"),
+                                                fit: BoxFit.cover)),
+                                      ),
+                                      const Text(
+                                        "هل تم حل المشكلة؟",
+                                        style: TextStyle(
+                                            color: Colors.white, fontSize: 13),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              );
+                            });
                       })
             ],
           ),

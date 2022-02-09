@@ -18,7 +18,7 @@ class SettingsScreen extends StatelessWidget {
               height: 300,
             ),
             Center(
-              child: RaisedButton(onPressed: () {}, child: const Text("Test Map")),
+              child: RaisedButton(onPressed: () {}, child: const Text("test")),
             ),
           ],
         ),

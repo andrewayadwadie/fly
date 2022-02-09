@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:fly/utils/style.dart';
 import 'package:fly/view/reports_categories/bug_report/bug_report_screen.dart';
 import 'package:fly/view/shared_widgets/header_widget.dart';
@@ -11,153 +12,173 @@ class OnBoardScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    DateTime timeBackPressed = DateTime.now();
     return Scaffold(
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              const HeaderWidget(arrow: false),
-              SizedBox(
-                height: MediaQuery.of(context).size.height / 20,
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                child: SizedBox(
-                  width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.height / 2.2,
-                  child: ListView.builder(
-                    itemExtent: 45,
-                    itemCount: 8,
-                    itemBuilder: (context, index) {
-                      return Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          SizedBox(
-                              width: MediaQuery.of(context).size.width / 100),
-                          Container(
-                            width: 15,
-                            height: 15,
-                            decoration: BoxDecoration(
-                                color: lightPrimaryColor,
-                                borderRadius: BorderRadius.circular(50)),
-                          ),
-                          SizedBox(
-                              width: MediaQuery.of(context).size.width / 50),
-                          const Text(
-                            "معلومات عن التطبيق والشروط والاحكام وما الى ذلك ",
-                            style: TextStyle(
-                                color: lightPrimaryColor, fontSize: 16),
-                          ),
-                          const Spacer()
-                        ],
-                      );
-                    },
-                  ),
+      body: WillPopScope(
+        onWillPop: () async {
+          final diffrence = DateTime.now().difference(timeBackPressed);
+          final isExitWarning = diffrence >= const Duration(seconds: 2);
+          timeBackPressed = DateTime.now();
+
+          if (isExitWarning) {
+            const message = "إضغط مرة أخري للرجوع";
+            Get.snackbar("خروج من التطبيق", message,
+                snackPosition: SnackPosition.BOTTOM,
+                animationDuration: const Duration(milliseconds: 500));
+
+            return false;
+          } else {
+            Fluttertoast.cancel();
+            return true;
+          }
+        },
+        child: SafeArea(
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                const HeaderWidget(arrow: false),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height / 20,
                 ),
-              ),
-              SizedBox(
-                height: MediaQuery.of(context).size.height / 20,
-              ),
-              SizedBox(
-                width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height / 7,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    InkWell(
-                      onTap: () {
-                        Get.to(() => BugReportScreen());
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  child: SizedBox(
+                    width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.height / 2.2,
+                    child: ListView.builder(
+                      itemExtent: 45,
+                      itemCount: 8,
+                      itemBuilder: (context, index) {
+                        return Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            SizedBox(
+                                width: MediaQuery.of(context).size.width / 100),
+                            Container(
+                              width: 15,
+                              height: 15,
+                              decoration: BoxDecoration(
+                                  color: lightPrimaryColor,
+                                  borderRadius: BorderRadius.circular(50)),
+                            ),
+                            SizedBox(
+                                width: MediaQuery.of(context).size.width / 50),
+                            const Text(
+                              "معلومات عن التطبيق والشروط والاحكام وما الى ذلك ",
+                              style: TextStyle(
+                                  color: lightPrimaryColor, fontSize: 16),
+                            ),
+                            const Spacer()
+                          ],
+                        );
                       },
-                      child: Container(
-                        alignment: Alignment.center,
-                        width: MediaQuery.of(context).size.width / 2.5,
-                        height: MediaQuery.of(context).size.height / 17,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(40),
-                          gradient: const LinearGradient(
-                              colors: [
-                                lightPrimaryColor,
-                                primaryColor,
-                              ],
-                              begin: FractionalOffset(0.0, 0.0),
-                              end: FractionalOffset(1.0, 0.0),
-                              stops: [0.0, 1.0],
-                              tileMode: TileMode.clamp),
-                        ),
-                        child: const Text(
-                          'إنشاء بلاغ ',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.w400,
-                              color: Colors.white),
-                        ),
-                      ),
                     ),
-                    InkWell(
-                      onTap: () {
-                        Get.to(() => OrderWithPhoneScreen());
-                      },
-                      child: Container(
-                        alignment: Alignment.center,
-                        width: MediaQuery.of(context).size.width / 2.5,
-                        height: MediaQuery.of(context).size.height / 17,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(40),
-                          gradient: const LinearGradient(
-                              colors: [
-                                lightPrimaryColor,
-                                primaryColor,
-                              ],
-                              begin: FractionalOffset(0.0, 0.0),
-                              end: FractionalOffset(1.0, 0.0),
-                              stops: [0.0, 1.0],
-                              tileMode: TileMode.clamp),
-                        ),
-                        child: const Text(
-                          'تتبع بلاغ',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.w400,
-                              color: Colors.white),
+                  ),
+                ),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height / 20,
+                ),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.height / 7,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      InkWell(
+                        onTap: () {
+                          Get.to(() => BugReportScreen());
+                        },
+                        child: Container(
+                          alignment: Alignment.center,
+                          width: MediaQuery.of(context).size.width / 2.5,
+                          height: MediaQuery.of(context).size.height / 17,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(40),
+                            gradient: const LinearGradient(
+                                colors: [
+                                  lightPrimaryColor,
+                                  primaryColor,
+                                ],
+                                begin: FractionalOffset(0.0, 0.0),
+                                end: FractionalOffset(1.0, 0.0),
+                                stops: [0.0, 1.0],
+                                tileMode: TileMode.clamp),
+                          ),
+                          child: const Text(
+                            'إنشاء بلاغ ',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w400,
+                                color: Colors.white),
+                          ),
                         ),
                       ),
-                    )
-                  ],
-                ),
-              ),
-              InkWell(
-                onTap: () {
-                  Get.to(() => const TestScreen());
-                },
-                child: Container(
-                  alignment: Alignment.center,
-                  width: MediaQuery.of(context).size.width / 2.5,
-                  height: MediaQuery.of(context).size.height / 17,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(40),
-                    gradient: const LinearGradient(
-                        colors: [
-                          lightPrimaryColor,
-                          primaryColor,
-                        ],
-                        begin: FractionalOffset(0.0, 0.0),
-                        end: FractionalOffset(1.0, 0.0),
-                        stops: [0.0, 1.0],
-                        tileMode: TileMode.clamp),
+                      InkWell(
+                        onTap: () {
+                          Get.to(() => OrderWithPhoneScreen());
+                        },
+                        child: Container(
+                          alignment: Alignment.center,
+                          width: MediaQuery.of(context).size.width / 2.5,
+                          height: MediaQuery.of(context).size.height / 17,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(40),
+                            gradient: const LinearGradient(
+                                colors: [
+                                  lightPrimaryColor,
+                                  primaryColor,
+                                ],
+                                begin: FractionalOffset(0.0, 0.0),
+                                end: FractionalOffset(1.0, 0.0),
+                                stops: [0.0, 1.0],
+                                tileMode: TileMode.clamp),
+                          ),
+                          child: const Text(
+                            'تتبع بلاغ',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w400,
+                                color: Colors.white),
+                          ),
+                        ),
+                      )
+                    ],
                   ),
-                  child: const Text(
-                    'Test ',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w400,
-                        color: Colors.white),
+                ),
+                InkWell(
+                  onTap: () {
+                    Get.to(() => const TestScreen());
+                  },
+                  child: Container(
+                    alignment: Alignment.center,
+                    width: MediaQuery.of(context).size.width / 2.5,
+                    height: MediaQuery.of(context).size.height / 17,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(40),
+                      gradient: const LinearGradient(
+                          colors: [
+                            lightPrimaryColor,
+                            primaryColor,
+                          ],
+                          begin: FractionalOffset(0.0, 0.0),
+                          end: FractionalOffset(1.0, 0.0),
+                          stops: [0.0, 1.0],
+                          tileMode: TileMode.clamp),
+                    ),
+                    child: const Text(
+                      'Test ',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w400,
+                          color: Colors.white),
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

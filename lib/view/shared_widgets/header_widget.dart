@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fly/utils/style.dart';
+import 'package:get/get.dart';
 
 class HeaderWidget extends StatelessWidget {
   const HeaderWidget({Key? key, required this.arrow}) : super(key: key);
@@ -53,15 +54,15 @@ class HeaderWidget extends StatelessWidget {
         Positioned(
           top: 18,
           left: 18,
-          child: InkWell(
-            onTap: () => Navigator.pop(context),
+          child: GestureDetector(
+            onTap: () => Get.back(),
             child: SizedBox(
-              width: MediaQuery.of(context).size.width / 20,
-              height: MediaQuery.of(context).size.height / 30,
+              width: MediaQuery.of(context).size.width / 9,
+              height: MediaQuery.of(context).size.height / 18,
               child: const Icon(
                 Icons.arrow_forward_ios,
                 color: Colors.white,
-                size: 35,
+                size: 37,
               ),
             ),
           ),

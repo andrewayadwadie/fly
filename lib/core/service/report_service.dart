@@ -13,40 +13,35 @@ import 'package:path/path.dart';
 String baseUrl = "${apiUrl}Notices/";
 
 class ReportServices {
- 
- static Future sendFormData(
-      {required noticeClassifyId,
-      required text,
-      required phone,
-      required File imge,
-      required lat,
-      required long,
-      required name
-      }) async {
-         final Uri regUrl = Uri.parse('${baseUrl}AddNotice');
+  static Future sendFormData({
+    required noticeClassifyId,
+    required text,
+    required File imge,
+    required lat,
+    required long,
+  }) async {
+    final Uri regUrl = Uri.parse('${baseUrl}AddNotice');
     // ignore: deprecated_member_use
     var stream = http.ByteStream(DelegatingStream.typed(imge.openRead()));
     var length = await imge.length();
-    var headers =  <String, String>{
-          "Content-type": "application/json",
-          'Accept': 'application/json',
-          'Authorization': 'Bearer ${TokenPref.getTokenValue()}',
-        };
+    var headers = <String, String>{
+      "Content-type": "application/json",
+      'Accept': 'application/json',
+      'Authorization': 'Bearer ${TokenPref.getTokenValue()}',
+    };
 
     var request = http.MultipartRequest("POST", regUrl);
-   request.headers.addAll(headers);
+    request.headers.addAll(headers);
     var multipartFile = http.MultipartFile('Photos', stream, length,
         filename: basename(imge.path));
     //contentType: new MediaType('image', 'png'));
 
     request.files.add(multipartFile);
-  
+
     request.fields["Text"] = text;
     request.fields["NoticeClassifyId"] = noticeClassifyId;
     request.fields["Lat"] = lat;
     request.fields["Long"] = long;
-    request.fields["Phone"] = phone;
-    request.fields["Name"] = name;
 
     var response = await request.send();
 /*
@@ -75,11 +70,11 @@ class ReportServices {
 
     http.Response res = await http.get(
       Uri.parse(url),
-       headers: <String, String>{
-          "Content-type": "application/json",
-          'Accept': 'application/json',
-          'Authorization': 'Bearer ${TokenPref.getTokenValue()}',
-        },
+      headers: <String, String>{
+        "Content-type": "application/json",
+        'Accept': 'application/json',
+        'Authorization': 'Bearer ${TokenPref.getTokenValue()}',
+      },
     );
 
     log("request res ${TokenPref.getTokenValue()}'");
