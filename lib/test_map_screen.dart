@@ -17,7 +17,7 @@ class TestMapScreen extends StatefulWidget {
 
 class _TestMapScreenState extends State<TestMapScreen> {
   static const CameraPosition initialCameraPosition = CameraPosition(
-    target: LatLng(37.42796133580664, -122.085749655962),
+    target: LatLng(30.0862704, 31.3415012),
     zoom: 14.4746,
   );
   Completer<GoogleMapController> compeleteController = Completer();

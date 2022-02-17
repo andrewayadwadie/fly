@@ -57,33 +57,16 @@ class SingleReportItemWidget extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            if (noticeClassifyType == "الإبلاغ عن منطقة حشرات")
-              const CircleAvatar(
-                backgroundColor: secondaryColor,
-                backgroundImage: AssetImage("assets/images/re0.jpg"),
-                radius: 25,
-              ),
-            if (noticeClassifyType == "الإبلاغ عن منطقة حيوانات ضالة او ضارية")
-              const CircleAvatar(
-                backgroundColor: secondaryColor,
-                backgroundImage: AssetImage("assets/images/re1.jpg"),
-                radius: 25,
-              ),
-            if (noticeClassifyType == "الإبلاغ عن منطقة تسريب أو تجمع مياه")
-              const CircleAvatar(
-                backgroundColor: secondaryColor,
-                backgroundImage: AssetImage("assets/images/re2.jpg"),
-                radius: 25,
-              ),
+         
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Text(
+                AutoSizeText(
                   noticeClassifyType,
                   style: const TextStyle(
                       color: primaryColor,
-                      fontSize: 15,
+                      fontSize: 13,
                       fontWeight: FontWeight.bold),
                 ),
                  Text(
@@ -97,7 +80,7 @@ class SingleReportItemWidget extends StatelessWidget {
             ),
             Container(
               alignment: Alignment.center,
-              width: MediaQuery.of(context).size.width / 4.1,
+              width: MediaQuery.of(context).size.width / 4.4,
               height: MediaQuery.of(context).size.height / 20,
               decoration: BoxDecoration(
                   color: status == "تحت المراجعه" ? redColor : lightPrimaryColor,
@@ -109,15 +92,7 @@ class SingleReportItemWidget extends StatelessWidget {
                 style: const TextStyle(color: Colors.white),
               ),
             ),
-            const CircleAvatar(
-              backgroundColor: lightPrimaryColor,
-              radius: 12,
-              child: Icon(
-                Icons.arrow_forward_ios,
-                color: Colors.white,
-                size: 15,
-              ),
-            )
+       
           ],
         ),
       ),
