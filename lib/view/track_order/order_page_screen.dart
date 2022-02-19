@@ -168,7 +168,8 @@ class OrderPageScreen extends StatelessWidget {
                           ),
                           // report description
                           Container(
-                            height: MediaQuery.of(context).size.height / 18,
+                            alignment: Alignment.center,
+                            height: MediaQuery.of(context).size.height / 13,
                             decoration: BoxDecoration(
                                 color: lightPrimaryColor.withOpacity(0.1),
                                 border: const Border(
@@ -196,7 +197,10 @@ class OrderPageScreen extends StatelessWidget {
                             margin: const EdgeInsets.symmetric(
                                 horizontal: 10, vertical: 5),
                             padding: const EdgeInsets.only(right: 5),
-                            child: Row(
+                            child: ListView(
+                              children: [
+                                Row(
+                                 crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 const CircleAvatar(
                                   radius: 7,
@@ -218,6 +222,8 @@ class OrderPageScreen extends StatelessWidget {
                                   style: const TextStyle(
                                       color: blackColor, fontSize: 15),
                                 )
+                              ],
+                            )
                               ],
                             ),
                           ),
